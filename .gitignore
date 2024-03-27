@@ -1,6 +1,3 @@
-#build directory
-test/_build
-
 # Prerequisites
 *.d
 
