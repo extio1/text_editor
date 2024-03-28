@@ -75,7 +75,7 @@ for test in "${!COV[@]}"; do
     cd CMakeFiles/${test}.dir/code/src || exit  # Move into object dir
     # Run gcov to print summary to stdout, use awk to extract coverage percent
     COV[$test]=$(gcov ./*.gcno | \
-                 awk '/vector.cpp/{getline; print $2;}' | \
+                 awk '/vector1.cpp/{getline; print $2;}' | \
                  awk -F ':' '{print $2}' | tr -d %)
     cd ../../../.. || exit  # Back up to test dir
 done
