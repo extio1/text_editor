@@ -4,7 +4,7 @@
 #include <cstdarg>
 #include <cmath>
 
-#include "code/inc/vector.h"
+#include "../include/vector1.h"
 
 Vector::Vector(size_t _dimension)
 {

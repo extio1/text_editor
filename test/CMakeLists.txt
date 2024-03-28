@@ -19,5 +19,6 @@ set(CMAKE_EXE_LINKER_FLAGS "-lgcov")
 
 ## Define executables for each test suite
 set(SIMPLE "runSimpleTests")
-add_executable(${SIMPLE} "test/src/simple_tests.cpp" "code/src/vector.cpp")
+add_executable(${SIMPLE} "test/simple_tests.cpp" "../src/vector1.cpp")
+
 

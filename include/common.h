@@ -4,7 +4,7 @@
 
 #include <gtest/gtest.h>
 
-#include "code/inc/vector.h"
+#include "code/inc/vector1.h"
 
 const char *ERR_PREFIX = ">> ";     // For printed error descriptions
 const char *NOTE_PREFIX = "  $$ ";  // For printed notes/comments
