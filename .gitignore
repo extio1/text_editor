@@ -34,5 +34,9 @@ test/_build
 *.out
 *.app
 
-#Build
+# Build
 build/*
+
+# Coverage
+runSimpleTests-html/
+*.info
