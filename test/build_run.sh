@@ -40,10 +40,14 @@ GREEN_B="\033[1;32m"  # Bold green
 # Create array of executable names to store functional results
 declare -A EXE
 EXE[runSimpleTests]=0
+echo "EXE: "
+echo ${!EXE[@]}
 
 # Create array of executable names to store code coverage results
 declare -A COV
 COV[runSimpleTests]=0
+echo "COV: "
+echo $COV
 
 FAIL=0          # Flag if anything fails
 COV_THRESH=100  # Min threshold for code coverage
@@ -64,6 +68,8 @@ cd $BUILD_DIR || exit
 cmake ..
 make || exit
 
+echo "EXE: "
+echo ${!EXE[@]}
 # Run tests
 for test in "${!EXE[@]}"; do
     echo -e "\n${CYAN_B}Running $test...${NC}"
@@ -71,8 +77,11 @@ for test in "${!EXE[@]}"; do
 done
 
 # Grab code coverage
+echo "COV: "
+echo ${!COV[@]}
 for test in "${!COV[@]}"; do
-    cd CMakeFiles/${test}.dir/code/src || exit  # Move into object dir
+    # cd CMakeFiles/${test}.dir/code/src || exit  # Move into object dir
+    cd CMakeFiles/${test}.dir/test/ || exit 
     # Run gcov to print summary to stdout, use awk to extract coverage percent
     COV[$test]=$(gcov ./*.gcno | \
                  awk '/vector1.cpp/{getline; print $2;}' | \
@@ -110,8 +119,11 @@ if [[ -n $REPORT ]]; then
         echo -e "\n${CYAN_B}Generating HTML reports...${NC}"
     for test in "${!COV[@]}"; do
         echo "$PREFIX $test"
-        cd CMakeFiles/${test}.dir/code/src || exit  # Move into object dir
+        # cd CMakeFiles/${test}.dir/code/src || exit  # Move into object dir
+        pwd
+        cd _build/CMakeFiles/${test}.dir/home/ || exit 
         # gcov will have already run, just grab info for lcov
+        echo $test
         lcov --capture --directory . --output-file "$test".info > /dev/null
         genhtml "$test".info --output-directory ../../../../"$test"-html > /dev/null
         cd ../../../.. || exit  # Back up to test dir
