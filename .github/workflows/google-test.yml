@@ -31,4 +31,5 @@ jobs:
           path: build
       - run: ls -la
       - run: ls -la build
+      - run: chmod +x ./build/vector_test
       - run: ./build/vector_test
