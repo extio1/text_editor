@@ -1,4 +1,4 @@
-name: C++ google test
+name: build & C++ gtest 
 
 on: 
   push:
@@ -30,4 +30,5 @@ jobs:
           name: build-artifacts
           path: build
       - run: ls -la
+      - run: ls -la build
       - run: ./build/vector_test
