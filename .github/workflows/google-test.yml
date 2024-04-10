@@ -1,17 +1,23 @@
 name: C++ google test
 
-on: [push]
+on: 
+  push:
+    branches:
+      extio1_test_build
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    # uses: actions/checkout@v3 ??????
     - uses: actions/checkout@v4
     - run: mkdir build
     - run: cmake -Bbuild
     - run: cmake --build build
+    - uses: actions/upload-artifact@v4
+      with:
+        name: build-artifacts
+        path: build
     
   test:
     needs: [build]
@@ -19,5 +25,9 @@ jobs:
     
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: build-artifacts
+          path: build
       - run: ls -la
       - run: ./build/vector_test
