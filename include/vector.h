@@ -32,6 +32,6 @@ public:
 
     friend std::ostream& operator<<(std::ostream& os, const Vector& v);
 private:
-    std::size_t length; // почему ругается, если поменять местами??
+    std::size_t length;
     std::unique_ptr<int[]> data;
 };
