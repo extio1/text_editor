@@ -1,0 +1,14 @@
+name: C++ google test
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - run: mkdir build
+    - run: cmake ..
+    - run: cmake --build .
+    - run: ./vector_test
