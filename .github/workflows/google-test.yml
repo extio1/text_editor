@@ -7,9 +7,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-    - run: mkdir build; cd build
-    - run: ls -la
-    - run: cmake ..
-    - run: cmake --build .
-    - run: ./vector_test
+    # uses: actions/checkout@v3 ??????
+    - uses: actions/checkout@v4
+    - run: mkdir build
+    - run: cmake -Bbuild
+    - run: cmake --build build
+    
+  test:
+    needs: [build]
+    runs-on: ubuntu-latest
+    
+    steps:
+      - run: ./build/vector_test
