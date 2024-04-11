@@ -5,9 +5,6 @@ on:
     branches:
       - tatyanakrivonogova_test_build
 
-permissions:
-  pull_request: read
-
 jobs:
   build:
     runs-on: ubuntu-latest
