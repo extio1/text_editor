@@ -1,37 +1,35 @@
-#include <memory>
-#include <cstddef>
-#include <ostream>
-#include <initializer_list>
+#include <iostream>
+#include <vector>
 
-#include "exception.h"
+class Vector {
+    public:
+        const size_t getDimension() const;
+        const std::vector<double> getCoordinates() const;
 
-class Vector
-{
-public:
-    Vector();
-    Vector(const Vector& o);
-    Vector(std::size_t n_dimensions);
-    Vector(std::initializer_list<int> l);
+        Vector(size_t dimension);
+        Vector(std::initializer_list<double> coords);
+        Vector(std::vector<double> coords);
 
-    std::size_t get_dimension() const;
+        ~Vector();
+        
+        Vector(const Vector& another);
+        Vector& operator=(const Vector& b);
 
-    Vector& operator=(const Vector &);
+        const double getEuclideanNorm() const;
 
-    bool operator==(const Vector& o) const;
-    bool operator!=(const Vector& o) const;
+        friend std::ostream & operator<<(std::ostream &os, const Vector &v);
 
-    Vector& operator+=(const Vector& o);
-    Vector& operator-=(const Vector& o);
-    Vector& operator*=(const Vector& o);
-    Vector& operator/=(const Vector& o);
+        friend bool operator==(const Vector& a, const Vector& b);
+        friend bool operator!=(const Vector& a, const Vector& b);
 
-    friend Vector operator+(const Vector& l, const Vector &r);
-    friend Vector operator-(const Vector& l, const Vector &r);
-    friend Vector operator*(const Vector& l, const Vector &r);
-    friend Vector operator/(const Vector& l, const Vector &r);
+        friend const Vector operator+(const Vector& a, const Vector& b);
+        friend const Vector operator-(const Vector& a, const Vector& b);
 
-    friend std::ostream& operator<<(std::ostream& os, const Vector& v);
-private:
-    std::size_t length; // почему ругается, если поменять местами??
-    std::unique_ptr<int[]> data;
+        friend const double scalarProduct(const Vector& a, const Vector& b);
+        friend const Vector vectorProduct(const Vector& a, const Vector& b);
+
+    private:
+        std::vector<double> coordinates;
 };
+
+
