@@ -1,195 +1,113 @@
+#include <iostream>
+#include <ostream>
+#include <vector>
+#include <cstdarg>
+#include <cmath>
+
 #include "../include/vector.h"
-#include <cstdint>
 
-Vector::Vector(): length(3), 
-                  data(std::make_unique<int[]>(length))
-{}
-
-Vector::Vector(std::size_t n_dimensions):
-                length(n_dimensions), 
-                data(std::make_unique<int[]>(length))
-{}
-
-Vector::Vector(std::initializer_list<int> l):
-                length(l.size()) 
+Vector::Vector(size_t _dimension)
 {
-    data = std::make_unique<int[]>(length);
-    auto o = l.begin();
-    for(std::size_t i = 0; i < length; ++i){
-        data[i] = *o;
-        ++o;
-    }
-} 
-
-Vector::Vector(const Vector& o): length(o.length)
-{
-    data = std::make_unique<int[]>(length);
-    for(std::size_t i = 0; i < length; ++i){
-        data[i] = o.data[i];
-    }
-} 
-
-std::size_t Vector::get_dimension() const
-{
-    return length;
+    for (size_t i = 0; i < _dimension; ++i)
+        coordinates.push_back(0.0);
 }
 
-Vector& Vector::operator=(const Vector &o)
-{
-    length = o.length;
-    data = std::make_unique<int[]>(length);
-    
-    for(std::size_t i = 0; i < length; ++i){
-        data[i] = o.data[i];
-    }
+Vector::~Vector() {}
 
-    return *this;
+Vector::Vector(std::initializer_list<double> coords) : coordinates(coords) {}
+
+Vector::Vector(std::vector<double> coords) : coordinates(coords) {}
+
+Vector::Vector(const Vector &another)
+{
+    for (size_t i = 0; i < another.getDimension(); ++i)
+        this->coordinates.push_back(another.getCoordinates()[i]);
 }
 
-bool Vector::operator==(const Vector& o) const
-{
-    if(length != o.length){
-        throw vector_dimension_exception("Vectors haven't same dimension");
-    }
+Vector& Vector::operator=(const Vector& b) {
+    if (this == &b)
+		return *this;
 
-    bool eq = true;
-    for(std::size_t i = 0; i < length; ++i){
-        if(data[i] != o.data[i]){
-            eq = false;
-            break;
-        }
-    }
-
-    return eq;
+	this->coordinates = b.getCoordinates();
+	return *this;
 }
 
-bool Vector::operator!=(const Vector& o) const
-{
-    if(length != o.length){
-        throw vector_dimension_exception("Vectors haven't same dimension");
-    }
 
-    return !(*this == o);
+const size_t Vector::getDimension() const
+{
+    return this->coordinates.size();
 }
 
-Vector& Vector::operator+=(const Vector& o)
+const std::vector<double> Vector::getCoordinates() const
 {
-    if(length != o.length){
-        throw vector_dimension_exception("Vectors haven't same dimension");
-    }
-
-    for(std::size_t i = 0; i < length; ++i){
-        data[i] += o.data[i];
-    }
-
-    return *this;
+    return this->coordinates;
 }
 
-Vector& Vector::operator-=(const Vector& o)
-{
-    if(length != o.length){
-        throw vector_dimension_exception("Vectors haven't same dimension");
-    }
-
-    for(std::size_t i = 0; i < length; ++i){
-        data[i] -= o.data[i];
-    }
-
-    return *this;
+const double Vector::getEuclideanNorm() const {
+    double norm = 0.0;
+    for (size_t i = 0; i < this->coordinates.size(); ++i) norm += this->coordinates[i]*this->coordinates[i];
+    return sqrt(norm);
 }
 
-Vector& Vector::operator*=(const Vector& o)
+std::ostream & operator<<(std::ostream &os, const Vector &v)
 {
-    if(length != o.length){
-        throw vector_dimension_exception("Vectors haven't same dimension");
+    os << '(';
+    for (size_t i = 0; i < v.getDimension(); ++i)
+    {
+        os << v.getCoordinates()[i];
+        if (i != v.getDimension() - 1) os << ", ";
     }
-
-    for(std::size_t i = 0; i < length; ++i){
-        data[i] *= o.data[i];
-    }
-
-    return *this;
-}
-
-Vector& Vector::operator/=(const Vector& o)
-{
-    if(length != o.length){
-        throw vector_dimension_exception("Vectors haven't same dimension");
-    }
-
-    for(std::size_t i = 0; i < length; ++i){
-        data[i] /= o.data[i];
-    }
-
-    return *this;
-}
-
-Vector operator+(const Vector& l, const Vector &r)
-{
-    if(l.length != r.length){
-        throw vector_dimension_exception("Vectors haven't same dimension");
-    }
-
-    auto new_vector = Vector(l.length);
-
-    for(std::size_t i = 0; i < l.length; ++i){
-        new_vector.data[i] = l.data[i] + r.data[i];
-    }
-
-    return new_vector;
-}
-
-Vector operator-(const Vector& l, const Vector &r)
-{
-    if(l.length != r.length){
-        throw vector_dimension_exception("Vectors haven't same dimension");
-    }
-
-    auto new_vector = Vector(l.length);
-
-    for(std::size_t i = 0; i < l.length; ++i){
-        new_vector.data[i] = l.data[i] - r.data[i];
-    }
-
-    return new_vector;
-}
-
-Vector operator*(const Vector& l, const Vector &r)
-{
-    if(l.length != r.length){
-        throw vector_dimension_exception("Vectors haven't same dimension");
-    }
-
-    auto new_vector = Vector(l.length);
-
-    for(std::size_t i = 0; i < l.length; ++i){
-        new_vector.data[i] = l.data[i] * r.data[i];
-    }
-
-    return new_vector;
-}
-
-Vector operator/(const Vector& l, const Vector &r)
-{
-    if(l.length != r.length){
-        throw vector_dimension_exception("Vectors haven't same dimension");
-    }
-
-    auto new_vector = Vector(l.length);
-
-    for(std::size_t i = 0; i < l.length; ++i){
-        new_vector.data[i] = l.data[i] / r.data[i];
-    }
-
-    return new_vector;
-}
-
-std::ostream& operator<<(std::ostream& os, const Vector& v)
-{
-    os << "(";
-    for(std::size_t i = 0; i < v.length-1; ++i){
-        os << v.data[i] << ", ";
-    }
-    os << v.data[v.length-1] << ")";
+    os << ")";
     return os;
+}
+
+bool operator==(const Vector& a, const Vector& b) {
+    if (a.getDimension() != b.getDimension()) return false; 
+
+    for (size_t i = 0; i < a.getDimension(); ++i) {
+        if (a.coordinates[i] != b.coordinates[i]) return false;
+    }
+    return true;
+}
+bool operator!=(const Vector& a, const Vector& b) {
+    return !(a == b);
+}
+
+const Vector operator+(const Vector& a, const Vector& b) {
+    if (a.getDimension() != b.getDimension()) {
+        throw std::invalid_argument("Vectors must have the same dimension for addition");
+    }
+    std::vector<double> sumVector;
+    for (size_t i = 0; i < a.getDimension(); ++i) sumVector.push_back(a.coordinates[i] + b.coordinates[i]);
+    return Vector(sumVector);
+}
+
+const Vector operator-(const Vector& a, const Vector& b) {
+    if (a.getDimension() != b.getDimension()) {
+        throw std::invalid_argument("Vectors must have the same dimension for subtraction");
+    }
+    std::vector<double> subVector;
+    for (size_t i = 0; i < a.getDimension(); ++i) subVector.push_back(a.coordinates[i] - b.coordinates[i]);
+    return Vector(subVector);
+}
+
+const double scalarProduct(const Vector& a, const Vector& b) {
+    if (a.getDimension() != b.getDimension()) {
+        throw std::invalid_argument("Vectors must have the same dimension for scalar product");
+    }
+    double result = 0.0;
+    for (size_t i = 0; i < a.getDimension(); ++i) {
+        result += a.coordinates[i] * b.coordinates[i];
+    }
+    return result;
+}
+const Vector vectorProduct(const Vector& a, const Vector& b) {
+    if (a.getDimension() != 3 or b.getDimension() != 3) {
+        throw std::invalid_argument("Vectors must have the dimension = 3 for vector product");
+    }
+    std::vector<double> result;
+    result.push_back(a.coordinates[1]*b.coordinates[2] - b.coordinates[1]*a.coordinates[2]);
+    result.push_back(-(a.coordinates[0]*b.coordinates[2] - b.coordinates[0]*a.coordinates[2]));
+    result.push_back(a.coordinates[0]*b.coordinates[1] - b.coordinates[0]*a.coordinates[1]);
+    return Vector(result);
 }
