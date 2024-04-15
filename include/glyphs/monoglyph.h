@@ -2,6 +2,7 @@
 #define TEXT_EDITOR_MONOGLYPH
 
 #include "glyph.h"
+#include "window.h"
 
 /**
  * The class is a glyph that stores a reference to the only component to which all

@@ -2,7 +2,6 @@
 #define TEXT_EDITOR_COMPOSITION
 
 #include <list>
-
 #include "glyph.h"
 
 /**
@@ -11,6 +10,7 @@
  */
 class Composition: public Glyph {
 public:
+    using GlyphList = std::list<GlyphPtr>;
 
     explicit Composition(const GlyphParams params);
     ~Composition() override = default;
@@ -18,11 +18,11 @@ public:
     void Draw(Window* window) override;
     void DrawAt(Window* window, const Point& point) override;
 
-    void Add(std::shared_ptr<Glyph> glyph) override;
-    void Insert(std::shared_ptr<Glyph> glyph, int pos) override;
+    void Add(GlyphPtr glyph) override;
+    void Insert(GlyphPtr glyph, int pos) override;
 
-    size_t GetGlyphPosition(const std::shared_ptr<Glyph>& glyph);
-    std::shared_ptr<Glyph> Find(const Point& point);
+    size_t GetGlyphPosition(const GlyphPtr& glyph);
+    GlyphPtr Find(const Point& point);
 
     void MoveGlyph(int x, int y) override;
 

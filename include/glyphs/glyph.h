@@ -4,12 +4,15 @@
 #include <memory>
 #include <iostream>
 #include "utils/glyph_params.h"
+#include "window.h"
 
 /**
  * Base class for graphical elements.
  */
 class Glyph {
 public:
+    using GlyphPtr = std::shared_ptr<Glyph>;
+
     explicit Glyph(const GlyphParams& _params) : params(_params) {}
     Glyph(int x, int y, int width, int height) : params({x, y, width, height}) {}
     virtual ~Glyph() = default;
@@ -26,8 +29,8 @@ public:
         return params.Intersects(p); 
     }
 
-    virtual void Insert(std::shared_ptr<Glyph>, int) {}
-    virtual void Add(std::shared_ptr<Glyph> glyph) {}
+    virtual void Insert(GlyphPtr, int) {}
+    virtual void Add(GlyphPtr glyph) {}
 
     void SetPosition(const Point& p) {
         params.x = p.x;
