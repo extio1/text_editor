@@ -1,3 +1,6 @@
+#ifndef TEXT_EDITOR_GLYPH
+#define TEXT_EDITOR_GLYPH
+
 #include <memory>
 #include <iostream>
 #include "utils/glyph_params.h"
@@ -12,6 +15,7 @@ public:
     virtual ~Glyph() = default;
 
     virtual void Draw(Window*) = 0;
+    virtual void DrawAt(Window* w, const Point& point) { Draw(w); }
     virtual void ReDraw(Window* w) {
         ClearGlyph(w);
         Draw(w);
@@ -54,3 +58,5 @@ protected:
     // glyph is set by the coordinates of the upper-left corner, width and height
     GlyphParams params;
 };
+
+#endif  // TEXT_EDITOR_GLYPH
