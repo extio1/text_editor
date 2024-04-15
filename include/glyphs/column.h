@@ -29,7 +29,7 @@ public:
 
     bool IsEmpty() const { return components.empty(); }
     bool IsFull() const;
-    int GetFreeSpace() const { return params.height - usedHeight; }
+    int GetFreeSpace() const { return height - usedHeight; }
     int GetUsedSpace() const { return usedHeight; }
     GlyphPtr GetFirstGlyph() const;
     GlyphPtr GetLastGlyph() const;
