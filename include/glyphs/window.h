@@ -5,6 +5,9 @@
 #include "composition.h"
 #include "glyph.h"
 
+/**
+ * A class representing a window to display a text editor.
+ */
 class Window: public Composition {
 public:
     explicit Window(const GlyphParams&);

@@ -9,6 +9,9 @@
 #include "composition.h"
 #include "row.h"
 
+/**
+ * A class representing a column of rows.
+ */
 class Column: public Composition {
 public:
     explicit Column(const GlyphParams& params);

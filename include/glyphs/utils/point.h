@@ -1,3 +1,6 @@
+#ifndef TEXT_EDITOR_POINT
+#define TEXT_EDITOR_POINT
+
 struct Point
 {
     int x = 0;
@@ -10,3 +13,5 @@ struct Point
         return (x == p.x && y == p.y); 
     }
 };
+
+#endif  // TEXT_EDITOR_POINT

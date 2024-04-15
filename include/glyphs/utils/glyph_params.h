@@ -1,3 +1,6 @@
+#ifndef TEXT_EDITOR_GLIPH_PARAMS
+#define TEXT_EDITOR_GLIPH_PARAMS
+
 #include <iostream>
 #include "point.h"
 
@@ -35,3 +38,5 @@ struct GlyphParams
         return os;
     }
 };
+
+#endif  // TEXT_EDITOR_GLIPH_PARAMS

@@ -8,6 +8,9 @@
 #include "window.h"
 #include "composition.h"
 
+/**
+ * A class representing a row that consists characters, images and figures.
+ */
 class Row: public Composition {
 public:
     explicit Row(const GlyphParams& params);
