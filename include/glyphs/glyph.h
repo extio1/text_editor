@@ -8,7 +8,7 @@
 class Glyph {
 public:
     explicit Glyph(const GlyphParams& _params) : params(_params) {}
-    Glyph(int x, int y, int width, int height) : m_params({x, y, width, height}) {}
+    Glyph(int x, int y, int width, int height) : params({x, y, width, height}) {}
     virtual ~Glyph() = default;
 
     virtual void Draw(Window*) = 0;
@@ -22,8 +22,8 @@ public:
         return params.Intersects(p); 
     }
 
-    virtual void Insert(std::shared_ptr<IGlyph>, int) {}
-    virtual void Add(std::shared_ptr<IGlyph> glyph) {}
+    virtual void Insert(std::shared_ptr<Glyph>, int) {}
+    virtual void Add(std::shared_ptr<Glyph> glyph) {}
 
     void SetPosition(const Point& p) {
         params.x = p.x;
