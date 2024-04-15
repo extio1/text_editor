@@ -7,7 +7,6 @@
 #include "utils/glyph_params.h"
 #include "window.h"
 #include "composition.h"
-#include "character.h"
 
 class Row: public Composition {
 public:
@@ -21,8 +20,8 @@ public:
 
     void Insert(std::shared_ptr<Row>& row);
     void Insert(std::shared_ptr<Row>&& row);
-    void InsertBack(std::list<GlyphPtr>&& list);
-    void Insert(size_t insertPosition, std::list<GlyphPtr>&& glyphs);
+    void InsertBack(std::list<GlyphPtr>&& glyphs);
+    void Insert(int insertPosition, std::list<GlyphPtr>&& glyphs);
 
     bool IsEmpty() const { return components.empty(); }
     bool IsFull() const;
