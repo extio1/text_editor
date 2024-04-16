@@ -14,6 +14,19 @@
 #
 #   ./build_run.sh -clean
 
+
+# Загрузка и компиляция Google Test
+mkdir gtest
+cd gtest
+git clone https://github.com/google/googletest.git
+cd googletest
+mkdir build
+cd build
+cmake ..
+make
+cd ../../..
+
+
 # Parse arguments
 for opt in "$@"; do
     case $opt in
