@@ -6,19 +6,11 @@ on:
       - tatyanakrivonogova_test_build
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+    - uses: actions/checkout@v4
 
-    - name: Change directory to test
-      run: cd test; ls
-
-    - name: Make build_run.sh executable
-      run: chmod +x build_run.sh
-
-    - name: Run build script
-      run: ./build_run.sh
-
+    - name: Run tests
+      run: test/build_run.sh
