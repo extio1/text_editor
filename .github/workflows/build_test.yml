@@ -15,8 +15,9 @@ jobs:
 
     - name: Change directory to test
       run: cd test
+      run: ls
 
-    - name: Make run_build.sh executable
+    - name: Make build_run.sh executable
       run: chmod +x ./build_run.sh
 
     - name: Run build script
