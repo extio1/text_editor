@@ -33,7 +33,7 @@ Vector& Vector::operator=(const Vector& b) {
 }
 
 
-const size_t Vector::getDimension() const
+size_t Vector::getDimension() const
 {
     return this->coordinates.size();
 }
@@ -43,7 +43,7 @@ const std::vector<double> Vector::getCoordinates() const
     return this->coordinates;
 }
 
-const double Vector::getEuclideanNorm() const {
+double Vector::getEuclideanNorm() const {
     double norm = 0.0;
     for (size_t i = 0; i < this->coordinates.size(); ++i) norm += this->coordinates[i]*this->coordinates[i];
     return sqrt(norm);
@@ -91,7 +91,7 @@ const Vector operator-(const Vector& a, const Vector& b) {
     return Vector(subVector);
 }
 
-const double scalarProduct(const Vector& a, const Vector& b) {
+double scalarProduct(const Vector& a, const Vector& b) {
     if (a.getDimension() != b.getDimension()) {
         throw std::invalid_argument("Vectors must have the same dimension for scalar product");
     }

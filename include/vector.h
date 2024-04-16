@@ -3,7 +3,7 @@
 
 class Vector {
     public:
-        const size_t getDimension() const;
+        size_t getDimension() const;
         const std::vector<double> getCoordinates() const;
 
         Vector(size_t dimension);
@@ -15,7 +15,7 @@ class Vector {
         Vector(const Vector& another);
         Vector& operator=(const Vector& b);
 
-        const double getEuclideanNorm() const;
+        double getEuclideanNorm() const;
 
         friend std::ostream & operator<<(std::ostream &os, const Vector &v);
 
@@ -25,7 +25,7 @@ class Vector {
         friend const Vector operator+(const Vector& a, const Vector& b);
         friend const Vector operator-(const Vector& a, const Vector& b);
 
-        friend const double scalarProduct(const Vector& a, const Vector& b);
+        friend double scalarProduct(const Vector& a, const Vector& b);
         friend const Vector vectorProduct(const Vector& a, const Vector& b);
 
     private:
