@@ -22,7 +22,8 @@
 # add_executable(${SIMPLE} "simple_tests.cpp" "../src/vector.cpp")
 
 
-cmake_minimum_required(VERSION 3.1)
+cmake_minimum_required(VERSION 3.10)
+project(vector)
 
 # Установка пути к заголовочным файлам Google Test
 include_directories(gtest/googletest/googletest/include)
