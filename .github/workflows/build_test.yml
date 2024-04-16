@@ -17,8 +17,8 @@ jobs:
       run: cd test
 
     - name: Make run_build.sh executable
-      run: chmod +x ./run_build.sh
+      run: chmod +x ./build_run.sh
 
     - name: Run build script
-      run: ./run_build.sh
+      run: ./build_run.sh
 
