@@ -13,4 +13,4 @@ jobs:
     - uses: actions/checkout@v4
 
     - name: Run tests
-      run: test/build_run.sh
+      run: cd test; ./build_run.sh
