@@ -1,7 +1,10 @@
 #include <cmath>
 
-#include <gtest/gtest.h>
+// #include <gtest/gtest.h>
 #include <../include/vector.h>
+// #include "gtest/googletest/googletest/include/gtest/gtest.h"
+#include <gtest/gtest.h>
+
 
 TEST(ConstructorTests, ConstructorWithDimension_WhenCalled_CreatesVectorWithZeros)
 {

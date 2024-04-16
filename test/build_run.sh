@@ -16,15 +16,18 @@
 
 
 # Загрузка и компиляция Google Test
-mkdir gtest
-cd gtest
-git clone https://github.com/google/googletest.git
-cd googletest
-mkdir build
-cd build
-cmake ..
-make
-cd ../../..
+# mkdir gtest
+# cd gtest
+# git clone https://github.com/google/googletest.git
+# cd googletest
+# mkdir build
+# cd build
+# cmake ..
+# make
+# cd ../../..
+ls
+ls gtest/googletest/googletest/include/gtest
+export CPLUS_INCLUDE_PATH=./gtest/googletest/googletest/include:$CPLUS_INCLUDE_PATH
 
 
 # Parse arguments
