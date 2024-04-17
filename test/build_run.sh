@@ -83,3 +83,7 @@ for test in "${!EXE[@]}"; do
     echo -e "\n${CYAN_B}Running $test...${NC}"
     ./$test || EXE[$test]=1
 done
+
+exit "$FAIL"
+
+
