@@ -53,14 +53,11 @@ GREEN_B="\033[1;32m"  # Bold green
 # Create array of executable names to store functional results
 declare -A EXE
 EXE[runSimpleTests]=0
-echo "EXE: "
-echo ${!EXE[@]}
 
 # Create array of executable names to store code coverage results
 declare -A COV
 COV[runSimpleTests]=0
-echo "COV: "
-echo $COV
+
 
 FAIL=0          # Flag if anything fails
 COV_THRESH=100  # Min threshold for code coverage
@@ -81,8 +78,6 @@ cd $BUILD_DIR || exit
 cmake ..
 make || exit
 
-echo "EXE: "
-echo ${!EXE[@]}
 # Run tests
 for test in "${!EXE[@]}"; do
     echo -e "\n${CYAN_B}Running $test...${NC}"
@@ -90,7 +85,6 @@ for test in "${!EXE[@]}"; do
 done
 
 # Grab code coverage
-echo "COV: "
 echo ${!COV[@]}
 for test in "${!COV[@]}"; do
     cd CMakeFiles/${test}.dir/ || exit 
@@ -116,6 +110,7 @@ for test in "${!EXE[@]}"; do
 
     # Grab coverage status (potentially over multiple files)
     for val in ${COV[$test]}; do
+        
         echo -n "$PREFIX Coverage: "
         if (( $(echo "$val >= $COV_THRESH" |bc -l) )); then
             echo -e "${GREEN_B}$val${NC}"
@@ -123,6 +118,15 @@ for test in "${!EXE[@]}"; do
             echo -e "${RED_B}$val${NC}"
             FAIL=1
         fi
+    done
+done
+
+# Print code coverage summary
+for test in "${!COV[@]}"; do
+    echo -e "${CYAN_B}$test${NC}"
+    for val in ${COV[$test]}; do
+        echo -n "$PREFIX Code Coverage: "
+        echo -e "${GREEN_B}$val%${NC}"
     done
 done
 
@@ -141,3 +145,5 @@ if [[ -n $REPORT ]]; then
 fi
 
 exit "$FAIL"
+
+
