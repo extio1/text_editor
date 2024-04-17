@@ -1,5 +1,8 @@
 #include "../../include/glyphs/row.h"
 
+Row::Row(const int x, const int y, const int width, const int height): 
+    Composition(x, y, width, height) {}
+
 bool Row::IsEmpty() const { 
     return components.empty(); 
 }
