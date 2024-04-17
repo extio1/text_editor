@@ -1,5 +1,6 @@
 #build directory
 test/_build
+test/gtest
 
 # Prerequisites
 *.d
