@@ -22,7 +22,7 @@ jobs:
         path: test/_build
 
     - name: Create code coverage artifacts
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: coverage_results
-        path: test/runSimpleTests-html
+        path: runSimpleTests-html
