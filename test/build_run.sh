@@ -139,7 +139,8 @@ if [[ -n $REPORT ]]; then
         cd test/_build/CMakeFiles/${test}.dir || exit  # Move into object dir
         # gcov will have already run, just grab info for lcov
         lcov --capture --directory . --output-file "$test".info > /dev/null
-        genhtml "$test".info --output-directory ../../../../"$test"-html > /dev/null
+        pwd
+        genhtml "$test".info --output-directory ../../"$test"-html > /dev/null
         cd ../../../.. || exit  # Back up to test dir
     done
 fi
