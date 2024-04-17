@@ -4,7 +4,6 @@
 #include <optional>
 #include <memory>
 #include <list>
-#include "utils/glyph_params.h"
 #include "window.h"
 #include "composition.h"
 
@@ -13,8 +12,8 @@
  */
 class Row: public Composition {
 public:
-    explicit Row(const GlyphParams& params);
-    Row(const GlyphParams& params, GlyphList&& list);
+    explicit Row(const int x, const int y, const int width, const int height);
+    Row(const int x, const int y, const int width, const int height, GlyphList&& list);
 
     void Draw(Window* window) override;
     void ReDraw(Window* window) override;
@@ -28,7 +27,7 @@ public:
 
     bool IsEmpty() const { return components.empty(); }
     bool IsFull() const;
-    int GetFreeSpace() const { return params.width - usedWidth; }
+    int GetFreeSpace() const { return width - usedWidth; }
     int GetUsedSpace() const { return usedWidth; }
     GlyphPtr GetFirstGlyph() const;
     GlyphPtr GetLastGlyph() const;

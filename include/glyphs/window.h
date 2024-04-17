@@ -10,8 +10,8 @@
  */
 class Window: public Composition {
 public:
-    explicit Window(const GlyphParams&);
-    Window(const GlyphParams&, Window*);
+    explicit Window(const int x, const int y, const int width, const int height);
+    Window(const int x, const int y, const int width, const int height, Window*);
     ~Window() override;
 
 protected:

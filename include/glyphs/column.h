@@ -4,7 +4,6 @@
 #include <optional>
 #include <memory>
 #include <list>
-#include "utils/glyph_params.h"
 #include "window.h"
 #include "composition.h"
 #include "row.h"
@@ -14,8 +13,8 @@
  */
 class Column: public Composition {
 public:
-    explicit Column(const GlyphParams& params);
-    Column(const GlyphParams& params, GlyphList&& list);
+    explicit Column(const int x, const int y, const int width, const int height);
+    Column(const int x, const int y, const int width, const int height, GlyphList&& list);
 
     void Draw(Window* window) override;
     void ReDraw(Window* window) override;
