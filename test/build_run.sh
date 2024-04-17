@@ -84,6 +84,19 @@ for test in "${!EXE[@]}"; do
     ./$test || EXE[$test]=1
 done
 
+
+# Print test summary
+for test in "${!EXE[@]}"; do
+    echo -e "${CYAN_B}$test${NC}"
+
+    echo -n "$PREFIX Functional: "
+    # Grab functional status
+    if [ "${EXE[$test]}" -eq "0" ]; then
+        echo -e "${GREEN_B}PASS${NC}"
+    else
+        echo -e "${RED_B}FAIL${NC}"
+        FAIL=1
+    fi
+done
+
 exit "$FAIL"
-
-
