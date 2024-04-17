@@ -25,9 +25,6 @@ cd build
 cmake ..
 make
 cd ../../..
-# ls
-# ls gtest/googletest/googletest/include/gtest
-# export CPLUS_INCLUDE_PATH=./gtest/googletest/googletest/include:$CPLUS_INCLUDE_PATH
 
 
 # Parse arguments
@@ -129,16 +126,14 @@ for test in "${!EXE[@]}"; do
     done
 done
 
+
 # Generate HTML reports if flag given
 if [[ -n $REPORT ]]; then
         echo -e "\n${CYAN_B}Generating HTML reports...${NC}"
     for test in "${!COV[@]}"; do
         echo "$PREFIX $test"
-        # cd CMakeFiles/${test}.dir/code/src || exit  # Move into object dir
-        pwd
-        cd _build/CMakeFiles/${test}.dir/home/ || exit 
+        cd test/_build/CMakeFiles/${test}.dir || exit  # Move into object dir
         # gcov will have already run, just grab info for lcov
-        echo $test
         lcov --capture --directory . --output-file "$test".info > /dev/null
         genhtml "$test".info --output-directory ../../../../"$test"-html > /dev/null
         cd ../../../.. || exit  # Back up to test dir
