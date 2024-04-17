@@ -14,7 +14,7 @@ TEST(ConstructorTests, ConstructorWithDimension_WhenCalled_CreatesVectorWithZero
   for (size_t i = 0; i < dimension; ++i)
     coordinates.push_back(0.0);
 
-  EXPECT_EQ(v.getDimension(), dimension+2);
+  EXPECT_EQ(v.getDimension(), dimension);
   EXPECT_EQ(v.getCoordinates(), coordinates);
 }
 
