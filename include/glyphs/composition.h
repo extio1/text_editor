@@ -12,7 +12,7 @@ class Composition: public Glyph {
 public:
     using GlyphList = std::list<GlyphPtr>;
 
-    explicit Composition(const GlyphParams params);
+    explicit Composition(const int x, const int y, const int width, const int height);
     ~Composition() override = default;
 
     void Draw(Window* window) override;

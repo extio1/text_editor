@@ -9,11 +9,11 @@
  */
 class Character: public Glyph {
 public:
-    Character(const GlyphParams& params, char c): Glyph(params), symbol(c) {}
+    Character(const int x, const int y, const int width, const int height, char c);
     void Draw(Window* window) override;
 
-    void SetChar(char c) { symbol = c; }
-    char GetChar() const { return symbol; }
+    void SetChar(char c);
+    char GetChar() const;
 
 private:
     char symbol;
