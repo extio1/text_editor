@@ -4,6 +4,7 @@
 #include <memory>
 #include <iostream>
 #include "window.h"
+#include "utils/point.h"
 
 /**
  * Base class for graphical elements.
@@ -25,8 +26,8 @@ public:
 
     bool Intersects(const int _x, const int _y, const int _width, const int _height) const;
 
-    virtual void Insert(GlyphPtr, int) {}
-    virtual void Add(GlyphPtr glyph) {}
+    virtual void Insert(GlyphPtr, int) = 0;
+    virtual void Add(GlyphPtr glyph) = 0;
 
     void SetPosition(const Point& p);
 
