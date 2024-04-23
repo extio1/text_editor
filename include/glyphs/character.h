@@ -2,7 +2,6 @@
 #define TEXT_EDITOR_CHARACTER
 
 #include "glyph.h"
-#include "window.h"
 
 /**
  * A class representing any visible or invisible symbol.
@@ -10,7 +9,11 @@
 class Character: public Glyph {
 public:
     Character(const int x, const int y, const int width, const int height, char c);
-    void Draw(Window* window) override;
+    ~Character() {}
+    void Draw() override;
+
+    void Insert(GlyphPtr, int) {}
+    void Add(GlyphPtr) {}
 
     void SetChar(char c);
     char GetChar() const;
