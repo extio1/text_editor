@@ -1,15 +1,18 @@
 #include "../../include/glyphs/utils/point.h"
 #include "../../include/glyphs/glyph.h"
+#include "../../include/glyphs/glyph.h"
 
 Glyph::Glyph(const int _x, const int _y, const int _width, const int _height) : 
     x(_x), y(_y), width(_width), height(_height) {}
 
-Glyph::Glyph(int _x, int _y, int _width, int _height) : x(_x), y(_y), width(_width), height(_height) {}
+void Glyph::ReDraw() {
+    ClearGlyph();
+    Draw();
+}
 
-void Glyph::DrawAt(Window* w, const Point& point) { Draw(w); }
-void Glyph::ReDraw(Window* w) {
-    ClearGlyph(w);
-    Draw(w);
+void Glyph::ClearGlyph() {
+    std::cout << "Glyph::ClearGlyph()" << std::endl;
+    // TO DO
 }
 
 bool Glyph::Intersects(const Point& p) const noexcept {
@@ -28,6 +31,10 @@ bool Glyph::Intersects(const int _x, const int _y, const int _width, const int _
         || Intersects({_x + _width, _y + _height});
 }
 
+void Glyph::MoveGlyph(int _x, int _y) {
+    SetPosition(x + _x, y + _y);
+}
+
 void Glyph::SetPosition(const Point& p) {
     x = p.x;
     y = p.y;
@@ -36,10 +43,6 @@ void Glyph::SetPosition(const Point& p) {
 void Glyph::SetPosition(int x, int y) {
     x = x;
     y = y;
-}
-
-void Glyph::MoveGlyph(int x, int y) {
-    SetPosition(x + x, y + y);
 }
 
 void Glyph::SetGlyphParams(const int _x, const int _y, const int _width, const int _height) { 
@@ -57,7 +60,7 @@ Point Glyph::GetPosition() const { return { x, y }; }
 int Glyph::GetBottomBorder() const noexcept { return y + height; }
 int Glyph::GetRightBorder() const noexcept { return x + width; }
 
-std::ostream& operator<<(std::ostream& os, const Glyph& glyph) {
+std::ostream &operator<<(std::ostream& os, const Glyph& glyph) {
     os << "x: " << glyph.x << " y: " << glyph.y << " width: " << glyph.width << " height: " << glyph.height;
     return os;
 }
