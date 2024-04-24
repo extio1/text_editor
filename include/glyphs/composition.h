@@ -10,21 +10,19 @@
  */
 class Composition: public Glyph {
 public:
-    using GlyphList = std::list<GlyphPtr>;
+    using GlyphList = std::list<Glyph::GlyphPtr>;
 
     explicit Composition(const int x, const int y, const int width, const int height);
     ~Composition() override = default;
 
-    void Draw(Window* window) override;
-    void DrawAt(Window* window, const Point& point) override;
+    void Draw() override;
 
     void Add(GlyphPtr glyph) override;
     void Insert(GlyphPtr glyph, int pos) override;
+    void MoveGlyph(int x, int y);
 
     size_t GetGlyphPosition(const GlyphPtr& glyph);
     GlyphPtr Find(const Point& point);
-
-    void MoveGlyph(int x, int y) override;
 
 protected:
     std::list<std::shared_ptr<Glyph>> components;
