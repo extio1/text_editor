@@ -2,6 +2,7 @@
 #include "../include/glyphs/glyph.h"
 #include "../include/glyphs/character.h"
 #include "../include/glyphs/button.h"
+#include "../include/glyphs/monoglyph.h"
 
 int main() {
     std::cout << "Hello" << std::endl;
@@ -13,5 +14,9 @@ int main() {
     Button b = Button(2, 2, 2, 2, "MyButton");
     std::cout << b << std::endl;
     std::cout << b.IsPressed() << std::endl;
+
+    std::shared_ptr<Glyph> buttonPtr = std::make_shared<Button>(b);
+    MonoGlyph m = MonoGlyph(buttonPtr);
+    m.Draw();
     return 0;
 }
