@@ -4,6 +4,7 @@
 #include "../include/glyphs/button.h"
 #include "../include/glyphs/monoglyph.h"
 #include "../include/glyphs/composition.h"
+#include "../include/glyphs/row.h"
 
 int main() {
     std::cout << "Hello" << std::endl;
@@ -30,5 +31,17 @@ int main() {
     Glyph::GlyphPtr p = comp.Find(Point(4, 3));
     std::cout << "Found glyph: " << std::endl;
     p->Draw();
+
+    Row r = Row(0, 0, 100, 100);
+    // std::list<Glyph::GlyphPtr> list;
+    // list.push_back(std::make_shared<Character>(Character(0, 0, 0, 0, 'A')));
+    // list.push_back(std::make_shared<Character>(Character(1, 0, 0, 0, 'B')));
+    // list.push_back(std::make_shared<Character>(Character(2, 0, 0, 0, 'C')));
+    // r.InsertBack(list);
+
+    // std::cout << r.IsEmpty() << std::endl;
+
+    // r.GetFirstGlyph()->Draw();
+    // r.GetLastGlyph()->Draw();
     return 0;
 }

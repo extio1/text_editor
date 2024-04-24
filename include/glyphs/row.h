@@ -1,10 +1,8 @@
 #ifndef TEXT_EDITOR_ROW
 #define TEXT_EDITOR_ROW
 
-#include <optional>
 #include <memory>
 #include <list>
-#include "window.h"
 #include "composition.h"
 
 /**
@@ -15,20 +13,19 @@ public:
     explicit Row(const int x, const int y, const int width, const int height);
     Row(const int x, const int y, const int width, const int height, GlyphList&& list);
 
-    void Draw(Window* window) override;
-    void ReDraw(Window* window) override;
-
-    void Remove(Window* window, const GlyphPtr& ptr);
+    void Remove(const GlyphPtr& ptr);
+    void Remove(GlyphList::iterator& it);
 
     void Insert(std::shared_ptr<Row>& row);
-    void Insert(std::shared_ptr<Row>&& row);
     void InsertBack(std::list<GlyphPtr>&& glyphs);
-    void Insert(int insertPosition, std::list<GlyphPtr>&& glyphs);
+    void Insert(size_t insertPosition, std::list<GlyphPtr>&& itemsToInsert);
+    void UpdateRestElements(GlyphList::iterator& it, const int updateValue);
+    void Add(GlyphPtr glyph);
 
-    bool IsEmpty() const { return components.empty(); }
+    bool IsEmpty() const;
     bool IsFull() const;
-    int GetFreeSpace() const { return width - usedWidth; }
-    int GetUsedSpace() const { return usedWidth; }
+    int GetFreeSpace() const;
+    int GetUsedSpace() const;
     GlyphPtr GetFirstGlyph() const;
     GlyphPtr GetLastGlyph() const;
 
