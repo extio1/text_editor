@@ -1,14 +1,23 @@
-#include "../../include/glyphs/utils/point.h"
 #include "../../include/glyphs/monoglyph.h"
 
-explicit MonoGlyph::MonoGlyph(const int x, const int y, const int width, const int height) :
-                Glyph(x, y, width, height) {
-    // TO DO
+MonoGlyph::MonoGlyph(GlyphPtr glyph) :
+                Glyph(glyph->GetPosition().x, glyph->GetPosition().y, 
+                glyph->GetWidth(), glyph->GetHeight()) {
+    std::cout << "Monoglyph::Constructor()" << std::endl;
+    component = glyph;
 }
 
-void MonoGlyph::Draw(Window* window) { 
-    component->Draw(window); 
+void MonoGlyph::Draw() {
+    std::cout << "Monoglyph::Draw()" << std::endl;
+    component->Draw(); 
 }
-void MonoGlyph::DrawAt(Window* window, const Point& point) { 
-    component->DrawAt(window, point); 
+
+void MonoGlyph::Add(std::shared_ptr<Glyph> glyph) {
+    std::cout << "Monoglyph::Add()" << std::endl;
+    component->Add(glyph);
+}
+
+void MonoGlyph::Insert(std::shared_ptr<Glyph> glyph, int pos) {
+    std::cout << "Monoglyph::Insert()" << std::endl;
+    component->Insert(glyph, pos);
 }
