@@ -1,6 +1,5 @@
-#build directory
-test/_build
-test/gtest
+#vscode config
+.vscode/
 
 # Prerequisites
 *.d
