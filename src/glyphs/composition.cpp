@@ -1,5 +1,6 @@
 #include <iterator>
 #include <algorithm>
+#include <cassert>
 #include "../../include/glyphs/utils/point.h"
 #include "../../include/glyphs/composition.h"
 
@@ -8,24 +9,13 @@ Composition::Composition(const int x, const int y, const int width, const int he
     std::cout << "Composition::Constructor()" << std::endl;
 }
 
-// size_t Composition::GetGlyphPosition(const GlyphPtr& glyph) {
-//     for (auto it = components.begin(); it != components.end(); it++) {
-//         if (*it == glyph) {
-//             return std::distance(components.begin(), it);
-//         }
-//     }
-//     return 5; // change
-// }
-
-size_t Composition::GetGlyphPosition(const GlyphPtr& glyph) {
-    size_t position = 0;
-    for (const auto& component : components) {
-        if (component == glyph) {
-            return position; // to fix
-        }
-        ++position;
-    }
-    return components.size(); // Return components.size() if glyph is not found
+size_t Composition::GetGlyphPosition(const GlyphPtr& glyph)
+{
+    auto res = std::find_if(components.cbegin(), components.cend(), [&](const auto& it){
+      return it == glyph;
+    });
+    assert((res != components.cend()) && "Composition doesn't contain this glyph");
+    return std::distance(components.cbegin(), res);
 }
 
 Glyph::GlyphPtr Composition::Find(const Point& point){
