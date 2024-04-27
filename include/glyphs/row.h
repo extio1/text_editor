@@ -19,7 +19,6 @@ public:
     void Insert(std::shared_ptr<Row>& row);
     void InsertBack(std::list<GlyphPtr>&& glyphs);
     void Insert(size_t insertPosition, std::list<GlyphPtr>&& itemsToInsert);
-    void UpdateRestElements(GlyphList::iterator& it, const int updateValue);
     void Add(GlyphPtr glyph);
 
     bool IsEmpty() const;
@@ -31,6 +30,8 @@ public:
 
 private:
     int usedWidth = 0;
+
+    void UpdateRestElements(GlyphList::iterator& it, const int updateValue);
 };
 
 #endif  // TEXT_EDITOR_ROW
