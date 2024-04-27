@@ -1,4 +1,5 @@
 #include <iostream>
+#include <memory>
 #include "../include/glyphs/glyph.h"
 #include "../include/glyphs/character.h"
 #include "../include/glyphs/button.h"
@@ -12,6 +13,8 @@ int main() {
     std::cout << c << std::endl;
     c.Draw();
     c.ClearGlyph();
+    std::shared_ptr<Glyph> charPtr = std::make_shared<Character>(c);
+    
 
     Button b = Button(2, 2, 2, 2, "MyButton");
     std::cout << b << std::endl;
@@ -22,15 +25,30 @@ int main() {
     m.Draw();
 
     Composition comp = Composition(3, 3, 3, 3);
-    comp.Add(std::make_shared<Character>(c));
-    comp.Insert(std::make_shared<Button>(b), 1);
-    std::cout << comp.GetGlyphPosition(std::make_shared<Character>(c)) << std::endl;
-    std::cout << comp.GetGlyphPosition(std::make_shared<Button>(b)) << std::endl;
+    comp.Add(charPtr);
+    comp.Insert(buttonPtr, 1);
+    std::cout << comp.GetGlyphPosition(std::static_pointer_cast<Glyph>(charPtr)) << std::endl;
+    std::cout << comp.GetGlyphPosition(std::static_pointer_cast<Glyph>(buttonPtr)) << std::endl;
     comp.Draw();
     comp.MoveGlyph(1, 2);
+
+    // check find()
     Glyph::GlyphPtr p = comp.Find(Point(4, 3));
     std::cout << "Found glyph: " << std::endl;
-    p->Draw();
+    if (p != nullptr) {
+        p->Draw();
+    } else {
+        std::cout << "nullptr" << std::endl;
+    }
+
+    // check find() for point which is not in composition
+    Glyph::GlyphPtr p2 = comp.Find(Point(1000, 1000));
+    std::cout << "Found glyph: " << std::endl;
+    if (p2 != nullptr) {
+        p2->Draw();
+    } else {
+        std::cout << "nullptr" << std::endl;
+    }
 
     Row r = Row(0, 0, 100, 100);
     // std::list<Glyph::GlyphPtr> list;
