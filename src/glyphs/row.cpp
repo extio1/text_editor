@@ -35,7 +35,10 @@ void Row::Insert(std::shared_ptr<Row>& row) {
 }
 
 void Row::InsertBack(std::list<GlyphPtr>&& list) {
-    auto insertPosition = !components.empty() ? x : components.back()->GetRightBorder();
+    auto insertPosition = x;
+    if(!components.empty()) {
+        insertPosition = components.back()->GetRightBorder();
+    }
     return Insert(insertPosition, std::move(list));
 }
 
@@ -59,6 +62,7 @@ void Row::Insert(size_t insertPosition, std::list<GlyphPtr>&& itemsToInsert) {
         std::swap(components, itemsToInsert);
         usedWidth += itemsToInsertWidth;
         ReDraw();
+        return;
     }
 
     auto insertionElement = std::find_if(components.begin(), components.end(),
@@ -85,6 +89,7 @@ void Row::Insert(size_t insertPosition, std::list<GlyphPtr>&& itemsToInsert) {
         list.splice(list.begin(), components, lastElement);
     }
     ReDraw();
+    return;
 }
 
 void Row::UpdateRestElements(GlyphList::iterator& it, const int updateValue) {
