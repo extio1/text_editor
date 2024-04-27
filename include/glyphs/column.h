@@ -1,39 +1,38 @@
-// #ifndef TEXT_EDITOR_COLUMN
-// #define TEXT_EDITOR_COLUMN
+#ifndef TEXT_EDITOR_COLUMN
+#define TEXT_EDITOR_COLUMN
 
-// #include <optional>
-// #include <memory>
-// #include <list>
-// #include "composition.h"
-// #include "row.h"
+#include <optional>
+#include <memory>
+#include <list>
+#include "composition.h"
 
-// /**
-//  * A class representing a column of rows.
-//  */
-// class Column: public Composition {
-// public:
-//     explicit Column(const int x, const int y, const int width, const int height);
-//     Column(const int x, const int y, const int width, const int height, GlyphList&& list);
+/**
+ * A class representing a column of rows.
+ */
+class Column: public Composition {
+public:
+    explicit Column(const int x, const int y, const int width, const int height);
+    Column(const int x, const int y, const int width, const int height, GlyphList&& list);
 
-//     void Draw() override;
-//     void ReDraw() override;
+    void Remove(const GlyphPtr& ptr);
+    void Remove(GlyphList::iterator& it);
 
-//     void Remove(Window* window, const GlyphPtr& ptr);
+    void Insert(std::shared_ptr<Column>& column);
+    void InsertBack(std::list<GlyphPtr>&& glyphs);
+    void Insert(size_t insertPosition, std::list<GlyphPtr>&& itemsToInsert);
+    void Add(GlyphPtr glyph);
 
-//     void Insert(std::shared_ptr<Row>& row);
-//     void Insert(std::shared_ptr<Row>&& row);
-//     void InsertBack(std::list<GlyphPtr>&& list);
-//     void Insert(int insertPosition, std::list<GlyphPtr>&& glyphs);
+    bool IsEmpty() const;
+    bool IsFull() const;
+    int GetFreeSpace() const;
+    int GetUsedSpace() const;
+    GlyphPtr GetFirstGlyph() const;
+    GlyphPtr GetLastGlyph() const;
 
-//     bool IsEmpty() const { return components.empty(); }
-//     bool IsFull() const;
-//     int GetFreeSpace() const { return height - usedHeight; }
-//     int GetUsedSpace() const { return usedHeight; }
-//     GlyphPtr GetFirstGlyph() const;
-//     GlyphPtr GetLastGlyph() const;
+private:
+    int usedHeight = 0;
 
-// private:
-//     int usedHeight = 0;
-// };
+    void UpdateRestElements(GlyphList::iterator& it, const int updateValue);
+};
 
-// #endif  // TEXT_EDITOR_COLUMN
+#endif  // TEXT_EDITOR_COLUMN

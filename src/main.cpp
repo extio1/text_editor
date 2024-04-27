@@ -6,6 +6,7 @@
 #include "../include/glyphs/monoglyph.h"
 #include "../include/glyphs/composition.h"
 #include "../include/glyphs/row.h"
+#include "../include/glyphs/column.h"
 
 int main() {
     std::cout << "Hello" << std::endl;
@@ -67,5 +68,18 @@ int main() {
     std::cout << "row is empty: " << r.IsEmpty() << std::endl;
     if (r.GetFirstGlyph()) r.GetFirstGlyph()->Draw();
     if (r.GetLastGlyph()) r.GetLastGlyph()->Draw();
+
+
+    Column col = Column(0, 0, 100, 100);
+    std::cout << "column is empty: " << col.IsEmpty() << std::endl;
+    if (col.GetFirstGlyph()) col.GetFirstGlyph()->Draw();
+    if (col.GetLastGlyph()) col.GetLastGlyph()->Draw();
+    
+    list.push_back(std::make_shared<Row>(r));
+    col.InsertBack(std::move(list));
+
+    std::cout << "column is empty: " << col.IsEmpty() << std::endl;
+    if (col.GetFirstGlyph()) col.GetFirstGlyph()->Draw();
+    if (col.GetLastGlyph()) col.GetLastGlyph()->Draw();
     return 0;
 }
