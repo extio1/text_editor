@@ -1,3 +1,6 @@
+#vscode config
+.vscode/
+
 # Prerequisites
 *.d
 
@@ -33,3 +36,7 @@
 
 # Build
 build/*
+
+# Coverage
+runSimpleTests-html/
+*.info
