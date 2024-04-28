@@ -20,7 +20,6 @@ public:
     void Insert(std::shared_ptr<Column>& column);
     void InsertBack(std::list<GlyphPtr>&& glyphs);
     void Insert(size_t insertPosition, std::list<GlyphPtr>&& itemsToInsert);
-    void Add(GlyphPtr glyph);
 
     bool IsEmpty() const;
     bool IsFull() const;
@@ -28,6 +27,8 @@ public:
     int GetUsedSpace() const;
     GlyphPtr GetFirstGlyph() const;
     GlyphPtr GetLastGlyph() const;
+
+    void MoveUpRows(int height);
 
 private:
     int usedHeight = 0;

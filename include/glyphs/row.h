@@ -19,7 +19,6 @@ public:
     void Insert(std::shared_ptr<Row>& row);
     void InsertBack(std::list<GlyphPtr>&& glyphs);
     void Insert(size_t insertPosition, std::list<GlyphPtr>&& itemsToInsert);
-    void Add(GlyphPtr glyph);
 
     bool IsEmpty() const;
     bool IsFull() const;

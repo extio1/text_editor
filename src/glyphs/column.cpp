@@ -99,10 +99,6 @@ void Column::UpdateRestElements(GlyphList::iterator& it, const int updateValue) 
     }
 }
 
-void Column::Add(GlyphPtr glyph) {
-    // TO DO
-}
-
 bool Column::IsEmpty() const { 
     return components.empty(); 
 }
@@ -122,4 +118,13 @@ Glyph::GlyphPtr Column::GetFirstGlyph() const {
 
 Glyph::GlyphPtr Column::GetLastGlyph() const {
     return components.empty() ? nullptr : components.back();
+}
+
+void Column::MoveUpRows(int height) {
+    for(auto rowIt = components.begin(); rowIt != components.end(); ++rowIt) {
+        auto& row = *rowIt;
+        row->ClearGlyph();
+        row->MoveGlyph(0, -height);
+        row->Draw();
+    }
 }

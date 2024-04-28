@@ -7,6 +7,8 @@
 #include "../include/glyphs/composition.h"
 #include "../include/glyphs/row.h"
 #include "../include/glyphs/column.h"
+#include "../include/document.h"
+#include "../include/glyphs/page.h"
 
 int main() {
     std::cout << "Hello" << std::endl;
@@ -75,11 +77,23 @@ int main() {
     if (col.GetFirstGlyph()) col.GetFirstGlyph()->Draw();
     if (col.GetLastGlyph()) col.GetLastGlyph()->Draw();
     
+    list.clear();
     list.push_back(std::make_shared<Row>(r));
     col.InsertBack(std::move(list));
 
     std::cout << "column is empty: " << col.IsEmpty() << std::endl;
     if (col.GetFirstGlyph()) col.GetFirstGlyph()->Draw();
     if (col.GetLastGlyph()) col.GetLastGlyph()->Draw();
+
+
+    //Document and page tests
+    Document doc = Document(0, 0, 100, 100);
+    std::shared_ptr<Page> page = doc.GetCurrentPage();
+    std::cout << page->IsEmpty() << " " << page->IsFull() << std::endl;
+    page->Add(std::make_shared<Column>(col));
+    std::cout << page->IsEmpty() << " " << page->IsFull() << std::endl;
+    page->Draw();
+
+    std::cout << page->RowCanBeAdded(10) << " " << page->ColumnCanBeAdded(10) << std::endl;
     return 0;
 }
