@@ -99,10 +99,6 @@ void Row::UpdateRestElements(GlyphList::iterator& it, const int updateValue) {
     }
 }
 
-void Row::Add(GlyphPtr glyph) {
-    // TO DO
-}
-
 bool Row::IsEmpty() const { 
     return components.empty(); 
 }
