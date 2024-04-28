@@ -30,8 +30,8 @@ int main() {
     Composition comp = Composition(3, 3, 3, 3);
     comp.Add(charPtr);
     comp.Insert(buttonPtr, 1);
-    std::cout << "char position: " << comp.GetGlyphPosition(std::static_pointer_cast<Glyph>(charPtr)) << std::endl;
-    std::cout << "button position: " << comp.GetGlyphPosition(std::static_pointer_cast<Glyph>(buttonPtr)) << std::endl;
+    std::cout << "char position: " << comp.GetGlyphPosition(charPtr) << std::endl;
+    std::cout << "button position: " << comp.GetGlyphPosition(buttonPtr) << std::endl;
     comp.Draw();
     comp.MoveGlyph(1, 2);
 
@@ -77,9 +77,10 @@ int main() {
     if (col.GetFirstGlyph()) col.GetFirstGlyph()->Draw();
     if (col.GetLastGlyph()) col.GetLastGlyph()->Draw();
     
-    list.clear();
-    list.push_back(std::make_shared<Row>(r));
-    col.InsertBack(std::move(list));
+
+    std::list<Glyph::GlyphPtr> list2;
+    list2.push_back(std::make_shared<Row>(r));
+    col.InsertBack(std::move(list2));
 
     std::cout << "column is empty: " << col.IsEmpty() << std::endl;
     if (col.GetFirstGlyph()) col.GetFirstGlyph()->Draw();
