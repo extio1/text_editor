@@ -76,7 +76,7 @@ std::shared_ptr<Row> Page::RemoveFirstRow() {
     auto result = std::static_pointer_cast<Row>(currentColumn->GetFirstGlyph());
     currentRow = result;
 
-    currentRow->ClearGlyph();;
+    currentRow->ClearGlyph();
     auto isFull = IsFull();
     currentColumn->Remove(currentColumn->GetFirstGlyph());
 

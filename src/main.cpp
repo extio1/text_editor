@@ -86,7 +86,7 @@ int main() {
     if (col.GetLastGlyph()) col.GetLastGlyph()->Draw();
 
 
-    //Document and page tests
+    //Document and Page tests
     Document doc = Document(0, 0, 100, 100);
     std::shared_ptr<Page> page = doc.GetCurrentPage();
     std::cout << page->IsEmpty() << " " << page->IsFull() << std::endl;
@@ -95,5 +95,12 @@ int main() {
     page->Draw();
 
     std::cout << page->RowCanBeAdded(10) << " " << page->ColumnCanBeAdded(10) << std::endl;
+
+    std::shared_ptr<Row> rowPtr = page->RemoveFirstRow();
+    std::shared_ptr<Column> columnPtr = page->RemoveFirstColumn();
+    std::cout << "      Removed row: " << std::endl;
+    if (rowPtr) rowPtr->Draw();
+    std::cout << "      Removed column: " << std::endl;
+    if (columnPtr) columnPtr->Draw();
     return 0;
 }
