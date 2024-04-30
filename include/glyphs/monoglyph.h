@@ -16,11 +16,11 @@ public:
 
     void Draw();
 
-    void Add(std::shared_ptr<Glyph> glyph) override;
-    void Insert(std::shared_ptr<Glyph> glyph, int pos) override;
+    void Add(GlyphPtr glyph) override;
+    void Insert(GlyphPtr glyph, int pos) override;
 
 protected:
-    std::shared_ptr<Glyph> component;
+    GlyphPtr component;
 };
 
 #endif  // TEXT_EDITOR_MONOGLYPH_H_

@@ -16,14 +16,14 @@ int main() {
     std::cout << c << std::endl;
     c.Draw();
     c.ClearGlyph();
-    std::shared_ptr<Glyph> charPtr = std::make_shared<Character>(c);
+    Glyph::GlyphPtr charPtr = std::make_shared<Character>(c);
     
 
     Button b = Button(2, 2, 2, 2, "MyButton");
     std::cout << b << std::endl;
     std::cout << "button is pressed: " << b.IsPressed() << std::endl;
 
-    std::shared_ptr<Glyph> buttonPtr = std::make_shared<Button>(b);
+    Glyph::GlyphPtr buttonPtr = std::make_shared<Button>(b);
     MonoGlyph m = MonoGlyph(buttonPtr);
     m.Draw();
 
@@ -55,6 +55,7 @@ int main() {
 
     Row r = Row(0, 0, 100, 100);
     std::cout << "row is empty: " << r.IsEmpty() << std::endl;
+    std::cout << "!";
     if (r.GetFirstGlyph()) r.GetFirstGlyph()->Draw();
     if (r.GetLastGlyph()) r.GetLastGlyph()->Draw();
     
@@ -89,7 +90,7 @@ int main() {
 
     //Document and Page tests
     Document doc = Document(0, 0, 100, 100);
-    std::shared_ptr<Page> page = doc.GetCurrentPage();
+    Document::PagePtr page = doc.GetCurrentPage();
     std::cout << page->IsEmpty() << " " << page->IsFull() << std::endl;
     page->Add(std::make_shared<Column>(col));
     std::cout << page->IsEmpty() << " " << page->IsFull() << std::endl;
@@ -97,8 +98,8 @@ int main() {
 
     std::cout << page->RowCanBeAdded(10) << " " << page->ColumnCanBeAdded(10) << std::endl;
 
-    std::shared_ptr<Row> rowPtr = page->RemoveFirstRow();
-    std::shared_ptr<Column> columnPtr = page->RemoveFirstColumn();
+    Row::RowPtr rowPtr = page->RemoveFirstRow();
+    Column::ColumnPtr columnPtr = page->RemoveFirstColumn();
     std::cout << "      Removed row: " << std::endl;
     if (rowPtr) rowPtr->Draw();
     std::cout << "      Removed column: " << std::endl;

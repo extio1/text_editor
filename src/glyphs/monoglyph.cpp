@@ -12,12 +12,12 @@ void MonoGlyph::Draw() {
     component->Draw(); 
 }
 
-void MonoGlyph::Add(std::shared_ptr<Glyph> glyph) {
+void MonoGlyph::Add(GlyphPtr glyph) {
     std::cout << "Monoglyph::Add()" << std::endl;
     component->Add(glyph);
 }
 
-void MonoGlyph::Insert(std::shared_ptr<Glyph> glyph, int pos) {
+void MonoGlyph::Insert(GlyphPtr glyph, int pos) {
     std::cout << "Monoglyph::Insert()" << std::endl;
     component->Insert(glyph, pos);
 }

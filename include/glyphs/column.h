@@ -11,13 +11,15 @@
  */
 class Column: public Composition {
 public:
+    using ColumnPtr = std::shared_ptr<Column>;
+    
     explicit Column(const int x, const int y, const int width, const int height);
     Column(const int x, const int y, const int width, const int height, GlyphList&& list);
 
     void Remove(const GlyphPtr& ptr);
     void Remove(GlyphList::iterator& it);
 
-    void Insert(std::shared_ptr<Column>& column);
+    void Insert(ColumnPtr& column);
     void InsertBack(std::list<GlyphPtr>&& glyphs);
     void Insert(size_t insertPosition, std::list<GlyphPtr>&& itemsToInsert);
 

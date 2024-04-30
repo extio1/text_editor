@@ -11,7 +11,7 @@ Document::Document(const int x, const int y, const int width, const int height) 
     visiblePages.push_back(currentPage);
 }
 
-void Document::SetCurrentPage(std::shared_ptr<Page> page) {
+void Document::SetCurrentPage(PagePtr page) {
     currentPage = std::move(page);
 }
 

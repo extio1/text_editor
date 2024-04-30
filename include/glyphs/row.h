@@ -10,13 +10,15 @@
  */
 class Row: public Composition {
 public:
+    using RowPtr = std::shared_ptr<Row>;
+
     explicit Row(const int x, const int y, const int width, const int height);
     Row(const int x, const int y, const int width, const int height, GlyphList&& list);
 
     void Remove(const GlyphPtr& ptr);
     void Remove(GlyphList::iterator& it);
 
-    void Insert(std::shared_ptr<Row>& row);
+    void Insert(RowPtr& row);
     void InsertBack(std::list<GlyphPtr>&& glyphs);
     void Insert(size_t insertPosition, std::list<GlyphPtr>&& itemsToInsert);
 
