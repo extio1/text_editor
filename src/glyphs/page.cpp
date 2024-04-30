@@ -20,7 +20,7 @@ Composition(x, y, width, height), parent(_parent) {
     currentRow = std::make_shared<Row>(
         x + leftIndent + charWidth, y + topIndent + charHeight,
             width - leftIndent - rightIndent, charHeight);
-    std::list<Glyph::GlyphPtr> list;
+    GlyphList list;
     list.push_back(currentRow);
     currentColumn->InsertBack(std::move(list));
 }
@@ -118,7 +118,7 @@ void Page::Insert(GlyphPtr glyph, int position) {
     }
 }
 
-void Page::MoveLeftColumns(std::list<Glyph::GlyphPtr>::iterator colIt) {
+void Page::MoveLeftColumns(GlyphList::iterator colIt) {
     for(; colIt != components.end(); ++colIt) {
         auto& column = *colIt;
         column->ClearGlyph();
