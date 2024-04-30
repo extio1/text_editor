@@ -6,6 +6,7 @@
 #include "glyphs/page.h"
 #include "glyphs/glyph.h"
 
+const int pageWidth = 500;
 const int pageHeight = 1000;
 
 class Page;
@@ -14,7 +15,7 @@ class Document {
 public:
     using PagePtr = std::shared_ptr<Page>;
 
-    explicit Document(const int x, const int y, const int width, const int height);
+    explicit Document();
 
     void SetCurrentPage(PagePtr page);
     PagePtr GetCurrentPage();

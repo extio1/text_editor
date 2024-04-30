@@ -5,8 +5,8 @@
 #include <algorithm>
 #include <cassert>
 
-Document::Document(const int x, const int y, const int width, const int height) {
-    currentPage = std::make_shared<Page>(0, 0, width, pageHeight);
+Document::Document() {
+    currentPage = std::make_shared<Page>(0, 0, pageWidth, pageHeight);
     pages.push_back(currentPage);
     visiblePages.push_back(currentPage);
 }

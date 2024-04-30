@@ -89,7 +89,7 @@ int main() {
 
 
     //Document and Page tests
-    Document doc = Document(0, 0, 100, 100);
+    Document doc = Document();
     Document::PagePtr page = doc.GetCurrentPage();
     std::cout << page->IsEmpty() << " " << page->IsFull() << std::endl;
     page->Add(std::make_shared<Column>(col));
