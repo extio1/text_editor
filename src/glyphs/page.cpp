@@ -118,6 +118,23 @@ void Page::Insert(GlyphPtr glyph, int position) {
     }
 }
 
+void Page::Remove(const GlyphPtr& ptr) {
+    auto it = std::find(components.begin(), components.end(), ptr);
+    if (it != components.end()) {
+        Remove(it);
+    }
+}
+
+void Page::Remove(Composition::GlyphList::iterator& it) {
+    auto columnWidth = (*it)->GetWidth();
+    it = components.erase(it);
+    for(; it != components.end(); ++it) {
+        auto& nextColumn = (*it);
+        nextColumn->SetPosition({nextColumn->GetPosition().x - columnWidth, y});
+    }
+    ReDraw();
+}
+
 void Page::MoveLeftColumns(GlyphList::iterator colIt) {
     for(; colIt != components.end(); ++colIt) {
         auto& column = *colIt;
