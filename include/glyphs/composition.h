@@ -19,6 +19,7 @@ public:
 
     void Add(GlyphPtr glyph) override;
     void Insert(GlyphPtr glyph, int pos) override;
+    virtual void Remove(const GlyphPtr& ptr) = 0;
     void MoveGlyph(int x, int y);
 
     size_t GetGlyphPosition(const GlyphPtr& glyph);

@@ -16,8 +16,7 @@ public:
     explicit Column(const int x, const int y, const int width, const int height);
     Column(const int x, const int y, const int width, const int height, GlyphList&& list);
 
-    void Remove(const GlyphPtr& ptr);
-    void Remove(GlyphList::iterator& it);
+    void Remove(const GlyphPtr& ptr) override;
 
     void Insert(ColumnPtr& column);
     void InsertBack(std::list<GlyphPtr>&& glyphs);
@@ -35,6 +34,7 @@ public:
 private:
     int usedHeight = 0;
 
+    void Remove(GlyphList::iterator& it);
     void UpdateRestElements(GlyphList::iterator& it, const int updateValue);
 };
 

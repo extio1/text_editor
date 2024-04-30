@@ -32,6 +32,7 @@ public:
     Column::ColumnPtr RemoveFirstColumn();
 
     void Insert(GlyphPtr glyph, int position) override;
+    void Remove(const GlyphPtr& ptr) override;
 
 private:
     static int topIndent;
@@ -44,6 +45,7 @@ private:
     Row::RowPtr currentRow;
     Document* parent;
 
+    void Remove(GlyphList::iterator& it);
     void MoveLeftColumns(GlyphList::iterator colIt);
     Column::ColumnPtr GetPreviousColumn();
     Column::ColumnPtr GetPreviousColumn(Glyph::GlyphPtr &column);

@@ -12,19 +12,19 @@ Column::Column(const int x, const int y, const int width, const int height, Comp
 
 void Column::Remove(const GlyphPtr& ptr) {
     auto it = std::find(components.begin(), components.end(), ptr);
-    if(it != components.end()) {
+    if (it != components.end()) {
         Remove(it);
     }
 }
 
 void Column::Remove(Composition::GlyphList::iterator& it) {
-    auto columnHeight = (*it)->GetHeight();
+    auto rowHeight = (*it)->GetHeight();
     it = components.erase(it);
     for(; it != components.end(); ++it) {
-        auto& nextColumn = (*it);
-        nextColumn->SetPosition({nextColumn->GetPosition().x - columnHeight, y});
+        auto& nextRow = (*it);
+        nextRow->SetPosition({nextRow->GetPosition().x, y - rowHeight});
     }
-    usedHeight -= columnHeight;
+    usedHeight -= rowHeight;
     ReDraw();
 }
 

@@ -12,7 +12,7 @@ Row::Row(const int x, const int y, const int width, const int height, Compositio
 
 void Row::Remove(const GlyphPtr& ptr) {
     auto it = std::find(components.begin(), components.end(), ptr);
-    if(it != components.end()) {
+    if (it != components.end()) {
         Remove(it);
     }
 }
@@ -20,7 +20,7 @@ void Row::Remove(const GlyphPtr& ptr) {
 void Row::Remove(Composition::GlyphList::iterator& it) {
     auto charWidth = (*it)->GetWidth();
     it = components.erase(it);
-    for(; it != components.end(); ++it) {
+    for (; it != components.end(); ++it) {
         auto& nextChar = (*it);
         nextChar->SetPosition({nextChar->GetPosition().x - charWidth, y});
     }
