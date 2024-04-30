@@ -12,11 +12,11 @@ const int Page::charHeight = 1; //temporary
 const int Page::charWidth = 1; //temporary
 
 Page::Page(const int x, const int y, const int width, const int height): 
-Composition(x, y, width, height) {
+GlyphContainer(x, y, width, height) {
     currentColumn = std::make_shared<Column>(
         x + leftIndent, y + topIndent,
             width - leftIndent - rightIndent, height - topIndent - botIndent);
-    Composition::Add(currentColumn);
+    GlyphContainer::Add(currentColumn);
     currentRow = std::make_shared<Row>(
         x + leftIndent + charWidth, y + topIndent + charHeight,
             width - leftIndent - rightIndent, charHeight);
@@ -27,7 +27,7 @@ Composition(x, y, width, height) {
 
 void Page::Draw() {
     std::cout << "Page::Draw()" << std::endl;
-    Composition::Draw();
+    GlyphContainer::Draw();
 }
 
 bool Page::IsBottomRow(const GlyphPtr& row) const {
@@ -107,7 +107,7 @@ Column::ColumnPtr Page::RemoveFirstColumn() {
 }
 
 void Page::Insert(GlyphPtr glyph, int position) {
-    Composition::Insert(glyph, position);
+    GlyphContainer::Insert(glyph, position);
 
     auto it = std::find(components.begin(), components.end(), glyph);
     assert((it != components.end()) && "Glyph wasn't inserted");
@@ -125,7 +125,7 @@ void Page::Remove(const GlyphPtr& ptr) {
     }
 }
 
-void Page::Remove(Composition::GlyphList::iterator& it) {
+void Page::Remove(GlyphContainer::GlyphList::iterator& it) {
     auto columnWidth = (*it)->GetWidth();
     it = components.erase(it);
     for(; it != components.end(); ++it) {

@@ -4,12 +4,12 @@
 #include <optional>
 #include <memory>
 #include <list>
-#include "composition.h"
+#include "glyph_container.h"
 
 /**
  * A class representing a column of rows.
  */
-class Column: public Composition {
+class Column: public GlyphContainer {
 public:
     using ColumnPtr = std::shared_ptr<Column>;
     

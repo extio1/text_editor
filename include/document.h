@@ -28,8 +28,8 @@ public:
 
 private:
     PagePtr currentPage;
-    Composition::GlyphList visiblePages;
-    Composition::GlyphList pages;
+    GlyphContainer::GlyphList visiblePages;
+    GlyphContainer::GlyphList pages;
 };
 
 #endif  // TEXT_EDITOR_DOCUMENT_H_
