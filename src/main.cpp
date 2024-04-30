@@ -4,7 +4,7 @@
 #include "glyphs/character.h"
 #include "glyphs/button.h"
 #include "glyphs/monoglyph.h"
-#include "glyphs/composition.h"
+#include "glyphs/glyph_container.h"
 #include "glyphs/row.h"
 #include "glyphs/column.h"
 #include "document.h"
@@ -59,7 +59,7 @@ int main() {
     if (r.GetFirstGlyph()) r.GetFirstGlyph()->Draw();
     if (r.GetLastGlyph()) r.GetLastGlyph()->Draw();
     
-    Composition::GlyphList list;
+    GlyphContainer::GlyphList list;
     Character charA = Character(0, 0, 0, 0, 'A');
     Character charB = Character(1, 0, 0, 0, 'B');
     Character charC = Character(2, 0, 0, 0, 'C');
@@ -79,7 +79,7 @@ int main() {
     if (col.GetLastGlyph()) col.GetLastGlyph()->Draw();
     
 
-    Composition::GlyphList list2;
+    GlyphContainer::GlyphList list2;
     list2.push_back(std::make_shared<Row>(r));
     col.InsertBack(std::move(list2));
 

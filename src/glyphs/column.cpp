@@ -3,10 +3,10 @@
 #include <optional>
 #include "glyphs/column.h"
 
-Column::Column(const int x, const int y, const int width, const int height): Composition(x, y, width, height) {}
+Column::Column(const int x, const int y, const int width, const int height): GlyphContainer(x, y, width, height) {}
 
-Column::Column(const int x, const int y, const int width, const int height, Composition::GlyphList&& list):
-    Composition(x, y, width, height){
+Column::Column(const int x, const int y, const int width, const int height, GlyphContainer::GlyphList&& list):
+    GlyphContainer(x, y, width, height){
     Insert(0, std::move(list));
 }
 
@@ -17,7 +17,7 @@ void Column::Remove(const GlyphPtr& ptr) {
     }
 }
 
-void Column::Remove(Composition::GlyphList::iterator& it) {
+void Column::Remove(GlyphContainer::GlyphList::iterator& it) {
     auto rowHeight = (*it)->GetHeight();
     it = components.erase(it);
     for(; it != components.end(); ++it) {
@@ -85,7 +85,7 @@ void Column::Insert(size_t insertPosition, std::list<GlyphPtr>&& itemsToInsert) 
         auto lastElement = std::find_if(components.begin(), components.end(),
             [&](const auto& element) { return element->GetBottomBorder() > GetBottomBorder(); });
 
-        Composition::GlyphList list;
+        GlyphContainer::GlyphList list;
         list.splice(list.begin(), components, lastElement);
     }
     ReDraw();

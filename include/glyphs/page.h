@@ -1,7 +1,7 @@
 #ifndef TEXT_EDITOR_PAGE_H_
 #define TEXT_EDITOR_PAGE_H_
 
-#include "composition.h"
+#include "glyph_container.h"
 #include "row.h"
 #include "column.h"
 #include "glyph.h"
@@ -9,7 +9,7 @@
 
 class Document;
 
-class Page: public Composition {
+class Page: public GlyphContainer {
 public:    
     explicit Page(const int x, const int y, const int width, const int height);
 

@@ -2,23 +2,23 @@
 #include <algorithm>
 #include <cassert>
 #include "glyphs/utils/point.h"
-#include "glyphs/composition.h"
+#include "glyphs/glyph_container.h"
 
-Composition::Composition(const int x, const int y, const int width, const int height):
+GlyphContainer::GlyphContainer(const int x, const int y, const int width, const int height):
         Glyph(x, y, width, height) {
-    std::cout << "Composition::Constructor()" << std::endl;
+    std::cout << "GlyphContainer::Constructor()" << std::endl;
 }
 
-size_t Composition::GetGlyphPosition(const GlyphPtr& glyph)
+size_t GlyphContainer::GetGlyphPosition(const GlyphPtr& glyph)
 {
     auto res = std::find_if(components.cbegin(), components.cend(), [&](const auto& it){
       return it == glyph;
     });
-    assert((res != components.cend()) && "Composition doesn't contain this glyph");
+    assert((res != components.cend()) && "GlyphContainer doesn't contain this glyph");
     return std::distance(components.cbegin(), res);
 }
 
-Glyph::GlyphPtr Composition::Find(const Point& point){
+Glyph::GlyphPtr GlyphContainer::Find(const Point& point){
     for(auto& it: components) {
         if (it->Intersects(point)) {
             return it;
@@ -27,18 +27,18 @@ Glyph::GlyphPtr Composition::Find(const Point& point){
     return nullptr;
 }
 
-void Composition::Draw() {
-    std::cout << "Composition::Draw()" << std::endl;
+void GlyphContainer::Draw() {
+    std::cout << "GlyphContainer::Draw()" << std::endl;
     for (auto component: components) {
         component->Draw();
     }
 }
 
-void Composition::Add(GlyphPtr glyph) {
+void GlyphContainer::Add(GlyphPtr glyph) {
     components.push_back(std::move(glyph));
 }
 
-void Composition::Insert(GlyphPtr glyph, int pos) {
+void GlyphContainer::Insert(GlyphPtr glyph, int pos) {
     if (pos >= components.size()) {
         components.push_back(std::move(glyph));
     } else {
@@ -48,7 +48,7 @@ void Composition::Insert(GlyphPtr glyph, int pos) {
     }
 }
 
-void Composition::MoveGlyph(int x, int y) {
+void GlyphContainer::MoveGlyph(int x, int y) {
     Glyph::MoveGlyph(x, y);
     for (auto component: components) {
         component->MoveGlyph(x, y);

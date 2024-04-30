@@ -3,12 +3,12 @@
 
 #include <memory>
 #include <list>
-#include "composition.h"
+#include "glyph_container.h"
 
 /**
  * A class representing a row that consists characters, images and figures.
  */
-class Row: public Composition {
+class Row: public GlyphContainer {
 public:
     using RowPtr = std::shared_ptr<Row>;
 
