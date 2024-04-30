@@ -40,19 +40,19 @@ bool Page::IsRightColumn(const GlyphPtr& column) const {
         x + width - rightIndent;
 }
 
-std::shared_ptr<Row> Page::GetFirstRow() {
+Row::RowPtr Page::GetFirstRow() {
     return std::static_pointer_cast<Row>(currentColumn->GetFirstGlyph());
 }
 
-std::shared_ptr<Column> Page::GetFirstColumn() {
+Column::ColumnPtr Page::GetFirstColumn() {
     return std::static_pointer_cast<Column>(components.front());
 }
 
-void Page::SetCurrentRow(std::shared_ptr<Row> row) {
+void Page::SetCurrentRow(Row::RowPtr row) {
     currentRow = std::move(row);
 }
 
-void Page::SetCurrentColumn(std::shared_ptr<Column> column) {
+void Page::SetCurrentColumn(Column::ColumnPtr column) {
     currentColumn = std::move(column);
 }
 
@@ -72,7 +72,7 @@ bool Page::ColumnCanBeAdded(int width) const {
     return components.back()->GetRightBorder() + width < GetRightBorder() - rightIndent;
 }
 
-std::shared_ptr<Row> Page::RemoveFirstRow() {
+Row::RowPtr Page::RemoveFirstRow() {
     auto result = std::static_pointer_cast<Row>(currentColumn->GetFirstGlyph());
     currentRow = result;
 
@@ -93,7 +93,7 @@ std::shared_ptr<Row> Page::RemoveFirstRow() {
     return std::static_pointer_cast<Row>(result);
 }
 
-std::shared_ptr<Column> Page::RemoveFirstColumn() {
+Column::ColumnPtr Page::RemoveFirstColumn() {
     auto result = std::static_pointer_cast<Column>(components.front());
     currentColumn = result;
 
@@ -127,27 +127,27 @@ void Page::MoveLeftColumns(std::list<Glyph::GlyphPtr>::iterator colIt) {
     }
 }
 
-std::shared_ptr<Column> Page::GetPreviousColumn() {
+Column::ColumnPtr Page::GetPreviousColumn() {
     auto columnIt = std::find(components.begin(), components.end(), currentColumn);
     return std::static_pointer_cast<Column>(*(std::prev(columnIt)));
 }
 
-std::shared_ptr<Column> Page::GetPreviousColumn(Glyph::GlyphPtr& column) {
+Column::ColumnPtr Page::GetPreviousColumn(Glyph::GlyphPtr& column) {
     auto columnIt = std::find(components.begin(), components.end(), column);
     return std::static_pointer_cast<Column>(*(std::prev(columnIt)));
 }
 
-std::shared_ptr<Column> Page::GetNextColumn() {
+Column::ColumnPtr Page::GetNextColumn() {
     auto columnIt = std::find(components.begin(), components.end(), currentColumn);
     return std::static_pointer_cast<Column>(*std::next(columnIt));
 }
 
-std::shared_ptr<Column> Page::GetNextColumn(Glyph::GlyphPtr& column) {
+Column::ColumnPtr Page::GetNextColumn(Glyph::GlyphPtr& column) {
     auto columnIt = std::find(components.begin(), components.end(), column);
     return std::static_pointer_cast<Column>(*std::next(columnIt));
 }
 
-Page::ColumnPtr Page::GetLastColumn() {
+Column::ColumnPtr Page::GetLastColumn() {
     if (components.empty()) return nullptr;
     return std::dynamic_pointer_cast<Column>(components.back());
 }

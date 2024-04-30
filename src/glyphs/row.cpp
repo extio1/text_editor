@@ -28,7 +28,7 @@ void Row::Remove(Composition::GlyphList::iterator& it) {
     ReDraw();
 }
 
-void Row::Insert(std::shared_ptr<Row>& row) {
+void Row::Insert(RowPtr& row) {
     auto insertPosition = components.empty() ? x : components.back()->GetRightBorder();
     auto list = row->components;
     return Insert(insertPosition, std::move(list));

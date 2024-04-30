@@ -11,13 +11,13 @@ const int pageHeight = 1000;
 class Page;
 
 class Document {
+public:
     using PagePtr = std::shared_ptr<Page>;
 
-public:
     explicit Document(const int x, const int y, const int width, const int height);
 
-    void SetCurrentPage(std::shared_ptr<Page> page);
-    Document::PagePtr GetCurrentPage();
+    void SetCurrentPage(PagePtr page);
+    PagePtr GetCurrentPage();
 
     size_t GetPageCount() const;
     size_t GetPageHeight() const;
@@ -26,7 +26,7 @@ public:
     PagePtr GetNextPage(const Page* page);
 
 private:
-    std::shared_ptr<Page> currentPage;
+    PagePtr currentPage;
     std::list<Glyph::GlyphPtr> visiblePages;
     std::list<Glyph::GlyphPtr> pages;
 };

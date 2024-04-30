@@ -10,10 +10,7 @@
 class Document;
 
 class Page: public Composition {
-    using RowPtr = std::shared_ptr<Row>;
-    using ColumnPtr = std::shared_ptr<Column>;
-
-public:
+public:    
     explicit Page(Document* parent, const int x, const int y, const int width, const int height);
 
     void Draw() override;
@@ -21,18 +18,18 @@ public:
     bool IsBottomRow(const GlyphPtr&) const;
     bool IsRightColumn(const GlyphPtr&) const;
 
-    std::shared_ptr<Row> GetFirstRow();
-    std::shared_ptr<Column> GetFirstColumn();
-    void SetCurrentRow(std::shared_ptr<Row> row);
-    void SetCurrentColumn(std::shared_ptr<Column> column);
+    Row::RowPtr GetFirstRow();
+    Column::ColumnPtr GetFirstColumn();
+    void SetCurrentRow(Row::RowPtr row);
+    void SetCurrentColumn(Column::ColumnPtr column);
 
     bool IsEmpty() const;
     bool IsFull() const;
 
     bool RowCanBeAdded(int height) const;
     bool ColumnCanBeAdded(int width) const;
-    std::shared_ptr<Row> RemoveFirstRow();
-    std::shared_ptr<Column> RemoveFirstColumn();
+    Row::RowPtr RemoveFirstRow();
+    Column::ColumnPtr RemoveFirstColumn();
 
     void Insert(GlyphPtr glyph, int position) override;
 
@@ -43,16 +40,16 @@ private:
     static int rightIndent;
     static const int charHeight; //replace
     static const int charWidth; //replace
-    std::shared_ptr<Column> currentColumn;
-    std::shared_ptr<Row> currentRow;
+    Column::ColumnPtr currentColumn;
+    Row::RowPtr currentRow;
     Document* parent;
 
     void MoveLeftColumns(std::list<Glyph::GlyphPtr>::iterator colIt);
-    std::shared_ptr<Column> GetPreviousColumn();
-    std::shared_ptr<Column> GetPreviousColumn(Glyph::GlyphPtr &column);
-    std::shared_ptr<Column> GetNextColumn();
-    std::shared_ptr<Column> GetNextColumn(Glyph::GlyphPtr &column);
-    ColumnPtr GetLastColumn();
+    Column::ColumnPtr GetPreviousColumn();
+    Column::ColumnPtr GetPreviousColumn(Glyph::GlyphPtr &column);
+    Column::ColumnPtr GetNextColumn();
+    Column::ColumnPtr GetNextColumn(Glyph::GlyphPtr &column);
+    Column::ColumnPtr GetLastColumn();
 };
 
 #endif  // TEXT_EDITOR_PAGE_H_

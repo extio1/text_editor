@@ -28,7 +28,7 @@ void Column::Remove(Composition::GlyphList::iterator& it) {
     ReDraw();
 }
 
-void Column::Insert(std::shared_ptr<Column>& column) {
+void Column::Insert(ColumnPtr& column) {
     auto insertPosition = components.empty() ? y : components.back()->GetBottomBorder();
     auto list = column->components;
     return Insert(insertPosition, std::move(list));
