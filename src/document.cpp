@@ -11,11 +11,11 @@ Document::Document() {
     visiblePages.push_back(currentPage);
 }
 
-void Document::SetCurrentPage(PagePtr page) {
+void Document::SetCurrentPage(Page::PagePtr page) {
     currentPage = std::move(page);
 }
 
-Document::PagePtr Document::GetCurrentPage() {
+Page::PagePtr Document::GetCurrentPage() {
     return currentPage;
 }
 
@@ -31,7 +31,7 @@ void Document::AddPage(const Glyph::GlyphPtr& page) {
     pages.push_back(page);
 }
 
-Document::PagePtr Document::GetNextPage(const Page* page) {
+Page::PagePtr Document::GetNextPage(const Page* page) {
     auto currentPage = std::find_if(pages.begin(), pages.end(), [&](const auto& elem) {
         return elem.get() == page;
     });

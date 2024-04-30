@@ -5,12 +5,12 @@
 #include "row.h"
 #include "column.h"
 #include "glyph.h"
-#include "document.h"
 
-class Document;
 
 class Page: public GlyphContainer {
 public:    
+    using PagePtr = std::shared_ptr<Page>;
+
     explicit Page(const int x, const int y, const int width, const int height);
 
     void Draw() override;
