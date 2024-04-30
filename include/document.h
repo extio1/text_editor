@@ -27,8 +27,8 @@ public:
 
 private:
     PagePtr currentPage;
-    std::list<Glyph::GlyphPtr> visiblePages;
-    std::list<Glyph::GlyphPtr> pages;
+    Composition::GlyphList visiblePages;
+    Composition::GlyphList pages;
 };
 
 #endif  // TEXT_EDITOR_DOCUMENT_H_

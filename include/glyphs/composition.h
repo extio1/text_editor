@@ -25,7 +25,7 @@ public:
     GlyphPtr Find(const Point& point);
 
 protected:
-    std::list<GlyphPtr> components;
+    GlyphList components;
 };
 
 #endif  // TEXT_EDITOR_COMPOSITION_H_

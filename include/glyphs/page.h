@@ -44,7 +44,7 @@ private:
     Row::RowPtr currentRow;
     Document* parent;
 
-    void MoveLeftColumns(std::list<Glyph::GlyphPtr>::iterator colIt);
+    void MoveLeftColumns(GlyphList::iterator colIt);
     Column::ColumnPtr GetPreviousColumn();
     Column::ColumnPtr GetPreviousColumn(Glyph::GlyphPtr &column);
     Column::ColumnPtr GetNextColumn();
