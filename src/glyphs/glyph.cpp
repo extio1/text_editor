@@ -1,6 +1,6 @@
-#include "../../include/glyphs/utils/point.h"
-#include "../../include/glyphs/glyph.h"
-#include "../../include/glyphs/glyph.h"
+#include "glyphs/utils/point.h"
+#include "glyphs/glyph.h"
+#include "glyphs/glyph.h"
 
 Glyph::Glyph(const int _x, const int _y, const int _width, const int _height) : 
     x(_x), y(_y), width(_width), height(_height) {}

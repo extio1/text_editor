@@ -1,6 +1,6 @@
-#include "../include/document.h"
-#include "../include/glyphs/page.h"
-#include "../include/glyphs/glyph.h"
+#include "document.h"
+#include "glyphs/page.h"
+#include "glyphs/glyph.h"
 
 #include <algorithm>
 #include <cassert>

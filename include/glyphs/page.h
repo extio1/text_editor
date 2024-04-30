@@ -5,7 +5,7 @@
 #include "row.h"
 #include "column.h"
 #include "glyph.h"
-#include "../document.h"
+#include "document.h"
 
 class Document;
 

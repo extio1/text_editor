@@ -1,4 +1,4 @@
-#include "../../include/glyphs/monoglyph.h"
+#include "glyphs/monoglyph.h"
 
 MonoGlyph::MonoGlyph(GlyphPtr glyph) :
                 Glyph(glyph->GetPosition().x, glyph->GetPosition().y, 

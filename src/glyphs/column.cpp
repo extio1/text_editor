@@ -1,7 +1,7 @@
 #include <algorithm>
 #include <numeric>
 #include <optional>
-#include "../../include/glyphs/column.h"
+#include "glyphs/column.h"
 
 Column::Column(const int x, const int y, const int width, const int height): Composition(x, y, width, height) {}
 
