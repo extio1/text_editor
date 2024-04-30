@@ -1,8 +1,8 @@
 #include <iterator>
 #include <algorithm>
 #include <cassert>
-#include "../../include/glyphs/utils/point.h"
-#include "../../include/glyphs/composition.h"
+#include "glyphs/utils/point.h"
+#include "glyphs/composition.h"
 
 Composition::Composition(const int x, const int y, const int width, const int height):
         Glyph(x, y, width, height) {

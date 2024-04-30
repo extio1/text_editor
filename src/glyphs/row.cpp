@@ -1,7 +1,7 @@
 #include <algorithm>
 #include <numeric>
 #include <optional>
-#include "../../include/glyphs/row.h"
+#include "glyphs/row.h"
 
 Row::Row(const int x, const int y, const int width, const int height): Composition(x, y, width, height) {}
 

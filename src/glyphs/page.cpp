@@ -1,8 +1,8 @@
 #include <algorithm>
 #include <cassert>
 
-#include "../../include/glyphs/page.h"
-#include "../../include/document.h"
+#include "glyphs/page.h"
+#include "document.h"
 
 int Page::topIndent = 0;
 int Page::botIndent = 0;
