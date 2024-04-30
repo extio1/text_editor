@@ -1,5 +1,5 @@
-#ifndef TEXT_EDITOR_POINT
-#define TEXT_EDITOR_POINT
+#ifndef TEXT_EDITOR_POINT_H_
+#define TEXT_EDITOR_POINT_H_
 
 struct Point
 {
@@ -12,4 +12,4 @@ struct Point
     bool operator==(const Point& p);
 };
 
-#endif  // TEXT_EDITOR_POINT
+#endif  // TEXT_EDITOR_POINT_H_

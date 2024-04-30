@@ -1,5 +1,5 @@
-#ifndef TEXT_EDITOR_MONOGLYPH
-#define TEXT_EDITOR_MONOGLYPH
+#ifndef TEXT_EDITOR_MONOGLYPH_H_
+#define TEXT_EDITOR_MONOGLYPH_H_
 
 #include "glyph.h"
 #include "utils/point.h"
@@ -23,4 +23,4 @@ protected:
     std::shared_ptr<Glyph> component;
 };
 
-#endif  // TEXT_EDITOR_MONOGLYPH
+#endif  // TEXT_EDITOR_MONOGLYPH_H_

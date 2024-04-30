@@ -1,5 +1,5 @@
-#ifndef TEXT_EDITOR_COMPOSITION
-#define TEXT_EDITOR_COMPOSITION
+#ifndef TEXT_EDITOR_COMPOSITION_H_
+#define TEXT_EDITOR_COMPOSITION_H_
 
 #include <list>
 #include "glyph.h"
@@ -28,4 +28,4 @@ protected:
     std::list<std::shared_ptr<Glyph>> components;
 };
 
-#endif  // TEXT_EDITOR_COMPOSITION
+#endif  // TEXT_EDITOR_COMPOSITION_H_

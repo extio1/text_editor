@@ -1,5 +1,5 @@
-#ifndef TEXT_EDITOR_PAGE
-#define TEXT_EDITOR_PAGE
+#ifndef TEXT_EDITOR_PAGE_H_
+#define TEXT_EDITOR_PAGE_H_
 
 #include "composition.h"
 #include "row.h"
@@ -55,4 +55,4 @@ private:
     ColumnPtr GetLastColumn();
 };
 
-#endif  // TEXT_EDITOR_PAGE
+#endif  // TEXT_EDITOR_PAGE_H_

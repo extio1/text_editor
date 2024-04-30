@@ -1,5 +1,5 @@
-#ifndef TEXT_EDITOR_CHARACTER
-#define TEXT_EDITOR_CHARACTER
+#ifndef TEXT_EDITOR_CHARACTER_H_
+#define TEXT_EDITOR_CHARACTER_H_
 
 #include "glyph.h"
 
@@ -22,4 +22,4 @@ private:
     char symbol;
 };
 
-#endif  // TEXT_EDITOR_CHARACTER
+#endif  // TEXT_EDITOR_CHARACTER_H_

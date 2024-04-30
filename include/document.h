@@ -1,5 +1,5 @@
-#ifndef TEXT_EDITOR_DOCUMENT
-#define TEXT_EDITOR_DOCUMENT
+#ifndef TEXT_EDITOR_DOCUMENT_H_
+#define TEXT_EDITOR_DOCUMENT_H_
 
 #include <functional>
 
@@ -31,4 +31,4 @@ private:
     std::list<Glyph::GlyphPtr> pages;
 };
 
-#endif  // TEXT_EDITOR_DOCUMENT
+#endif  // TEXT_EDITOR_DOCUMENT_H_

@@ -1,5 +1,5 @@
-#ifndef TEXT_EDITOR_BUTTON
-#define TEXT_EDITOR_BUTTON
+#ifndef TEXT_EDITOR_BUTTON_H_
+#define TEXT_EDITOR_BUTTON_H_
 
 #include <string>
 #include "glyph.h"
@@ -18,4 +18,4 @@ private:
     bool isPressed = false;
 };
 
-#endif  // TEXT_EDITOR_BUTTON
+#endif  // TEXT_EDITOR_BUTTON_H_
