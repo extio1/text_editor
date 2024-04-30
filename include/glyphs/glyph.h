@@ -1,5 +1,5 @@
-#ifndef TEXT_EDITOR_GLYPH
-#define TEXT_EDITOR_GLYPH
+#ifndef TEXT_EDITOR_GLYPH_H_
+#define TEXT_EDITOR_GLYPH_H_
 
 #include <memory>
 #include <iostream>
@@ -46,4 +46,4 @@ protected:
     int height = 0;
 };
 
-#endif  // TEXT_EDITOR_GLYPH
+#endif  // TEXT_EDITOR_GLYPH_H_

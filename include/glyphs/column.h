@@ -1,5 +1,5 @@
-#ifndef TEXT_EDITOR_COLUMN
-#define TEXT_EDITOR_COLUMN
+#ifndef TEXT_EDITOR_COLUMN_H_
+#define TEXT_EDITOR_COLUMN_H_
 
 #include <optional>
 #include <memory>
@@ -36,4 +36,4 @@ private:
     void UpdateRestElements(GlyphList::iterator& it, const int updateValue);
 };
 
-#endif  // TEXT_EDITOR_COLUMN
+#endif  // TEXT_EDITOR_COLUMN_H_

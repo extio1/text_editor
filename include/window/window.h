@@ -1,5 +1,5 @@
-// #ifndef TEXT_EDITOR_WINDOW
-// #define TEXT_EDITOR_WINDOW
+// #ifndef TEXT_EDITOR_WINDOW_H_
+// #define TEXT_EDITOR_WINDOW_H_
 
 // #include <memory>
 // #include "../glyphs/glyph.h"
@@ -16,4 +16,4 @@
 // protected:
 // };
 
-// #endif  // TEXT_EDITOR_WINDOW
+// #endif  // TEXT_EDITOR_WINDOW_H_

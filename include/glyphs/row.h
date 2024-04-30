@@ -1,5 +1,5 @@
-#ifndef TEXT_EDITOR_ROW
-#define TEXT_EDITOR_ROW
+#ifndef TEXT_EDITOR_ROW_H_
+#define TEXT_EDITOR_ROW_H_
 
 #include <memory>
 #include <list>
@@ -33,4 +33,4 @@ private:
     void UpdateRestElements(GlyphList::iterator& it, const int updateValue);
 };
 
-#endif  // TEXT_EDITOR_ROW
+#endif  // TEXT_EDITOR_ROW_H_
