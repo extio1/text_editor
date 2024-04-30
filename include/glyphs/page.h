@@ -11,7 +11,7 @@ class Document;
 
 class Page: public Composition {
 public:    
-    explicit Page(Document* parent, const int x, const int y, const int width, const int height);
+    explicit Page(const int x, const int y, const int width, const int height);
 
     void Draw() override;
 
@@ -43,7 +43,6 @@ private:
     static const int charWidth; //replace
     Column::ColumnPtr currentColumn;
     Row::RowPtr currentRow;
-    Document* parent;
 
     void Remove(GlyphList::iterator& it);
     void MoveLeftColumns(GlyphList::iterator colIt);

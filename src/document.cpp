@@ -6,7 +6,7 @@
 #include <cassert>
 
 Document::Document(const int x, const int y, const int width, const int height) {
-    currentPage = std::make_shared<Page>(this, 0, 0, width, pageHeight);
+    currentPage = std::make_shared<Page>(0, 0, width, pageHeight);
     pages.push_back(currentPage);
     visiblePages.push_back(currentPage);
 }
