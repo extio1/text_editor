@@ -11,8 +11,8 @@ int Page::rightIndent = 0;
 const int Page::charHeight = 1; //temporary
 const int Page::charWidth = 1; //temporary
 
-Page::Page(Document* _parent, const int x, const int y, const int width, const int height): 
-Composition(x, y, width, height), parent(_parent) {
+Page::Page(const int x, const int y, const int width, const int height): 
+Composition(x, y, width, height) {
     currentColumn = std::make_shared<Column>(
         x + leftIndent, y + topIndent,
             width - leftIndent - rightIndent, height - topIndent - botIndent);
@@ -83,12 +83,12 @@ Row::RowPtr Page::RemoveFirstRow() {
     currentColumn->MoveUpRows(currentRow->GetHeight());
 
     // it can be useless(?)
-    if (isFull) {
-        auto nextPage = parent->GetNextPage(this);
-        auto newLastRow = nextPage->RemoveFirstRow(); //should take the same column, not current on that page - to fix
-        newLastRow->SetPosition(newLastRow->GetPosition().x, currentColumn->GetLastGlyph()->GetBottomBorder());
-        currentColumn->Add(newLastRow);
-    }
+    // if (isFull) {
+    //     auto nextPage = parent->GetNextPage(this);
+    //     auto newLastRow = nextPage->RemoveFirstRow(); //should take the same column, not current on that page - to fix
+    //     newLastRow->SetPosition(newLastRow->GetPosition().x, currentColumn->GetLastGlyph()->GetBottomBorder());
+    //     currentColumn->Add(newLastRow);
+    // }
 
     return std::static_pointer_cast<Row>(result);
 }
