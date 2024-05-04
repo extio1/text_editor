@@ -1,8 +1,12 @@
 // What to do?
 
 1. row.cpp #42
+<<<<<<< HEAD
 2. fix cycle dependency between Page and Document, move PagePtr to Page
 3. change cmake
 4. add pedantic flag to cmake and fix warnings
 5. write unit tests
 6. add definitions to Document API
+=======
+2. fix cycle dependency between Page and Document, move PagePtr to Page
+>>>>>>> c0e893651f2a7b6a023ecf456ff92d9c884a02b3
