@@ -3,7 +3,9 @@
 
 #include <memory>
 #include <iostream>
+
 #include "utils/point.h"
+
 
 /**
  * Base class for graphical elements.

@@ -1,14 +1,16 @@
 #include <iostream>
 #include <memory>
-#include "glyphs/glyph.h"
-#include "glyphs/character.h"
-#include "glyphs/button.h"
-#include "glyphs/monoglyph.h"
-#include "glyphs/glyph_container.h"
-#include "glyphs/row.h"
-#include "glyphs/column.h"
+
 #include "document.h"
+#include "glyphs/button.h"
+#include "glyphs/character.h"
+#include "glyphs/column.h"
+#include "glyphs/glyph.h"
+#include "glyphs/glyph_container.h"
+#include "glyphs/monoglyph.h"
 #include "glyphs/page.h"
+#include "glyphs/row.h"
+
 
 int main() {
     std::cout << "Hello" << std::endl;

@@ -1,10 +1,10 @@
 #ifndef TEXT_EDITOR_PAGE_H_
 #define TEXT_EDITOR_PAGE_H_
 
-#include "glyph_container.h"
-#include "row.h"
 #include "column.h"
 #include "glyph.h"
+#include "glyph_container.h"
+#include "row.h"
 
 
 class Page: public GlyphContainer {

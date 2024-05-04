@@ -2,7 +2,9 @@
 #define TEXT_EDITOR_BUTTON_H_
 
 #include <string>
+
 #include "glyph.h"
+
 
 class Button: public Glyph
 {

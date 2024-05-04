@@ -2,7 +2,9 @@
 #define TEXT_EDITOR_GLYPH_CONTAINER_H_
 
 #include <list>
+
 #include "glyph.h"
+
 
 /**
  * The class represents a complex glyph, i.e glyph that contains one or more glyphs.

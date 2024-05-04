@@ -1,4 +1,5 @@
-#include "../../../include/glyphs/utils/point.h"
+#include "glyphs/utils/point.h"
+
 
 Point::Point(int _x, int _y): x(_x), y(_y) {}
 

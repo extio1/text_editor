@@ -1,7 +1,9 @@
+#include "glyphs/row.h"
+
 #include <algorithm>
 #include <numeric>
 #include <optional>
-#include "glyphs/row.h"
+
 
 Row::Row(const int x, const int y, const int width, const int height): GlyphContainer(x, y, width, height) {}
 

@@ -3,6 +3,7 @@
 
 #include "glyph.h"
 
+
 /**
  * A class representing any visible or invisible symbol.
  */

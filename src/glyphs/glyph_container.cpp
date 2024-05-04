@@ -1,8 +1,12 @@
-#include <iterator>
-#include <algorithm>
-#include <cassert>
-#include "glyphs/utils/point.h"
 #include "glyphs/glyph_container.h"
+
+#include <cassert>
+
+#include <algorithm>
+#include <iterator>
+
+#include "glyphs/utils/point.h"
+
 
 GlyphContainer::GlyphContainer(const int x, const int y, const int width, const int height):
         Glyph(x, y, width, height) {

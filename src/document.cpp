@@ -1,9 +1,11 @@
 #include "document.h"
-#include "glyphs/page.h"
-#include "glyphs/glyph.h"
 
-#include <algorithm>
 #include <cassert>
+#include <algorithm>
+
+#include "glyphs/glyph.h"
+#include "glyphs/page.h"
+
 
 Document::Document() {
     currentPage = std::make_shared<Page>(0, 0, pageWidth, pageHeight);

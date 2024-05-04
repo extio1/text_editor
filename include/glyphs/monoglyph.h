@@ -4,6 +4,7 @@
 #include "glyph.h"
 #include "utils/point.h"
 
+
 /**
  * The class is a glyph that stores a reference to the only component to which all
  * requests are forwarded.

@@ -4,7 +4,9 @@
 #include <optional>
 #include <memory>
 #include <list>
+
 #include "glyph_container.h"
+
 
 /**
  * A class representing a column of rows.
