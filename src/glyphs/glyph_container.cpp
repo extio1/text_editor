@@ -18,7 +18,7 @@ size_t GlyphContainer::GetGlyphPosition(const GlyphPtr& glyph)
     return std::distance(components.cbegin(), res);
 }
 
-Glyph::GlyphPtr GlyphContainer::Find(const Point& point){
+Glyph::GlyphPtr GlyphContainer::Find(const Point& point) {
     for(auto& it: components) {
         if (it->Intersects(point)) {
             return it;

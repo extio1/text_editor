@@ -13,6 +13,9 @@ class Document {
 public:
     explicit Document();
 
+    void Insert(Glyph::GlyphPtr glyph);
+    void Remove(Glyph::GlyphPtr glyph);
+
     void SetCurrentPage(Page::PagePtr page);
     Page::PagePtr GetCurrentPage();
 

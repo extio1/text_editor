@@ -11,6 +11,15 @@ Document::Document() {
     visiblePages.push_back(currentPage);
 }
 
+void Document::Insert(Glyph::GlyphPtr glyph) {
+    // currentPage.Insert(glyph);
+    // TO DO
+}
+
+void Document::Remove(Glyph::GlyphPtr glyph) {
+    // TO DO
+}
+
 void Document::SetCurrentPage(Page::PagePtr page) {
     currentPage = std::move(page);
 }

@@ -2,3 +2,7 @@
 
 1. row.cpp #42
 2. fix cycle dependency between Page and Document, move PagePtr to Page
+3. change cmake
+4. add pedantic flag to cmake and fix warnings
+5. write unit tests
+6. add definitions to Document API
