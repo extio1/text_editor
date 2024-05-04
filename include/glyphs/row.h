@@ -21,7 +21,7 @@ public:
 
     void Insert(RowPtr& row);
     void InsertBack(std::list<GlyphPtr>&& glyphs);
-    void Insert(size_t insertPosition, std::list<GlyphPtr>&& itemsToInsert);
+    void Insert(int insertPosition, std::list<GlyphPtr>&& itemsToInsert);
 
     bool IsEmpty() const;
     bool IsFull() const;

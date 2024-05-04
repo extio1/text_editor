@@ -79,7 +79,7 @@ Row::RowPtr Page::RemoveFirstRow() {
     currentRow = result;
 
     currentRow->ClearGlyph();
-    auto isFull = IsFull();
+    // auto isFull = IsFull();
     currentColumn->Remove(currentColumn->GetFirstGlyph());
 
     currentColumn->MoveUpRows(currentRow->GetHeight());
@@ -100,7 +100,7 @@ Column::ColumnPtr Page::RemoveFirstColumn() {
     currentColumn = result;
 
     currentColumn->ClearGlyph();;
-    auto isFull = IsFull();
+    // auto isFull = IsFull();
     components.pop_front();
 
     MoveLeftColumns(components.begin());

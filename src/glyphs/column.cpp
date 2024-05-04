@@ -44,7 +44,7 @@ void Column::InsertBack(std::list<GlyphPtr>&& list) {
     return Insert(insertPosition, std::move(list));
 }
 
-void Column::Insert(size_t insertPosition, std::list<GlyphPtr>&& itemsToInsert) {
+void Column::Insert(int insertPosition, std::list<GlyphPtr>&& itemsToInsert) {
     auto updateElements = [&](int offset){
       for (auto& it: itemsToInsert) {
           it->SetPosition(offset, y);
