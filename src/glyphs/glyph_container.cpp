@@ -13,8 +13,7 @@ GlyphContainer::GlyphContainer(const int x, const int y, const int width, const 
     std::cout << "GlyphContainer::Constructor()" << std::endl;
 }
 
-size_t GlyphContainer::GetGlyphPosition(const GlyphPtr& glyph)
-{
+size_t GlyphContainer::GetGlyphIndex(const GlyphPtr& glyph) {
     auto res = std::find_if(components.cbegin(), components.cend(), [&](const auto& it){
       return it == glyph;
     });
@@ -22,8 +21,21 @@ size_t GlyphContainer::GetGlyphPosition(const GlyphPtr& glyph)
     return std::distance(components.cbegin(), res);
 }
 
+Glyph::GlyphPtr GlyphContainer::GetGlyphByIndex(int index) {
+    assert(index >= 0 && "Invalid index of glyph");
+    size_t count = 0;
+    for (const auto& ptr : components) {
+        if (count == index) {
+            return ptr;
+        }
+        count++;
+    }
+    return nullptr;
+}
+
+// what if more than one glyphs intersects point???
 Glyph::GlyphPtr GlyphContainer::Find(const Point& point) {
-    for(auto& it: components) {
+    for (auto& it: components) {
         if (it->Intersects(point)) {
             return it;
         }
@@ -39,16 +51,17 @@ void GlyphContainer::Draw() {
 }
 
 void GlyphContainer::Add(GlyphPtr glyph) {
-    components.push_back(std::move(glyph));
+    components.push_back(glyph);
 }
 
-void GlyphContainer::Insert(GlyphPtr glyph, int pos) {
-    if (pos >= components.size()) {
-        components.push_back(std::move(glyph));
+void GlyphContainer::Insert(GlyphPtr glyph, int index) {
+    assert(index >= 0 && "Invalid position for inserting glyph");
+    if (index >= components.size()) {
+        components.push_back(glyph);
     } else {
         auto iter = components.begin();
-        std::advance(iter, pos); // iter += pos
-        components.insert(iter, std::move(glyph));
+        std::advance(iter, index);
+        components.insert(iter, glyph);
     }
 }
 

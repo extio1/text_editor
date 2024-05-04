@@ -16,6 +16,8 @@ Document::Document() {
 void Document::Insert(Glyph::GlyphPtr glyph) {
     // currentPage.Insert(glyph);
     // TO DO
+    std::cout << "Document::Insert() ";
+    glyph->Draw();
 }
 
 void Document::Remove(Glyph::GlyphPtr glyph) {

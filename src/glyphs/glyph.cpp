@@ -5,8 +5,8 @@
 #include "glyphs/utils/point.h"
 
 
-Glyph::Glyph(const int _x, const int _y, const int _width, const int _height) : 
-    x(_x), y(_y), width(_width), height(_height) {}
+Glyph::Glyph(const int x, const int y, const int width, const int height) : 
+    x(x), y(y), width(width), height(height) {}
 
 void Glyph::ReDraw() {
     ClearGlyph();
@@ -19,49 +19,68 @@ void Glyph::ClearGlyph() {
 }
 
 bool Glyph::Intersects(const Point& p) const noexcept {
-    if (p.x >= x && p.x <= x + width) {
-        if (p.y >= y && p.y <= y + height) {
+    if (p.x >= this->x && p.x <= this->x + this->width) {
+        if (p.y >= this->y && p.y <= this->y + this->height) {
             return true;
         }
     }
     return false;
 }
 
-bool Glyph::Intersects(const int _x, const int _y, const int _width, const int _height) const {
-    return Intersects({_x, _y}) 
-        || Intersects({_x + _width, _y}) 
-        || Intersects({_x, _y + _height}) 
-        || Intersects({_x + _width, _y + _height});
+bool Glyph::Intersects(const GlyphPtr& glyph) const {
+    return Intersects({glyph->GetPosition().x, glyph->GetPosition().y}) 
+        || Intersects({glyph->GetPosition().x + glyph->GetWidth(), glyph->GetPosition().y}) 
+        || Intersects({glyph->GetPosition().x, glyph->GetPosition().y + glyph->GetHeight()}) 
+        || Intersects({glyph->GetPosition().x + glyph->GetWidth(), glyph->GetPosition().y + glyph->GetHeight()})
+
+        || glyph->Intersects({this->x, this->y}) 
+        || glyph->Intersects({this->x + this->width, this->y}) 
+        || glyph->Intersects({this->x, this->y + this->height}) 
+        || glyph->Intersects({this->x + this->width, this->y + this->height});;
 }
 
-void Glyph::MoveGlyph(int _x, int _y) {
-    SetPosition(x + _x, y + _y);
+void Glyph::MoveGlyph(int x, int y) {
+    assert((x >= -this->x && y >= -this->y) && "Cannot move glyph due to these coordinates");
+    SetPosition(this->x + x, this->y + y);
 }
 
 void Glyph::SetPosition(const Point& p) {
-    x = p.x;
-    y = p.y;
+    assert((p.x >= 0 && p.y >= 0) && "Invalid position of glyph");
+    this->x = p.x;
+    this->y = p.y;
 }
 
 void Glyph::SetPosition(int x, int y) {
-    x = x;
-    y = y;
+    assert((x >= 0 && y >= 0) && "Invalid position of glyph");
+    this->x = x;
+    this->y = y;
 }
 
-void Glyph::SetGlyphParams(const int _x, const int _y, const int _width, const int _height) { 
-    x = _x;
-    y = _y;
-    width = _width;
-    height = _height;
+void Glyph::SetWidth(int width) {
+    assert(width >= 0 && "Invalid width of glyph");
+    this->width = width;
 }
 
-int Glyph::GetWidth() const { return width; }
-int Glyph::GetHeight() const { return height; }
+void Glyph::SetHeight(int height) {
+    assert(height >= 0 && "Invalid height of glyph");
+    this->height = height;
+}
 
-Point Glyph::GetPosition() const { return { x, y }; }
+void Glyph::SetGlyphParams(const int x, const int y, const int width, const int height) { 
+    assert((x >= 0 && y >= 0 && width >= 0 && height >= 0) && "Invalid params of glyph");
+    this->x = x;
+    this->y = y;
+    this->width = width;
+    this->height = height;
+}
 
-int Glyph::GetBottomBorder() const noexcept { return y + height; }
-int Glyph::GetRightBorder() const noexcept { return x + width; }
+int Glyph::GetWidth() const { return this->width; }
+int Glyph::GetHeight() const { return this->height; }
+
+Point Glyph::GetPosition() const { return { this->x, this->y }; }
+
+int Glyph::GetBottomBorder() const noexcept { return this->y + height; }
+int Glyph::GetRightBorder() const noexcept { return this->x + width; }
 
 std::ostream &operator<<(std::ostream& os, const Glyph& glyph) {
     os << "x: " << glyph.x << " y: " << glyph.y << " width: " << glyph.width << " height: " << glyph.height;

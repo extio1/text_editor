@@ -1,8 +1,8 @@
 #include "glyphs/utils/point.h"
 
 
-Point::Point(int _x, int _y): x(_x), y(_y) {}
+Point::Point(int x, int y): x(x), y(y) {}
 
 bool Point::operator==(const Point& p) { 
-    return (x == p.x && y == p.y); 
+    return (this->x == p.x && this->y == p.y); 
 }

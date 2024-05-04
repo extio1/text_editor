@@ -7,7 +7,7 @@ struct Point
     int y = 0;
 
     Point() = default;
-    Point(int _x, int _y);
+    Point(int x, int y);
 
     bool operator==(const Point& p);
 };

@@ -20,11 +20,12 @@ public:
     void Draw() override;
 
     void Add(GlyphPtr glyph) override;
-    void Insert(GlyphPtr glyph, int pos) override;
+    void Insert(GlyphPtr glyph, int index) override;
     virtual void Remove(const GlyphPtr& ptr) = 0;
     void MoveGlyph(int x, int y);
 
-    size_t GetGlyphPosition(const GlyphPtr& glyph);
+    size_t GetGlyphIndex(const GlyphPtr& glyph);
+    Glyph::GlyphPtr GetGlyphByIndex(int index);
     GlyphPtr Find(const Point& point);
 
 protected:
