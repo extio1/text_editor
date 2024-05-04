@@ -3,16 +3,18 @@
 
 #include "executor/command.h"
 
-class InsertSymbol: public Command
+class InsertSymbol: public ReversibleCommand
 {
 public:
     InsertSymbol(int x, int y, int wight, int lenght, char symbol);
 
     InsertSymbol(InsertSymbol&&) = default;
     InsertSymbol& operator=(InsertSymbol&&) = default;
-
+    InsertSymbol(const InsertSymbol&) = delete;
+    InsertSymbol& operator=(const InsertSymbol&) = delete;
 
     void Execute() override;
+    void Unexecute() override;
 
     ~InsertSymbol() override;
 private:
