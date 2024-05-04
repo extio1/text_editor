@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-InsertSymbol::InsertSymbol(int x, int y, int wight, int lenght, char symbol):
+InsertSymbol::InsertSymbol(int x, int y, int wight, int lenght, char symbol) : 
     c(symbol)
 {
     std::cout << "InsertSymbol command creation\n";
@@ -10,10 +10,15 @@ InsertSymbol::InsertSymbol(int x, int y, int wight, int lenght, char symbol):
 
 void InsertSymbol::Execute()
 {
-    std::cout << "InsertSymbol command execution\n";
+    std::cout << c << " execution of InsertSymbol\n";
+}
+
+void InsertSymbol::Unexecute()
+{
+    std::cout << c << " unexecution of InsertSymbol\n";
 }
 
 InsertSymbol::~InsertSymbol()
 {
-    std::cout << c << " InsertSymbol command destruction\n";   
+    std::cout << "InsertSymbol command destruction " << c << "\n";
 }
