@@ -1,9 +1,8 @@
 #include <cstdlib>
 #include <gtest/gtest.h>
 
-#define private public
-#include "glyphs/glyph.h"
 #include "glyphs/character.h"
+#include "glyphs/glyph.h"
 #include "glyphs/row.h"
 
 
@@ -430,3 +429,123 @@ TEST(GlyphContainer_MoveGlyph3, GlyphContainerMoveGlyph_WhenCalled_MoveAllGlyphs
 
     ASSERT_DEATH(rowPtr->MoveGlyph(-2, 1), "Cannot move glyph due to these coordinates");
 }
+
+// -----------------------------Row------------------------------------------------------
+
+TEST(Row_Constructor, RowConstructor_WhenCalled_CreatesEmptyRow) {
+    Row r = Row(1, 2, 3, 4);
+    
+    ASSERT_EQ(r.GetPosition().x, 1);
+    ASSERT_EQ(r.GetPosition().y, 2);
+    ASSERT_EQ(r.GetWidth(), 3);
+    ASSERT_EQ(r.GetHeight(), 4);
+    ASSERT_EQ(r.GetGlyphByIndex(0), nullptr);
+    ASSERT_EQ(r.GetUsedSpace(), 0);
+    ASSERT_EQ(r.GetFreeSpace(), 3);
+}
+
+TEST(Row_Insert1, RowInsertGlyph_WhenCalled_InsertsGlyphInEmptyRowByPosition) {
+    Row r = Row(1, 2, 5, 1);
+    
+    Character c = Character(1, 2, 1, 1, 'A');
+    Glyph::GlyphPtr cPtr = std::make_shared<Character>(c);
+    
+    ASSERT_TRUE(r.Insert(cPtr).size() == 0);
+
+    ASSERT_EQ(r.GetPosition().x, 1);
+    ASSERT_EQ(r.GetPosition().y, 2);
+    ASSERT_EQ(r.GetWidth(), 5);
+    ASSERT_EQ(r.GetHeight(), 1);
+    ASSERT_EQ(r.GetGlyphByIndex(0), cPtr);
+    ASSERT_EQ(r.GetGlyphIndex(cPtr), 0);
+    ASSERT_EQ(r.GetUsedSpace(), 1);
+    ASSERT_EQ(r.GetFreeSpace(), 4);
+    ASSERT_FALSE(r.IsEmpty());
+    ASSERT_FALSE(r.IsFull());
+}
+
+TEST(Row_Insert2, RowInsertGlyphWithTheSameSize_WhenCalled_BecomeFull) {
+    Row r = Row(1, 2, 5, 1);
+    
+    Character c = Character(1, 2, 5, 1, 'A');
+    Glyph::GlyphPtr cPtr = std::make_shared<Character>(c);
+    
+    ASSERT_TRUE(r.Insert(cPtr).size() == 0);
+
+    ASSERT_EQ(r.GetPosition().x, 1);
+    ASSERT_EQ(r.GetPosition().y, 2);
+    ASSERT_EQ(r.GetWidth(), 5);
+    ASSERT_EQ(r.GetHeight(), 1);
+    ASSERT_EQ(r.GetGlyphByIndex(0), cPtr);
+    ASSERT_EQ(r.GetGlyphIndex(cPtr), 0);
+    ASSERT_EQ(r.GetUsedSpace(), 5);
+    ASSERT_EQ(r.GetFreeSpace(), 0);
+    ASSERT_FALSE(r.IsEmpty());
+    ASSERT_TRUE(r.IsFull());
+}
+
+TEST(Row_Insert2, RowInsertBigGlyph_WhenCalled_CannotInsertBigGlyph) {
+    Row r = Row(1, 2, 5, 1);
+    
+    Character c = Character(1, 2, 6, 1, 'A');
+    Glyph::GlyphPtr cPtr = std::make_shared<Character>(c);
+    std::list<Glyph::GlyphPtr> list = r.Insert(cPtr);
+
+    ASSERT_EQ(list.size(), 1);
+    ASSERT_EQ(list.front(), cPtr);
+
+    ASSERT_EQ(r.GetPosition().x, 1);
+    ASSERT_EQ(r.GetPosition().y, 2);
+    ASSERT_EQ(r.GetWidth(), 5);
+    ASSERT_EQ(r.GetHeight(), 1);
+    ASSERT_EQ(r.GetGlyphByIndex(0), nullptr);
+    ASSERT_DEATH(r.GetGlyphIndex(cPtr), "GlyphContainer doesn't contain this glyph");
+    ASSERT_EQ(r.GetUsedSpace(), 0);
+    ASSERT_EQ(r.GetFreeSpace(), 5);
+    ASSERT_TRUE(r.IsEmpty());
+    ASSERT_FALSE(r.IsFull());
+}
+
+// TEST(Row_Remove1, RowRemove_WhenCalled_RemovesGlyphFromRow) {
+//     Character c1 = Character(1, 2, 3, 4, 'A');
+//     Glyph::GlyphPtr c1Ptr = std::make_shared<Character>(c1);
+//     Character c2 = Character(5, 6, 7, 8, 'B');
+//     Glyph::GlyphPtr c2Ptr = std::make_shared<Character>(c2);
+//     GlyphContainer::GlyphList list;
+//     list.push_back(c1Ptr);
+//     list.push_back(c2Ptr);
+
+//     Row r = Row(1, 2, 3, 4, std::move(list));
+//     r.Remove(c1Ptr);
+    
+//     ASSERT_EQ(r.GetPosition().x, 1);
+//     ASSERT_EQ(r.GetPosition().y, 2);
+//     ASSERT_EQ(r.GetWidth(), 3);
+//     ASSERT_EQ(r.GetHeight(), 4);
+//     ASSERT_EQ(r.GetGlyphIndex(c2Ptr), 0);
+//     ASSERT_DEATH(r.GetGlyphIndex(c1Ptr), "GlyphContainer doesn't contain this glyph");
+//     ASSERT_EQ(r.GetGlyphByIndex(0), c2Ptr);
+//     ASSERT_EQ(r.GetGlyphByIndex(1), nullptr);
+// }
+
+// TEST(Row_Remove2, RowRemoveNullPtr_WhenCalled_RemoveNothing) {
+//     Character c1 = Character(1, 2, 3, 4, 'A');
+//     Glyph::GlyphPtr c1Ptr = std::make_shared<Character>(c1);
+//     Character c2 = Character(5, 6, 7, 8, 'B');
+//     Glyph::GlyphPtr c2Ptr = std::make_shared<Character>(c2);
+//     GlyphContainer::GlyphList list;
+//     list.push_back(c1Ptr);
+//     list.push_back(c2Ptr);
+
+//     Row r = Row(1, 2, 3, 4, std::move(list));
+//     r.Remove(nullptr);
+    
+//     ASSERT_EQ(r.GetPosition().x, 1);
+//     ASSERT_EQ(r.GetPosition().y, 2);
+//     ASSERT_EQ(r.GetWidth(), 3);
+//     ASSERT_EQ(r.GetHeight(), 4);
+//     ASSERT_EQ(r.GetGlyphIndex(c1Ptr), 0);
+//     ASSERT_EQ(r.GetGlyphIndex(c2Ptr), 1);
+//     ASSERT_EQ(r.GetGlyphByIndex(0), c1Ptr);
+//     ASSERT_EQ(r.GetGlyphByIndex(1), c2Ptr);
+// }

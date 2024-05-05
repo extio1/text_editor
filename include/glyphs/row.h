@@ -15,13 +15,13 @@ public:
     using RowPtr = std::shared_ptr<Row>;
 
     explicit Row(const int x, const int y, const int width, const int height);
-    Row(const int x, const int y, const int width, const int height, GlyphList&& list);
+
+    GlyphContainer::GlyphList Insert(GlyphPtr& glyph);
+    void Insert(RowPtr& row);
+    void InsertBack(GlyphList&& glyphs);
+    void Insert(int insertPosition, GlyphList&& itemsToInsert);
 
     void Remove(const GlyphPtr& ptr) override;
-
-    void Insert(RowPtr& row);
-    void InsertBack(std::list<GlyphPtr>&& glyphs);
-    void Insert(int insertPosition, std::list<GlyphPtr>&& itemsToInsert);
 
     bool IsEmpty() const;
     bool IsFull() const;
@@ -34,7 +34,7 @@ private:
     int usedWidth = 0;
 
     void Remove(GlyphList::iterator& it);
-    void UpdateRestElements(GlyphList::iterator& it, const int updateValue);
+    void UpdateRestGlyphs(GlyphList::iterator& it, const int updateValue);
 };
 
 #endif  // TEXT_EDITOR_ROW_H_
