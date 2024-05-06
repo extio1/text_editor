@@ -14,8 +14,12 @@ class Document {
 public:
     explicit Document();
 
-    void Insert(Glyph::GlyphPtr glyph);
-    void Remove(Glyph::GlyphPtr glyph);
+    void Insert(Glyph::GlyphPtr& glyph);
+    void Remove(Glyph::GlyphPtr& glyph);
+
+    void SelectGlyphs(GlyphContainer::GlyphList& glyphs);
+    void PasteGlyphs(GlyphContainer::GlyphList& glyphs);
+    void CutGlyphs(GlyphContainer::GlyphList& glyphs);
 
     void SetCurrentPage(Page::PagePtr page);
     Page::PagePtr GetCurrentPage();
@@ -28,8 +32,9 @@ public:
 
 private:
     Page::PagePtr currentPage;
-    GlyphContainer::GlyphList visiblePages;
     GlyphContainer::GlyphList pages;
+
+    GlyphContainer::GlyphList selectedGlyphs;
 };
 
 #endif  // TEXT_EDITOR_DOCUMENT_H_
