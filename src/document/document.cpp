@@ -1,10 +1,10 @@
-#include "document.h"
+#include "document/document.h"
 
 #include <cassert>
 #include <algorithm>
 
-#include "glyphs/glyph.h"
-#include "glyphs/page.h"
+#include "document/glyphs/glyph.h"
+#include "document/glyphs/page.h"
 
 
 Document::Document() {

@@ -1,4 +1,4 @@
-#include "glyphs/monoglyph.h"
+#include "document/glyphs/monoglyph.h"
 
 
 MonoGlyph::MonoGlyph(GlyphPtr glyph) :

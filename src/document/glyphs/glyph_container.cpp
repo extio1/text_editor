@@ -1,11 +1,11 @@
-#include "glyphs/glyph_container.h"
+#include "document/glyphs/glyph_container.h"
 
 #include <cassert>
 
 #include <algorithm>
 #include <iterator>
 
-#include "glyphs/utils/point.h"
+#include "utils/point.h"
 
 
 GlyphContainer::GlyphContainer(const int x, const int y, const int width, const int height):

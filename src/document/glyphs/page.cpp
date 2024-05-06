@@ -1,9 +1,9 @@
-#include "glyphs/page.h"
+#include "document/glyphs/page.h"
 
 #include <cassert>
 #include <algorithm>
 
-#include "document.h"
+#include "document/document.h"
 
 
 int Page::topIndent = 0;

@@ -1,4 +1,4 @@
-#include "glyphs/character.h"
+#include "document/glyphs/character.h"
 
 
 Character::Character(const int x, const int y, const int width, const int height, char c): 

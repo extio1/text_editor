@@ -1,9 +1,9 @@
 #include <cstdlib>
 #include <gtest/gtest.h>
 
-#include "glyphs/character.h"
-#include "glyphs/glyph.h"
-#include "glyphs/row.h"
+#include "document/glyphs/character.h"
+#include "document/glyphs/glyph.h"
+#include "document/glyphs/row.h"
 
 
 //----------------------------------------Glyph---------------------------------------------------

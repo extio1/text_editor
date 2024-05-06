@@ -2,7 +2,7 @@
 #include <numeric>
 #include <optional>
 
-#include "glyphs/column.h"
+#include "document/glyphs/column.h"
 
 
 Column::Column(const int x, const int y, const int width, const int height): GlyphContainer(x, y, width, height) {}

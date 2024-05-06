@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.14)
-project(text_editor)
+project(text_editor_project)
 
 # GoogleTest requires at least C++14
 set(CMAKE_CXX_STANDARD 14)
@@ -14,23 +14,28 @@ FetchContent_MakeAvailable(googletest)
 
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 
-file(GLOB_RECURSE sources CONFIGURE_DEPENDS "src/*")
-file(GLOB_RECURSE headers CONFIGURE_DEPENDS "include/*")
-file(GLOB_RECURSE tests CONFIGURE_DEPENDS "test/*")
+set(include_dir ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
-add_library(text_editor_lib SHARED ${sources} ${headers})
-target_include_directories(text_editor_lib PUBLIC include)
-target_compile_options(text_editor_lib PRIVATE -Wall -Wextra -Wconversion -pedantic -g)
+set(test_dir ${CMAKE_CURRENT_SOURCE_DIR}/test)
 
-add_executable(text_editor "main.cpp")
-target_include_directories(text_editor PUBLIC include)
-target_link_libraries(text_editor text_editor_lib)
-target_compile_options(text_editor PRIVATE -Wall -Wextra -Wconversion -pedantic -g)
+add_subdirectory(src)
 
-add_executable(text_editor_test ${tests})
-target_include_directories(text_editor_test PUBLIC include)
-target_link_libraries(text_editor_test text_editor_lib GTest::gtest_main)
-target_compile_options(text_editor_test PRIVATE -Wall -Wextra -Wconversion -pedantic -g)
 
-include(GoogleTest)
-gtest_discover_tests(text_editor_test)
+set(target text_editor)
+set(target_test text_editor_test)
+
+add_executable(${target} main.cpp)
+target_include_directories(${target} PUBLIC ${include_dir})
+
+add_executable(${target_test} ${test_dir}/text_editor_tests.cpp)
+target_include_directories(${target_test} PUBLIC ${include_dir})
+
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+    target_compile_options(${target} PRIVATE -Wall -Wextra -Wconversion -pedantic -g)
+endif()
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+    target_compile_options(${target_test} PRIVATE -Wall -Wextra -Wconversion -pedantic -g)
+endif()
+
+target_link_libraries(${target} document point)
+target_link_libraries(${target_test} document point GTest::gtest_main)

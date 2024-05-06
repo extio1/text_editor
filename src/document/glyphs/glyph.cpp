@@ -1,8 +1,8 @@
-#include "glyphs/glyph.h"
+#include "document/glyphs/glyph.h"
 
 #include <cassert>
 
-#include "glyphs/utils/point.h"
+#include "utils/point.h"
 
 
 Glyph::Glyph(const int x, const int y, const int width, const int height) : 
