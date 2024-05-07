@@ -43,4 +43,4 @@ jobs:
         scandir: '.'
         excludedirs: 'build, test'
         extensions: 'c,h,C,H,cpp,hpp,cc,hh,c++,h++,cxx,hxx'
-        style: 'google'
+        style: 'file'
