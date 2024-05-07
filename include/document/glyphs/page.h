@@ -6,8 +6,8 @@
 #include "glyph_container.h"
 #include "row.h"
 
-class Page: public GlyphContainer {
-public:    
+class Page : public GlyphContainer {
+   public:
     using PagePtr = std::shared_ptr<Page>;
 
     explicit Page(const int x, const int y, const int width, const int height);
@@ -33,22 +33,22 @@ public:
     void Insert(GlyphPtr glyph, int position) override;
     void Remove(const GlyphPtr& ptr) override;
 
-private:
+   private:
     static int topIndent;
     static int botIndent;
     static int leftIndent;
     static int rightIndent;
-    static const int charHeight; //replace
-    static const int charWidth; //replace
+    static const int charHeight;  // replace
+    static const int charWidth;   // replace
     Column::ColumnPtr currentColumn;
     Row::RowPtr currentRow;
 
     void Remove(GlyphList::iterator& it);
     void MoveLeftColumns(GlyphList::iterator colIt);
     Column::ColumnPtr GetPreviousColumn();
-    Column::ColumnPtr GetPreviousColumn(Glyph::GlyphPtr &column);
+    Column::ColumnPtr GetPreviousColumn(Glyph::GlyphPtr& column);
     Column::ColumnPtr GetNextColumn();
-    Column::ColumnPtr GetNextColumn(Glyph::GlyphPtr &column);
+    Column::ColumnPtr GetNextColumn(Glyph::GlyphPtr& column);
     Column::ColumnPtr GetLastColumn();
 };
 

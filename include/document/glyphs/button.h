@@ -5,32 +5,32 @@
 
 #include "glyph.h"
 
-
-class Button: public Glyph
-{
-public:
+class Button : public Glyph {
+   public:
     /**
-     * @brief           Creates a button with the specified parameters and name. 
+     * @brief           Creates a button with the specified parameters and name.
      * @param x         Horizontal coordinate.
      * @param x         Vertical coordinate.
      * @param width     Button width.
      * @param height    Button height.
-     * @param name      The name of the button can be displayed on the button itself or used for identification.
+     * @param name      The name of the button can be displayed on the button
+     * itself or used for identification.
      */
-    explicit Button(const int x, const int y, const int width, const int height, const std::string& name);
-    
+    explicit Button(const int x, const int y, const int width, const int height,
+                    const std::string& name);
+
     void Draw() override;
-    
+
     void Add(GlyphPtr) override {}
-    
+
     void Insert(GlyphPtr, int) {}
-    
+
     /**
-     * @brief           Returns whether the button is pressed. 
+     * @brief           Returns whether the button is pressed.
      */
     bool IsPressed() const;
 
-private:
+   private:
     std::string name;
     bool isPressed = false;
 };

@@ -1,8 +1,7 @@
 #ifndef TEXT_EDITOR_POINT_H_
 #define TEXT_EDITOR_POINT_H_
 
-struct Point
-{
+struct Point {
     int x = 0;
     int y = 0;
 

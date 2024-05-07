@@ -4,16 +4,15 @@
 #include "glyph.h"
 #include "utils/point.h"
 
-
 /**
- * The class is a glyph that stores a reference to the only component to which all
- * requests are forwarded.
+ * The class is a glyph that stores a reference to the only component to which
+ * all requests are forwarded.
  */
-class MonoGlyph: public Glyph {
-public:
-
+class MonoGlyph : public Glyph {
+   public:
     /**
-     * @brief           Creates a glyph that stores a single glyph inside itself.
+     * @brief           Creates a glyph that stores a single glyph inside
+     * itself.
      * @param glyph     A two-dimensional point.
      */
     explicit MonoGlyph(GlyphPtr glyph);
@@ -24,7 +23,7 @@ public:
     void Add(GlyphPtr glyph) override;
     void Insert(GlyphPtr glyph, int pos) override;
 
-protected:
+   protected:
     GlyphPtr component;
 };
 

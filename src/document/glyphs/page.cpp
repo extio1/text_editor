@@ -1,27 +1,26 @@
 #include "document/glyphs/page.h"
 
-#include <cassert>
 #include <algorithm>
+#include <cassert>
 
 #include "document/document.h"
-
 
 int Page::topIndent = 0;
 int Page::botIndent = 0;
 int Page::leftIndent = 0;
 int Page::rightIndent = 0;
-const int Page::charHeight = 1; //temporary
-const int Page::charWidth = 1; //temporary
+const int Page::charHeight = 1;  // temporary
+const int Page::charWidth = 1;   // temporary
 
-Page::Page(const int x, const int y, const int width, const int height): 
-GlyphContainer(x, y, width, height) {
-    currentColumn = std::make_shared<Column>(
-        x + leftIndent, y + topIndent,
-            width - leftIndent - rightIndent, height - topIndent - botIndent);
+Page::Page(const int x, const int y, const int width, const int height)
+    : GlyphContainer(x, y, width, height) {
+    currentColumn = std::make_shared<Column>(x + leftIndent, y + topIndent,
+                                             width - leftIndent - rightIndent,
+                                             height - topIndent - botIndent);
     GlyphContainer::Add(currentColumn);
     currentRow = std::make_shared<Row>(
         x + leftIndent + charWidth, y + topIndent + charHeight,
-            width - leftIndent - rightIndent, charHeight);
+        width - leftIndent - rightIndent, charHeight);
     GlyphList list;
     list.push_back(currentRow);
     currentColumn->InsertBack(std::move(list));
@@ -33,13 +32,11 @@ void Page::Draw() {
 }
 
 bool Page::IsBottomRow(const GlyphPtr& row) const {
-    return row->GetBottomBorder() + charHeight >
-        y + height - botIndent;
+    return row->GetBottomBorder() + charHeight > y + height - botIndent;
 }
 
 bool Page::IsRightColumn(const GlyphPtr& column) const {
-    return column->GetRightBorder() + charWidth >
-        x + width - rightIndent;
+    return column->GetRightBorder() + charWidth > x + width - rightIndent;
 }
 
 Row::RowPtr Page::GetFirstRow() {
@@ -50,28 +47,27 @@ Column::ColumnPtr Page::GetFirstColumn() {
     return std::static_pointer_cast<Column>(components.front());
 }
 
-void Page::SetCurrentRow(Row::RowPtr row) {
-    currentRow = std::move(row);
-}
+void Page::SetCurrentRow(Row::RowPtr row) { currentRow = std::move(row); }
 
 void Page::SetCurrentColumn(Column::ColumnPtr column) {
     currentColumn = std::move(column);
 }
 
-bool Page::IsEmpty() const { 
-    return components.empty();
-}
+bool Page::IsEmpty() const { return components.empty(); }
 
 bool Page::IsFull() const {
-    return components.back()->GetPosition().x + charWidth >= GetRightBorder() - rightIndent;
+    return components.back()->GetPosition().x + charWidth >=
+           GetRightBorder() - rightIndent;
 }
 
 bool Page::RowCanBeAdded(int height) const {
-    return currentColumn->GetLastGlyph()->GetBottomBorder() + height < GetBottomBorder() - botIndent;
+    return currentColumn->GetLastGlyph()->GetBottomBorder() + height <
+           GetBottomBorder() - botIndent;
 }
 
 bool Page::ColumnCanBeAdded(int width) const {
-    return components.back()->GetRightBorder() + width < GetRightBorder() - rightIndent;
+    return components.back()->GetRightBorder() + width <
+           GetRightBorder() - rightIndent;
 }
 
 Row::RowPtr Page::RemoveFirstRow() {
@@ -87,8 +83,10 @@ Row::RowPtr Page::RemoveFirstRow() {
     // it can be useless(?)
     // if (isFull) {
     //     auto nextPage = parent->GetNextPage(this);
-    //     auto newLastRow = nextPage->RemoveFirstRow(); //should take the same column, not current on that page - to fix
-    //     newLastRow->SetPosition(newLastRow->GetPosition().x, currentColumn->GetLastGlyph()->GetBottomBorder());
+    //     auto newLastRow = nextPage->RemoveFirstRow(); //should take the same
+    //     column, not current on that page - to fix
+    //     newLastRow->SetPosition(newLastRow->GetPosition().x,
+    //     currentColumn->GetLastGlyph()->GetBottomBorder());
     //     currentColumn->Add(newLastRow);
     // }
 
@@ -99,7 +97,8 @@ Column::ColumnPtr Page::RemoveFirstColumn() {
     auto result = std::static_pointer_cast<Column>(components.front());
     currentColumn = result;
 
-    currentColumn->ClearGlyph();;
+    currentColumn->ClearGlyph();
+    ;
     // auto isFull = IsFull();
     components.pop_front();
 
@@ -130,7 +129,7 @@ void Page::Remove(const GlyphPtr& ptr) {
 void Page::Remove(GlyphContainer::GlyphList::iterator& it) {
     auto columnWidth = (*it)->GetWidth();
     it = components.erase(it);
-    for(; it != components.end(); ++it) {
+    for (; it != components.end(); ++it) {
         auto& nextColumn = (*it);
         nextColumn->SetPosition({nextColumn->GetPosition().x - columnWidth, y});
     }
@@ -138,7 +137,7 @@ void Page::Remove(GlyphContainer::GlyphList::iterator& it) {
 }
 
 void Page::MoveLeftColumns(GlyphList::iterator colIt) {
-    for(; colIt != components.end(); ++colIt) {
+    for (; colIt != components.end(); ++colIt) {
         auto& column = *colIt;
         column->ClearGlyph();
         column->MoveGlyph(0, -currentColumn->GetWidth());
@@ -147,7 +146,8 @@ void Page::MoveLeftColumns(GlyphList::iterator colIt) {
 }
 
 Column::ColumnPtr Page::GetPreviousColumn() {
-    auto columnIt = std::find(components.begin(), components.end(), currentColumn);
+    auto columnIt =
+        std::find(components.begin(), components.end(), currentColumn);
     return std::static_pointer_cast<Column>(*(std::prev(columnIt)));
 }
 
@@ -157,7 +157,8 @@ Column::ColumnPtr Page::GetPreviousColumn(Glyph::GlyphPtr& column) {
 }
 
 Column::ColumnPtr Page::GetNextColumn() {
-    auto columnIt = std::find(components.begin(), components.end(), currentColumn);
+    auto columnIt =
+        std::find(components.begin(), components.end(), currentColumn);
     return std::static_pointer_cast<Column>(*std::next(columnIt));
 }
 

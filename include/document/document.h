@@ -6,41 +6,43 @@
 #include "glyphs/glyph.h"
 #include "glyphs/page.h"
 
-
 const int pageWidth = 500;
 const int pageHeight = 1000;
 
 class Document {
-public:
+   public:
     explicit Document();
 
     /**
-     * @brief           Inserts glyph into the document due to its position. 
+     * @brief           Inserts glyph into the document due to its position.
      * @param glyph     Pointer to the glyph.
      */
     void Insert(Glyph::GlyphPtr& glyph);
 
     /**
-     * @brief           Remove glyph from the document by pointer. 
+     * @brief           Remove glyph from the document by pointer.
      * @param glyph     Pointer to the glyph.
      */
     void Remove(Glyph::GlyphPtr& glyph);
 
     /**
-     * @brief           Saves selected glyphs from the document to the buffer of selected glyphs. 
+     * @brief           Saves selected glyphs from the document to the buffer of
+     * selected glyphs.
      * @param glyphs    Pointer to the list of glyphs.
      */
     void SelectGlyphs(GlyphContainer::GlyphList& glyphs);
 
     /**
-     * @brief           Inserts glyphs from the buffer of selected glyphs into the document by the position. 
+     * @brief           Inserts glyphs from the buffer of selected glyphs into
+     * the document by the position.
      * @param x         Horizontal coordinate.
      * @param y         Vertical coordinate.
      */
     void PasteGlyphs(int x, int y);
 
     /**
-     * @brief           Removes selected glyphs from the document and saves them to the selected buffer. 
+     * @brief           Removes selected glyphs from the document and saves them
+     * to the selected buffer.
      * @param glyphs    Pointer to the list of glyphs.
      */
     void CutGlyphs(GlyphContainer::GlyphList& glyphs);
@@ -55,7 +57,7 @@ public:
     void AddPage(const Glyph::GlyphPtr& page);
     Page::PagePtr GetNextPage(const Page* page);
 
-private:
+   private:
     Page::PagePtr currentPage;
     GlyphContainer::GlyphList pages;
 
