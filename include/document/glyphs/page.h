@@ -6,7 +6,6 @@
 #include "glyph_container.h"
 #include "row.h"
 
-
 class Page: public GlyphContainer {
 public:    
     using PagePtr = std::shared_ptr<Page>;
