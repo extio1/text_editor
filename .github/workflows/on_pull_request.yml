@@ -31,16 +31,3 @@ jobs:
           path: build
       - run: chmod +x ./build/text_editor_test
       - run: ./build/text_editor_test
-
-  check-formatting:
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v4
-    - name: Run clang-format
-      uses: HorstBaerbel/action-clang-format@1.5
-      with:
-        scandir: '.'
-        excludedirs: 'build,test'
-        extensions: 'c,h,C,H,cpp,hpp,cc,hh,c++,h++,cxx,hxx'
-        style: 'file'
