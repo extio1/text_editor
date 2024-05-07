@@ -1,0 +1,11 @@
+#!/bin/bash
+
+for file in `find ../include -type f | grep -i -E '\.(cpp|h|c|hpp)$'`; do
+    clang-format -style=file -i ${file}
+    echo ${file} ": formatted"
+done 
+
+for file in `find ../src -type f | grep -i -E '\.(cpp|h|c|hpp)$'`; do
+    clang-format -style=file -i ${file}
+    echo ${file} ": formatted"
+done 
