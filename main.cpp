@@ -108,6 +108,7 @@ int main() {
     if (columnPtr) columnPtr->Draw();
 
     Character ch = Character(1, 1, 1, 1, 'O');
-    doc.Insert(std::make_shared<Character>(ch));
+    Glyph::GlyphPtr chPtr = std::make_shared<Character>(ch);
+    doc.Insert(chPtr);
     return 0;
 }

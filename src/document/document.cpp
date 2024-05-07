@@ -10,7 +10,6 @@
 Document::Document() {
     currentPage = std::make_shared<Page>(0, 0, pageWidth, pageHeight);
     pages.push_back(currentPage);
-    visiblePages.push_back(currentPage);
 }
 
 void Document::Insert(Glyph::GlyphPtr& glyph) {
@@ -34,6 +33,10 @@ Page::PagePtr Document::GetCurrentPage() {
 
 size_t Document::GetPageCount() const {
     return pages.size();
+}
+
+size_t Document::GetPageWidth() const {
+    return pageWidth;
 }
 
 size_t Document::GetPageHeight() const {

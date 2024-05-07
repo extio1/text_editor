@@ -15,8 +15,14 @@ class Column: public GlyphContainer {
 public:
     using ColumnPtr = std::shared_ptr<Column>;
     
+    /**
+     * @brief           Creates a column with the specified parameters. 
+     * @param x         Horizontal coordinate.
+     * @param x         Vertical coordinate.
+     * @param width     Column width.
+     * @param height    Column height.
+     */
     explicit Column(const int x, const int y, const int width, const int height);
-    Column(const int x, const int y, const int width, const int height, GlyphList&& list);
 
     void Remove(const GlyphPtr& ptr) override;
 
@@ -26,8 +32,19 @@ public:
 
     bool IsEmpty() const;
     bool IsFull() const;
+
+    /**
+     * @brief           Calculates and returns the amount of free space by height.
+     * @return          The total height of the free space.
+     */
     int GetFreeSpace() const;
+
+    /**
+     * @brief           Calculates and returns the amount of used space by height.
+     * @return          The total height of the used space.
+     */
     int GetUsedSpace() const;
+    
     GlyphPtr GetFirstGlyph() const;
     GlyphPtr GetLastGlyph() const;
 

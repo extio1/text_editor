@@ -7,11 +7,6 @@
 
 Column::Column(const int x, const int y, const int width, const int height): GlyphContainer(x, y, width, height) {}
 
-Column::Column(const int x, const int y, const int width, const int height, GlyphContainer::GlyphList&& list):
-    GlyphContainer(x, y, width, height){
-    Insert(0, std::move(list));
-}
-
 void Column::Remove(const GlyphPtr& ptr) {
     auto it = std::find(components.begin(), components.end(), ptr);
     if (it != components.end()) {

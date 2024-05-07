@@ -24,8 +24,22 @@ public:
     explicit Glyph(const int x, const int y, const int width, const int height);
     virtual ~Glyph() = default;
 
+    /**
+     * @brief           Calls a method from the GUI to render itself.
+     * @param window    Window param will be added.
+     */
     virtual void Draw() = 0;
+
+    /**
+     * @brief           Redraws itself.
+     * @param window    Window param will be added.
+     */
     virtual void ReDraw();
+
+    /**
+     * @brief           Calls a method from the GUI to clear the area occupied by the glyph.
+     * @param window    Window param will be added.
+     */
     void ClearGlyph();
 
     /**

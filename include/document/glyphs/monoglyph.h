@@ -12,6 +12,10 @@
 class MonoGlyph: public Glyph {
 public:
 
+    /**
+     * @brief           Creates a glyph that stores a single glyph inside itself.
+     * @param glyph     A two-dimensional point.
+     */
     explicit MonoGlyph(GlyphPtr glyph);
     ~MonoGlyph() override = default;
 
