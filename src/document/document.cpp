@@ -18,7 +18,7 @@ void Document::Insert(Glyph::GlyphPtr& glyph) {
     glyph->Draw();
 }
 
-Glyph::GlyphPtr Document::Remove(Glyph::GlyphPtr& glyph) {
+void Document::Remove(Glyph::GlyphPtr& glyph) {
     // TO DO
 }
 
