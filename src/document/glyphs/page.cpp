@@ -23,7 +23,7 @@ Page::Page(const int x, const int y, const int width, const int height)
         width - leftIndent - rightIndent, charHeight);
     GlyphList list;
     list.push_back(currentRow);
-    currentColumn->InsertBack(std::move(list));
+    // currentColumn->InsertBack(std::move(list));
 }
 
 void Page::Draw() {
@@ -39,9 +39,9 @@ bool Page::IsRightColumn(const GlyphPtr& column) const {
     return column->GetRightBorder() + charWidth > x + width - rightIndent;
 }
 
-Row::RowPtr Page::GetFirstRow() {
-    return std::static_pointer_cast<Row>(currentColumn->GetFirstGlyph());
-}
+// Row::RowPtr Page::GetFirstRow() {
+//     return std::static_pointer_cast<Row>(currentColumn);//
+// }
 
 Column::ColumnPtr Page::GetFirstColumn() {
     return std::static_pointer_cast<Column>(components.front());
@@ -61,8 +61,9 @@ bool Page::IsFull() const {
 }
 
 bool Page::RowCanBeAdded(int height) const {
-    return currentColumn->GetLastGlyph()->GetBottomBorder() + height <
-           GetBottomBorder() - botIndent;
+    // return currentColumn->GetLastGlyph()->GetBottomBorder() + height <
+    //    GetBottomBorder() - botIndent;
+    return false;
 }
 
 bool Page::ColumnCanBeAdded(int width) const {
@@ -70,28 +71,29 @@ bool Page::ColumnCanBeAdded(int width) const {
            GetRightBorder() - rightIndent;
 }
 
-Row::RowPtr Page::RemoveFirstRow() {
-    auto result = std::static_pointer_cast<Row>(currentColumn->GetFirstGlyph());
-    currentRow = result;
+// Row::RowPtr Page::RemoveFirstRow() {
+//     auto result = std::static_pointer_cast<Row>(currentColumn);
+//     currentRow = result;
 
-    currentRow->ClearGlyph();
-    // auto isFull = IsFull();
-    currentColumn->Remove(currentColumn->GetFirstGlyph());
+//     currentRow->ClearGlyph();
+//     // auto isFull = IsFull();
+//     currentColumn->Remove(currentColumn);
 
-    currentColumn->MoveUpRows(currentRow->GetHeight());
+//     // currentColumn->MoveUpRows(currentRow->GetHeight());
 
-    // it can be useless(?)
-    // if (isFull) {
-    //     auto nextPage = parent->GetNextPage(this);
-    //     auto newLastRow = nextPage->RemoveFirstRow(); //should take the same
-    //     column, not current on that page - to fix
-    //     newLastRow->SetPosition(newLastRow->GetPosition().x,
-    //     currentColumn->GetLastGlyph()->GetBottomBorder());
-    //     currentColumn->Add(newLastRow);
-    // }
+//     // it can be useless(?)
+//     // if (isFull) {
+//     //     auto nextPage = parent->GetNextPage(this);
+//     //     auto newLastRow = nextPage->RemoveFirstRow(); //should take the
+//     same
+//     //     column, not current on that page - to fix
+//     //     newLastRow->SetPosition(newLastRow->GetPosition().x,
+//     //     currentColumn->GetLastGlyph()->GetBottomBorder());
+//     //     currentColumn->Add(newLastRow);
+//     // }
 
-    return std::static_pointer_cast<Row>(result);
-}
+//     return std::static_pointer_cast<Row>(result);
+// }
 
 Column::ColumnPtr Page::RemoveFirstColumn() {
     auto result = std::static_pointer_cast<Column>(components.front());

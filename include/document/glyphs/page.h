@@ -17,7 +17,7 @@ class Page : public GlyphContainer {
     bool IsBottomRow(const GlyphPtr&) const;
     bool IsRightColumn(const GlyphPtr&) const;
 
-    Row::RowPtr GetFirstRow();
+    // Row::RowPtr GetFirstRow();
     Column::ColumnPtr GetFirstColumn();
     void SetCurrentRow(Row::RowPtr row);
     void SetCurrentColumn(Column::ColumnPtr column);

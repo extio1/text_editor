@@ -51,8 +51,6 @@ class Row : public GlyphContainer {
 
    private:
     int usedWidth = 0;
-
-    void Remove(GlyphList::iterator& it);
 };
 
 #endif  // TEXT_EDITOR_ROW_H_
