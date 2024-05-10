@@ -22,8 +22,9 @@ class Document {
     /**
      * @brief           Remove glyph from the document by pointer.
      * @param glyph     Pointer to the glyph.
+     * @return          Pointer to the removed glyph for saving it inside the command.
      */
-    void Remove(Glyph::GlyphPtr& glyph);
+    Glyph::GlyphPtr Remove(Glyph::GlyphPtr& glyph);
 
     /**
      * @brief           Saves selected glyphs from the document to the buffer of
