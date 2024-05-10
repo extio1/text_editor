@@ -3,10 +3,12 @@
 #include <algorithm>
 #include <cassert>
 
+#include "compositor/simple_compositor/simple_compositor.h"
 #include "document/glyphs/glyph.h"
 #include "document/glyphs/page.h"
 
 Document::Document() {
+    // compositor = std::make_shared<Compositor>(SimpleCompositor());
     currentPage = std::make_shared<Page>(0, 0, pageWidth, pageHeight);
     pages.push_back(currentPage);
 }
@@ -19,7 +21,8 @@ void Document::Insert(Glyph::GlyphPtr& glyph) {
 }
 
 void Document::Remove(Glyph::GlyphPtr& glyph) {
-    // TO DO
+    // what if this glyph is not from current page ????
+    currentPage->Remove(glyph);
 }
 
 void Document::SetCurrentPage(Page::PagePtr page) {

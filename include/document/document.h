@@ -3,6 +3,7 @@
 
 #include <functional>
 
+#include "compositor/compositor.h"
 #include "glyphs/glyph.h"
 #include "glyphs/page.h"
 
@@ -58,6 +59,7 @@ class Document {
     Page::PagePtr GetNextPage(const Page* page);
 
    private:
+    std::shared_ptr<Compositor> compositor;
     Page::PagePtr currentPage;
     GlyphContainer::GlyphList pages;
 
