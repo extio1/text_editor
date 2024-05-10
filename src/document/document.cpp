@@ -12,9 +12,9 @@ Document::Document() {
 }
 
 void Document::Insert(Glyph::GlyphPtr& glyph) {
-    // currentPage.Insert(glyph);
-    // TO DO
     std::cout << "Document::Insert() ";
+    currentPage->Insert(glyph);
+    // compositor.Compose();
     glyph->Draw();
 }
 

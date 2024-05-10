@@ -22,8 +22,9 @@ class Character : public Glyph {
     ~Character() {}
     void Draw() override;
 
-    void Insert(GlyphPtr, int) {}
-    void Add(GlyphPtr) {}
+    void Insert(GlyphPtr& glyph) override {}
+    void Remove(const GlyphPtr& glyph) override {}
+    void Add(GlyphPtr) override {}
 
     void SetChar(char c);
     char GetChar() const;

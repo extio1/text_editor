@@ -21,9 +21,9 @@ class Button : public Glyph {
 
     void Draw() override;
 
+    void Insert(GlyphPtr& glyph) override {}
+    void Remove(const GlyphPtr& glyph) override {}
     void Add(GlyphPtr) override {}
-
-    void Insert(GlyphPtr, int) {}
 
     /**
      * @brief           Returns whether the button is pressed.

@@ -17,7 +17,12 @@ void MonoGlyph::Add(GlyphPtr glyph) {
     component->Add(glyph);
 }
 
-void MonoGlyph::Insert(GlyphPtr glyph, int pos) {
+void MonoGlyph::Insert(GlyphPtr& glyph) {
     std::cout << "Monoglyph::Insert()" << std::endl;
-    component->Insert(glyph, pos);
+    component->Insert(glyph);
+}
+
+void MonoGlyph::Remove(const GlyphPtr& glyph) {
+    std::cout << "Monoglyph::Remove()" << std::endl;
+    component->Remove(glyph);
 }

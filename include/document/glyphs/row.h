@@ -28,9 +28,8 @@ class Row : public GlyphContainer {
      * @param glyph     Pointer to the glyph.
      */
     void Insert(GlyphPtr& glyph);
-    ;
 
-    void Remove(const GlyphPtr& ptr) override;
+    void Remove(const GlyphPtr& glyph) override;
 
     bool IsEmpty() const;
     bool IsFull() const;

@@ -358,83 +358,83 @@ TEST(GlyphContainer_Add1, GlyphContainerAdd_WhenCalled_AddsGlyph) {
     ASSERT_EQ(rowPtr->GetGlyphIndex(cPtr), 0);
 }
 
-TEST(GlyphContainer_Insert1,
-     GlyphContainerInsert_WhenCalled_InsertsGlyphByPosition) {
-    Row r = Row(1, 2, 3, 4);
-    std::shared_ptr<GlyphContainer> rowPtr = std::make_shared<Row>(r);
-    Character c = Character(1, 2, 3, 4, 'A');
-    Glyph::GlyphPtr cPtr = std::make_shared<Character>(c);
-    rowPtr->Insert(cPtr, 0);
+// TEST(GlyphContainer_Insert1,
+//      GlyphContainerInsert_WhenCalled_InsertsGlyphByPosition) {
+//     Row r = Row(1, 2, 3, 4);
+//     std::shared_ptr<GlyphContainer> rowPtr = std::make_shared<Row>(r);
+//     Character c = Character(1, 2, 3, 4, 'A');
+//     Glyph::GlyphPtr cPtr = std::make_shared<Character>(c);
+//     rowPtr->Insert(cPtr, 0);
 
-    ASSERT_EQ(rowPtr->GetGlyphIndex(cPtr), 0);
-}
+//     ASSERT_EQ(rowPtr->GetGlyphIndex(cPtr), 0);
+// }
 
-TEST(GlyphContainer_Insert2,
-     GlyphContainerInsert_WhenCalled_InsertsGlyphByPosition) {
-    Row r = Row(1, 2, 3, 4);
-    std::shared_ptr<GlyphContainer> rowPtr = std::make_shared<Row>(r);
-    Character c = Character(1, 2, 3, 4, 'A');
-    Glyph::GlyphPtr cPtr = std::make_shared<Character>(c);
-    rowPtr->Insert(cPtr, 3);
+// TEST(GlyphContainer_Insert2,
+//      GlyphContainerInsert_WhenCalled_InsertsGlyphByPosition) {
+//     Row r = Row(1, 2, 3, 4);
+//     std::shared_ptr<GlyphContainer> rowPtr = std::make_shared<Row>(r);
+//     Character c = Character(1, 2, 3, 4, 'A');
+//     Glyph::GlyphPtr cPtr = std::make_shared<Character>(c);
+//     rowPtr->Insert(cPtr, 3);
 
-    ASSERT_EQ(rowPtr->GetGlyphIndex(cPtr), 0);
-}
+//     ASSERT_EQ(rowPtr->GetGlyphIndex(cPtr), 0);
+// }
 
-TEST(GlyphContainer_Insert3,
-     GlyphContainerInsert_WhenCalled_InsertsGlyphByPosition) {
-    Row r = Row(1, 2, 3, 4);
-    std::shared_ptr<GlyphContainer> rowPtr = std::make_shared<Row>(r);
-    Character c1 = Character(1, 2, 3, 4, 'A');
-    Glyph::GlyphPtr c1Ptr = std::make_shared<Character>(c1);
-    Character c2 = Character(1, 2, 3, 4, 'A');
-    Glyph::GlyphPtr c2Ptr = std::make_shared<Character>(c2);
-    Character c3 = Character(1, 2, 3, 4, 'A');
-    Glyph::GlyphPtr c3Ptr = std::make_shared<Character>(c3);
-    rowPtr->Insert(c1Ptr, 0);
-    rowPtr->Insert(c2Ptr, 1);
-    rowPtr->Insert(c3Ptr, 1);
+// TEST(GlyphContainer_Insert3,
+//      GlyphContainerInsert_WhenCalled_InsertsGlyphByPosition) {
+//     Row r = Row(1, 2, 3, 4);
+//     std::shared_ptr<GlyphContainer> rowPtr = std::make_shared<Row>(r);
+//     Character c1 = Character(1, 2, 3, 4, 'A');
+//     Glyph::GlyphPtr c1Ptr = std::make_shared<Character>(c1);
+//     Character c2 = Character(1, 2, 3, 4, 'A');
+//     Glyph::GlyphPtr c2Ptr = std::make_shared<Character>(c2);
+//     Character c3 = Character(1, 2, 3, 4, 'A');
+//     Glyph::GlyphPtr c3Ptr = std::make_shared<Character>(c3);
+//     rowPtr->Insert(c1Ptr, 0);
+//     rowPtr->Insert(c2Ptr, 1);
+//     rowPtr->Insert(c3Ptr, 1);
 
-    ASSERT_EQ(rowPtr->GetGlyphIndex(c1Ptr), 0);
-    ASSERT_EQ(rowPtr->GetGlyphIndex(c2Ptr), 2);
-    ASSERT_EQ(rowPtr->GetGlyphIndex(c3Ptr), 1);
-}
+//     ASSERT_EQ(rowPtr->GetGlyphIndex(c1Ptr), 0);
+//     ASSERT_EQ(rowPtr->GetGlyphIndex(c2Ptr), 2);
+//     ASSERT_EQ(rowPtr->GetGlyphIndex(c3Ptr), 1);
+// }
 
-TEST(GlyphContainer_Insert4, GlyphContainerInsert_WhenCalled_AssertFailed) {
-    Row r = Row(1, 2, 3, 4);
-    std::shared_ptr<GlyphContainer> rowPtr = std::make_shared<Row>(r);
-    Character c = Character(1, 2, 3, 4, 'A');
-    Glyph::GlyphPtr cPtr = std::make_shared<Character>(c);
+// TEST(GlyphContainer_Insert4, GlyphContainerInsert_WhenCalled_AssertFailed) {
+//     Row r = Row(1, 2, 3, 4);
+//     std::shared_ptr<GlyphContainer> rowPtr = std::make_shared<Row>(r);
+//     Character c = Character(1, 2, 3, 4, 'A');
+//     Glyph::GlyphPtr cPtr = std::make_shared<Character>(c);
 
-    ASSERT_DEATH(rowPtr->Insert(cPtr, -1),
-                 "Invalid position for inserting glyph");
-}
+//     ASSERT_DEATH(rowPtr->Insert(cPtr, -1),
+//                  "Invalid position for inserting glyph");
+// }
 
-TEST(GlyphContainer_MoveGlyph1,
-     GlyphContainerMoveGlyph_WhenCalled_MoveAllGlyphsInComponents) {
-    Row r = Row(1, 2, 3, 4);
-    std::shared_ptr<GlyphContainer> rowPtr = std::make_shared<Row>(r);
-    Character c1 = Character(1, 2, 3, 4, 'A');
-    Glyph::GlyphPtr c1Ptr = std::make_shared<Character>(c1);
-    Character c2 = Character(5, 6, 7, 8, 'B');
-    Glyph::GlyphPtr c2Ptr = std::make_shared<Character>(c2);
-    rowPtr->Insert(c1Ptr, 0);
-    rowPtr->Insert(c2Ptr, 1);
+// TEST(GlyphContainer_MoveGlyph1,
+//      GlyphContainerMoveGlyph_WhenCalled_MoveAllGlyphsInComponents) {
+//     Row r = Row(1, 2, 3, 4);
+//     std::shared_ptr<GlyphContainer> rowPtr = std::make_shared<Row>(r);
+//     Character c1 = Character(1, 2, 3, 4, 'A');
+//     Glyph::GlyphPtr c1Ptr = std::make_shared<Character>(c1);
+//     Character c2 = Character(5, 6, 7, 8, 'B');
+//     Glyph::GlyphPtr c2Ptr = std::make_shared<Character>(c2);
+//     rowPtr->Insert(c1Ptr, 0);
+//     rowPtr->Insert(c2Ptr, 1);
 
-    rowPtr->MoveGlyph(1, 2);
+//     rowPtr->MoveGlyph(1, 2);
 
-    Glyph::GlyphPtr c1PtrNew = rowPtr->GetGlyphByIndex(0);
-    Glyph::GlyphPtr c2PtrNew = rowPtr->GetGlyphByIndex(1);
+//     Glyph::GlyphPtr c1PtrNew = rowPtr->GetGlyphByIndex(0);
+//     Glyph::GlyphPtr c2PtrNew = rowPtr->GetGlyphByIndex(1);
 
-    ASSERT_EQ(c1PtrNew->GetPosition().x, 2);
-    ASSERT_EQ(c1PtrNew->GetPosition().y, 4);
-    ASSERT_EQ(c1PtrNew->GetWidth(), 3);
-    ASSERT_EQ(c1PtrNew->GetHeight(), 4);
+//     ASSERT_EQ(c1PtrNew->GetPosition().x, 2);
+//     ASSERT_EQ(c1PtrNew->GetPosition().y, 4);
+//     ASSERT_EQ(c1PtrNew->GetWidth(), 3);
+//     ASSERT_EQ(c1PtrNew->GetHeight(), 4);
 
-    ASSERT_EQ(c2PtrNew->GetPosition().x, 6);
-    ASSERT_EQ(c2PtrNew->GetPosition().y, 8);
-    ASSERT_EQ(c2PtrNew->GetWidth(), 7);
-    ASSERT_EQ(c2PtrNew->GetHeight(), 8);
-}
+//     ASSERT_EQ(c2PtrNew->GetPosition().x, 6);
+//     ASSERT_EQ(c2PtrNew->GetPosition().y, 8);
+//     ASSERT_EQ(c2PtrNew->GetWidth(), 7);
+//     ASSERT_EQ(c2PtrNew->GetHeight(), 8);
+// }
 
 TEST(GlyphContainer_MoveGlyph2,
      GlyphContainerMoveGlyph_WhenCalled_AssertFailed) {
@@ -445,20 +445,20 @@ TEST(GlyphContainer_MoveGlyph2,
                  "Cannot move glyph due to these coordinates");
 }
 
-TEST(GlyphContainer_MoveGlyph3,
-     GlyphContainerMoveGlyph_WhenCalled_MoveAllGlyphsInComponents) {
-    Row r = Row(5, 5, 3, 4);
-    std::shared_ptr<GlyphContainer> rowPtr = std::make_shared<Row>(r);
-    Character c1 = Character(1, 2, 3, 4, 'A');
-    Glyph::GlyphPtr c1Ptr = std::make_shared<Character>(c1);
-    Character c2 = Character(5, 6, 7, 8, 'B');
-    Glyph::GlyphPtr c2Ptr = std::make_shared<Character>(c2);
-    rowPtr->Insert(c1Ptr, 0);
-    rowPtr->Insert(c2Ptr, 1);
+// TEST(GlyphContainer_MoveGlyph3,
+//      GlyphContainerMoveGlyph_WhenCalled_MoveAllGlyphsInComponents) {
+//     Row r = Row(5, 5, 3, 4);
+//     std::shared_ptr<GlyphContainer> rowPtr = std::make_shared<Row>(r);
+//     Character c1 = Character(1, 2, 3, 4, 'A');
+//     Glyph::GlyphPtr c1Ptr = std::make_shared<Character>(c1);
+//     Character c2 = Character(5, 6, 7, 8, 'B');
+//     Glyph::GlyphPtr c2Ptr = std::make_shared<Character>(c2);
+//     rowPtr->Insert(c1Ptr, 0);
+//     rowPtr->Insert(c2Ptr, 1);
 
-    ASSERT_DEATH(rowPtr->MoveGlyph(-2, 1),
-                 "Cannot move glyph due to these coordinates");
-}
+//     ASSERT_DEATH(rowPtr->MoveGlyph(-2, 1),
+//                  "Cannot move glyph due to these coordinates");
+// }
 
 // -----------------------------Row------------------------------------------------------
 

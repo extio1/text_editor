@@ -24,9 +24,8 @@ class Column : public GlyphContainer {
     explicit Column(const int x, const int y, const int width,
                     const int height);
 
-    void Remove(const GlyphPtr& ptr) override;
-
-    void Insert(GlyphPtr& glyph);
+    void Insert(GlyphPtr& glyph) override;
+    void Remove(const GlyphPtr& glyph) override;
 
     bool IsEmpty() const;
     bool IsFull() const;

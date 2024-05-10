@@ -14,42 +14,8 @@ class Page : public GlyphContainer {
 
     void Draw() override;
 
-    bool IsBottomRow(const GlyphPtr&) const;
-    bool IsRightColumn(const GlyphPtr&) const;
-
-    // Row::RowPtr GetFirstRow();
-    Column::ColumnPtr GetFirstColumn();
-    void SetCurrentRow(Row::RowPtr row);
-    void SetCurrentColumn(Column::ColumnPtr column);
-
-    bool IsEmpty() const;
-    bool IsFull() const;
-
-    bool RowCanBeAdded(int height) const;
-    bool ColumnCanBeAdded(int width) const;
-    Row::RowPtr RemoveFirstRow();
-    Column::ColumnPtr RemoveFirstColumn();
-
-    void Insert(GlyphPtr glyph, int position) override;
-    void Remove(const GlyphPtr& ptr) override;
-
-   private:
-    static int topIndent;
-    static int botIndent;
-    static int leftIndent;
-    static int rightIndent;
-    static const int charHeight;  // replace
-    static const int charWidth;   // replace
-    Column::ColumnPtr currentColumn;
-    Row::RowPtr currentRow;
-
-    void Remove(GlyphList::iterator& it);
-    void MoveLeftColumns(GlyphList::iterator colIt);
-    Column::ColumnPtr GetPreviousColumn();
-    Column::ColumnPtr GetPreviousColumn(Glyph::GlyphPtr& column);
-    Column::ColumnPtr GetNextColumn();
-    Column::ColumnPtr GetNextColumn(Glyph::GlyphPtr& column);
-    Column::ColumnPtr GetLastColumn();
+    void Insert(GlyphPtr& glyph);
+    void Remove(const GlyphPtr& glyph) override;
 };
 
 #endif  // TEXT_EDITOR_PAGE_H_
