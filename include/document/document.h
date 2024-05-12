@@ -3,12 +3,14 @@
 
 #include <functional>
 
-#include "compositor/compositor.h"
+#include "compositor/simple_compositor/simple_compositor.h"
 #include "glyphs/glyph.h"
 #include "glyphs/page.h"
 
 const int pageWidth = 500;
 const int pageHeight = 1000;
+
+class Compositor;
 
 class Document {
    public:

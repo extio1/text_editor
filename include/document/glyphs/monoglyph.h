@@ -16,7 +16,6 @@ class MonoGlyph : public Glyph {
      * @param glyph     A two-dimensional point.
      */
     explicit MonoGlyph(GlyphPtr glyph);
-    ~MonoGlyph() override = default;
 
     void Draw();
 

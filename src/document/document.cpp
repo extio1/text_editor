@@ -3,12 +3,19 @@
 #include <algorithm>
 #include <cassert>
 
+#include "compositor/compositor.h"
 #include "compositor/simple_compositor/simple_compositor.h"
 #include "document/glyphs/glyph.h"
 #include "document/glyphs/page.h"
 
 Document::Document() {
-    // compositor = std::make_shared<Compositor>(SimpleCompositor());
+    // SimpleCompositor simpleCompositor();
+    // std::shared_ptr<Compositor> ptr =
+    // std::make_shared<SimpleCompositor>(simpleCompositor); compositor =
+    // std::make_shared<SimpleCompositor>(SimpleCompositor());
+    compositor = std::make_shared<SimpleCompositor>();
+    compositor->Compose();
+
     currentPage = std::make_shared<Page>(0, 0, pageWidth, pageHeight);
     pages.push_back(currentPage);
 }
