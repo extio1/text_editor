@@ -2,6 +2,7 @@
 
 #include <cstdlib>
 
+#include "document/document.h"
 #include "document/glyphs/character.h"
 #include "document/glyphs/glyph.h"
 #include "document/glyphs/row.h"
@@ -758,4 +759,9 @@ TEST(Row_Remove4, RowRemoveNullPtr_WhenCalled_RemovesNothing) {
     ASSERT_EQ(r.GetFreeSpace(), 2);
     ASSERT_FALSE(r.IsEmpty());
     ASSERT_FALSE(r.IsFull());
+}
+
+TEST(Compositor_SetDocument,
+     CompositorSetDocument_WhenCalled_SaveDocumentPointer) {
+    Document document;
 }

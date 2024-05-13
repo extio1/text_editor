@@ -9,26 +9,25 @@
 #include "document/glyphs/page.h"
 
 Document::Document() {
-    // SimpleCompositor simpleCompositor();
-    // std::shared_ptr<Compositor> ptr =
-    // std::make_shared<SimpleCompositor>(simpleCompositor); compositor =
-    // std::make_shared<SimpleCompositor>(SimpleCompositor());
     compositor = std::make_shared<SimpleCompositor>();
-    compositor->Compose();
+    compositor->SetDocument(this);
 
     currentPage = std::make_shared<Page>(0, 0, pageWidth, pageHeight);
-    pages.push_back(currentPage);
+    AddPage(currentPage);
+    AddPage(std::make_shared<Page>(1, 2, pageWidth, pageHeight));
+    compositor->Compose();
 }
 
 void Document::Insert(Glyph::GlyphPtr& glyph) {
-    std::cout << "Document::Insert() ";
+    std::cout << "Document::Insert()" << std::endl;
     currentPage->Insert(glyph);
     // compositor.Compose();
     glyph->Draw();
 }
 
 void Document::Remove(Glyph::GlyphPtr& glyph) {
-    // what if this glyph is not from current page ????
+    // what if this glyph is not from current page ???? glyph won't be found and
+    // won't be removed
     currentPage->Remove(glyph);
 }
 
@@ -38,18 +37,20 @@ void Document::SetCurrentPage(Page::PagePtr page) {
 
 Page::PagePtr Document::GetCurrentPage() { return currentPage; }
 
-size_t Document::GetPageCount() const { return pages.size(); }
+size_t Document::GetPagesCount() const { return pages.size(); }
 
 size_t Document::GetPageWidth() const { return pageWidth; }
 
 size_t Document::GetPageHeight() const { return pageHeight; }
 
-void Document::AddPage(const Glyph::GlyphPtr& page) { pages.push_back(page); }
+void Document::AddPage(const Page::PagePtr& page) { pages.push_back(page); }
 
-Page::PagePtr Document::GetNextPage(const Page* page) {
+Page::PagePtr Document::GetFirstPage() { return *(pages.begin()); }
+
+Page::PagePtr Document::GetNextPage(const Page::PagePtr& pagePtr) {
     auto currentPage =
         std::find_if(pages.begin(), pages.end(),
-                     [&](const auto& elem) { return elem.get() == page; });
+                     [&](const auto& elem) { return elem == pagePtr; });
 
     assert(currentPage != pages.end());
 
@@ -58,4 +59,19 @@ Page::PagePtr Document::GetNextPage(const Page* page) {
         return nullptr;
     }
     return std::static_pointer_cast<Page>(*nextPage);
+}
+
+void Document::SelectGlyphs(GlyphContainer::GlyphList& glyphs) {
+    selectedGlyphs.clear();
+    for (auto& glyph : glyphs) {
+        selectedGlyphs.push_back(glyph);
+    }
+}
+
+void Document::PasteGlyphs(int x, int y) {
+    // TO DO
+}
+
+void Document::CutGlyphs(GlyphContainer::GlyphList& glyphs) {
+    // TO DO
 }

@@ -3,7 +3,6 @@
 
 #include <functional>
 
-#include "compositor/simple_compositor/simple_compositor.h"
 #include "glyphs/glyph.h"
 #include "glyphs/page.h"
 
@@ -14,6 +13,8 @@ class Compositor;
 
 class Document {
    public:
+    using PageList = std::list<Page::PagePtr>;
+
     explicit Document();
 
     /**
@@ -53,17 +54,19 @@ class Document {
     void SetCurrentPage(Page::PagePtr page);
     Page::PagePtr GetCurrentPage();
 
-    size_t GetPageCount() const;
+    size_t GetPagesCount() const;
     size_t GetPageWidth() const;
     size_t GetPageHeight() const;
 
-    void AddPage(const Glyph::GlyphPtr& page);
-    Page::PagePtr GetNextPage(const Page* page);
+    void AddPage(const Page::PagePtr& page);
+
+    Page::PagePtr GetFirstPage();
+    Page::PagePtr GetNextPage(const Page::PagePtr& pagePtr);
 
    private:
     std::shared_ptr<Compositor> compositor;
     Page::PagePtr currentPage;
-    GlyphContainer::GlyphList pages;
+    PageList pages;
 
     GlyphContainer::GlyphList selectedGlyphs;
 };

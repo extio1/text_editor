@@ -11,10 +11,10 @@ Page::Page(const int x, const int y, const int width, const int height)
     : GlyphContainer(x, y, width, height) {
     Glyph::GlyphPtr firstColumnPtr =
         std::make_shared<Column>(Column(x, y, width, height));
-    Insert(firstColumnPtr);
+    Add(firstColumnPtr);
     Glyph::GlyphPtr firstRowPtr =
         std::make_shared<Row>(Row(x, y, width, charHeight));
-    firstColumnPtr->Insert(firstRowPtr);
+    firstColumnPtr->Add(firstRowPtr);
 }
 
 void Page::Draw() {

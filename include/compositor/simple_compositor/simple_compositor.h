@@ -14,6 +14,13 @@ class SimpleCompositor : public Compositor {
     // void Compose() override;
     void Compose() override {
         std::cout << "SimpleCompositor::Compose()" << std::endl;
+        std::cout << document->GetPagesCount() << std::endl;
+        Page::PagePtr page = document->GetFirstPage();
+        while (page != nullptr) {
+            std::cout << page << " " << page->GetPosition().x << " "
+                      << page->GetPosition().y << std::endl;
+            page = document->GetNextPage(page);
+        }
     }
 };
 

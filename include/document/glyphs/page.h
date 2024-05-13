@@ -10,6 +10,7 @@ class Page : public GlyphContainer {
    public:
     using PagePtr = std::shared_ptr<Page>;
 
+    // x and y can be used for saving position in document or can be ignored
     explicit Page(const int x, const int y, const int width, const int height);
 
     void Draw() override;

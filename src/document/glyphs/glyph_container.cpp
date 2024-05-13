@@ -8,9 +8,7 @@
 
 GlyphContainer::GlyphContainer(const int x, const int y, const int width,
                                const int height)
-    : Glyph(x, y, width, height) {
-    std::cout << "GlyphContainer::Constructor()" << std::endl;
-}
+    : Glyph(x, y, width, height) {}
 
 size_t GlyphContainer::GetGlyphIndex(const GlyphPtr& glyph) {
     auto res = std::find_if(components.cbegin(), components.cend(),

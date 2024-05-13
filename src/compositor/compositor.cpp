@@ -2,6 +2,6 @@
 
 #include <iostream>
 
-void Compositor::SetDocument(Document* document) {
-    std::cout << "Compositor::SetDocument()" << std::endl;
-}
+// void Compositor::SetDocument(Document* document) {
+//     std::cout << "Compositor::SetDocument()" << std::endl;
+// }
