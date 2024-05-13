@@ -27,6 +27,10 @@ void Page::Insert(GlyphPtr& glyph) {
     (*intersectedGlyphIt)->Insert(glyph);
 }
 
+void Page::InsertFront(GlyphPtr& glyph) {
+    // TO DO
+}
+
 void Page::Remove(const GlyphPtr& glyph) {
     auto intersectedGlyphIt = std::find_if(
         components.begin(), components.end(),

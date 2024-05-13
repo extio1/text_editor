@@ -20,6 +20,7 @@ class MonoGlyph : public Glyph {
     void Draw();
 
     void Insert(GlyphPtr& glyph) override;
+    void InsertFront(GlyphPtr& glyph) override;
     void Remove(const GlyphPtr& glyph) override;
     void Add(GlyphPtr glyph) override;
 

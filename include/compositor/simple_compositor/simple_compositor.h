@@ -20,14 +20,18 @@ class SimpleCompositor : public Compositor {
 
    private:
     void ComposePage(Page::PagePtr& page);
-    void ComposeColumn(Glyph::GlyphPtr& column, int x, int y, int width,
-                       int height);
-    void ComposeRow(Glyph::GlyphPtr& row, int x, int y, int width);
+    GlyphContainer::GlyphList ComposeColumn(Glyph::GlyphPtr& column, int x,
+                                            int y, int width, int height);
+    GlyphContainer::GlyphList ComposeRow(Glyph::GlyphPtr& row, int x, int y,
+                                         int width);
     void ComposeCharacter(Glyph::GlyphPtr& character, int x, int y);
 
     size_t GetNestedGlyphsCount(Glyph::GlyphPtr& glyph);
     int GetNestedGlyphsWidth(Glyph::GlyphPtr& glyph);
     int GetNestedGlyphsHeight(Glyph::GlyphPtr& glyph);
+
+    GlyphContainer::GlyphList CutExcessCharacters(Glyph::GlyphPtr& glyph);
+    GlyphContainer::GlyphList CutExcessRows(Glyph::GlyphPtr& column);
 };
 
 #endif  // TEXT_EDITOR_SIMPLECOMPOSITOR_H_

@@ -63,6 +63,12 @@ class Glyph {
     virtual void Insert(GlyphPtr& glyph) = 0;
 
     /**
+     * @brief           Inserts a glyph at the beginning of the line.
+     * @param glyph     Pointer to the glyph.
+     */
+    virtual void InsertFront(GlyphPtr& glyph) = 0;
+
+    /**
      * @brief           Removes the glyph passed by the pointer from the
      * document.
      * @param glyph     Pointer to the glyph.

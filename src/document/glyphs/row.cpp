@@ -40,6 +40,11 @@ void Row::Insert(GlyphPtr& glyph) {
     }
 }
 
+void Row::InsertFront(GlyphPtr& glyph) {
+    glyph->SetPosition(Point(this->GetPosition().x, this->GetPosition().y));
+    this->Insert(glyph);
+}
+
 void Row::Remove(const GlyphPtr& ptr) {
     assert(ptr != nullptr && "Cannot remove glyph by nullptr");
     auto it = std::find(components.begin(), components.end(), ptr);

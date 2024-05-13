@@ -19,7 +19,8 @@ class GlyphContainer : public Glyph {
 
     void Draw() override;
 
-    void Insert(GlyphPtr& glyph) = 0;
+    virtual void Insert(GlyphPtr& glyph) = 0;
+    virtual void InsertFront(GlyphPtr& glyph) = 0;
     virtual void Remove(const GlyphPtr& glyph) = 0;
     void Add(GlyphPtr glyph) override;
 

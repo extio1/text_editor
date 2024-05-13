@@ -23,6 +23,7 @@ class Character : public Glyph {
     void Draw() override;
 
     void Insert(GlyphPtr& glyph) override {}
+    void InsertFront(GlyphPtr& glyph) override {}
     void Remove(const GlyphPtr& glyph) override {}
     void Add(GlyphPtr) override {}
 

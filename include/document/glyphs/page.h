@@ -15,7 +15,8 @@ class Page : public GlyphContainer {
 
     void Draw() override;
 
-    void Insert(GlyphPtr& glyph);
+    void Insert(GlyphPtr& glyph) override;
+    void InsertFront(GlyphPtr& glyph) override;
     void Remove(const GlyphPtr& glyph) override;
 
     size_t GetColumnsCount();

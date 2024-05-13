@@ -29,6 +29,12 @@ class Row : public GlyphContainer {
      */
     void Insert(GlyphPtr& glyph);
 
+    /**
+     * @brief           Inserts a glyph at the beginning of the line.
+     * @param glyph     Pointer to the glyph.
+     */
+    void InsertFront(GlyphPtr& glyph);
+
     void Remove(const GlyphPtr& glyph) override;
 
     bool IsEmpty() const;
