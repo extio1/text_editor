@@ -1,6 +1,7 @@
 #include "document/glyphs/row.h"
 
 #include <algorithm>
+#include <cassert>
 #include <numeric>
 
 Row::Row(const int x, const int y, const int width, const int height)
@@ -10,12 +11,18 @@ void Row::Insert(GlyphPtr& glyph) {
     if (components.empty()) {
         components.push_back(glyph);
         usedWidth += glyph->GetWidth();
+        if (glyph->GetHeight() > this->height) {
+            this->height = glyph->GetHeight();
+        }
         return;
     }
 
     auto intersectedGlyphIt = std::find_if(
         components.begin(), components.end(),
         [&](const auto& component) { return component->Intersects(glyph); });
+
+    assert(intersectedGlyphIt != components.end() &&
+           "No suitable character for inserting next to");
 
     // if glyph is closer to the right border of intersected glyph then insert
     // it after else before
@@ -28,6 +35,9 @@ void Row::Insert(GlyphPtr& glyph) {
 
     components.insert(intersectedGlyphIt, glyph);
     usedWidth += glyph->GetWidth();
+    if (glyph->GetHeight() > this->height) {
+        this->height = glyph->GetHeight();
+    }
 }
 
 void Row::Remove(const GlyphPtr& ptr) {

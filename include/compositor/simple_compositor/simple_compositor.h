@@ -24,6 +24,10 @@ class SimpleCompositor : public Compositor {
                        int height);
     void ComposeRow(Glyph::GlyphPtr& row, int x, int y, int width);
     void ComposeCharacter(Glyph::GlyphPtr& character, int x, int y);
+
+    size_t GetNestedGlyphsCount(Glyph::GlyphPtr& glyph);
+    int GetNestedGlyphsWidth(Glyph::GlyphPtr& glyph);
+    int GetNestedGlyphsHeight(Glyph::GlyphPtr& glyph);
 };
 
 #endif  // TEXT_EDITOR_SIMPLECOMPOSITOR_H_

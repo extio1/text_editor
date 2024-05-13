@@ -5,16 +5,11 @@
 
 #include "document/document.h"
 
-int charHeight = 1;  // temporary!!!
-
 Page::Page(const int x, const int y, const int width, const int height)
     : GlyphContainer(x, y, width, height) {
     Glyph::GlyphPtr firstColumnPtr =
         std::make_shared<Column>(Column(x, y, width, height));
     Add(firstColumnPtr);
-    Glyph::GlyphPtr firstRowPtr =
-        std::make_shared<Row>(Row(x, y, width, charHeight));
-    firstColumnPtr->Add(firstRowPtr);
 }
 
 void Page::Draw() {
@@ -26,7 +21,7 @@ void Page::Insert(GlyphPtr& glyph) {
     auto intersectedGlyphIt = std::find_if(
         components.begin(), components.end(),
         [&](const auto& component) { return component->Intersects(glyph); });
-    assert(intersectedGlyphIt == components.end() &&
+    assert((intersectedGlyphIt != components.end()) &&
            "No suitable column for inserting");
 
     (*intersectedGlyphIt)->Insert(glyph);

@@ -27,19 +27,20 @@ bool Glyph::Intersects(const Point& p) const noexcept {
 }
 
 bool Glyph::Intersects(const GlyphPtr& glyph) const {
-    return Intersects({glyph->GetPosition().x, glyph->GetPosition().y}) ||
-           Intersects({glyph->GetPosition().x + glyph->GetWidth(),
-                       glyph->GetPosition().y}) ||
-           Intersects({glyph->GetPosition().x,
-                       glyph->GetPosition().y + glyph->GetHeight()}) ||
-           Intersects({glyph->GetPosition().x + glyph->GetWidth(),
-                       glyph->GetPosition().y + glyph->GetHeight()})
+    bool res =
+        Intersects({glyph->GetPosition().x, glyph->GetPosition().y}) ||
+        Intersects({glyph->GetPosition().x + glyph->GetWidth(),
+                    glyph->GetPosition().y}) ||
+        Intersects({glyph->GetPosition().x,
+                    glyph->GetPosition().y + glyph->GetHeight()}) ||
+        Intersects({glyph->GetPosition().x + glyph->GetWidth(),
+                    glyph->GetPosition().y + glyph->GetHeight()})
 
-           || glyph->Intersects({this->x, this->y}) ||
-           glyph->Intersects({this->x + this->width, this->y}) ||
-           glyph->Intersects({this->x, this->y + this->height}) ||
-           glyph->Intersects({this->x + this->width, this->y + this->height});
-    ;
+        || glyph->Intersects({this->x, this->y}) ||
+        glyph->Intersects({this->x + this->width, this->y}) ||
+        glyph->Intersects({this->x, this->y + this->height}) ||
+        glyph->Intersects({this->x + this->width, this->y + this->height});
+    return res;
 }
 
 void Glyph::MoveGlyph(int x, int y) {

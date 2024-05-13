@@ -5,14 +5,22 @@
 #include <numeric>
 #include <optional>
 
+#include "document/glyphs/row.h"
+
+int charHeight = 1;  // temporary!!!
+
 Column::Column(const int x, const int y, const int width, const int height)
-    : GlyphContainer(x, y, width, height) {}
+    : GlyphContainer(x, y, width, height) {
+    Glyph::GlyphPtr firstRowPtr =
+        std::make_shared<Row>(Row(x, y, width, charHeight));
+    this->Add(firstRowPtr);
+}
 
 void Column::Insert(GlyphPtr& glyph) {
     auto intersectedGlyphIt = std::find_if(
         components.begin(), components.end(),
         [&](const auto& component) { return component->Intersects(glyph); });
-    assert(intersectedGlyphIt == components.end() &&
+    assert(intersectedGlyphIt != components.end() &&
            "No suitable row for inserting");
 
     (*intersectedGlyphIt)->Insert(glyph);

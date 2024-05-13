@@ -55,9 +55,63 @@ void SimpleCompositor::ComposeRow(Glyph::GlyphPtr& row, int x, int y,
     row->SetWidth(width);
 
     Glyph::GlyphPtr character = row->GetFirstGlyph();
-    int currentX = x;
+    int currentX;
+    switch (alignment) {
+        case LEFT: {
+            currentX = x;
+            break;
+        }
+        case CENTER: {
+            currentX = floor((pageWidth - leftIndent - rightIndent -
+                              GetNestedGlyphsWidth(row)) /
+                             2);
+            break;
+        }
+        case RIGHT: {
+            currentX = (pageWidth - leftIndent - rightIndent -
+                        GetNestedGlyphsWidth(row));
+            break;
+        }
+        case JUSTIFIED: {
+            currentX = x;
+            break;
+        }
+    }
+    std::cout << "currentX " << currentX << " " << GetNestedGlyphsWidth(row)
+              << std::endl;
+
+    int characterSpacing;
+    switch (alignment) {
+        case LEFT: {
+            characterSpacing = 0;
+            break;
+        }
+        case CENTER: {
+            characterSpacing = 0;
+            break;
+        }
+        case RIGHT: {
+            characterSpacing = 0;
+            break;
+        }
+        case JUSTIFIED: {
+            int glyphsCount = GetNestedGlyphsCount(row);
+            if (glyphsCount == 0) {
+                characterSpacing = 0;
+            } else {
+                characterSpacing = floor((pageWidth - leftIndent - rightIndent -
+                                          GetNestedGlyphsWidth(row)) /
+                                         glyphsCount);
+            }
+            break;
+        }
+    }
+
+    std::cout << "characterSpacing " << characterSpacing << std::endl;
+
     while (character != nullptr) {
-        ComposeCharacter(character, x, y);
+        ComposeCharacter(character, currentX, y);
+        currentX += character->GetWidth() + characterSpacing;
         character = row->GetNextGlyph(character);
     }
 }
@@ -67,4 +121,34 @@ void SimpleCompositor::ComposeCharacter(Glyph::GlyphPtr& character, int x,
     std::cout << "Composing character: " << character << " " << *character
               << std::endl;
     character->SetPosition(Point(x, y));
+}
+
+size_t SimpleCompositor::GetNestedGlyphsCount(Glyph::GlyphPtr& glyph) {
+    size_t count = 0;
+    Glyph::GlyphPtr current = glyph->GetFirstGlyph();
+    while (current != nullptr) {
+        ++count;
+        current = glyph->GetNextGlyph(current);
+    }
+    return count;
+}
+
+int SimpleCompositor::GetNestedGlyphsWidth(Glyph::GlyphPtr& glyph) {
+    int width = 0;
+    Glyph::GlyphPtr current = glyph->GetFirstGlyph();
+    while (current != nullptr) {
+        width += current->GetWidth();
+        current = glyph->GetNextGlyph(current);
+    }
+    return width;
+}
+
+int SimpleCompositor::GetNestedGlyphsHeight(Glyph::GlyphPtr& glyph) {
+    int height = 0;
+    Glyph::GlyphPtr current = glyph->GetFirstGlyph();
+    while (current != nullptr) {
+        height += current->GetHeight();
+        current = glyph->GetNextGlyph(current);
+    }
+    return height;
 }

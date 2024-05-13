@@ -9,12 +9,8 @@
 #include "document/glyphs/page.h"
 
 Document::Document() {
-    // compositor = std::make_shared<SimpleCompositor>();
-    // compositor->SetDocument(this);
-
     currentPage = std::make_shared<Page>(0, 0, pageWidth, pageHeight);
     AddPage(currentPage);
-    // compositor->Compose();
 }
 
 void Document::SetCompositor(std::shared_ptr<Compositor> compositor) {
@@ -26,14 +22,15 @@ void Document::SetCompositor(std::shared_ptr<Compositor> compositor) {
 void Document::Insert(Glyph::GlyphPtr& glyph) {
     std::cout << "Document::Insert()" << std::endl;
     currentPage->Insert(glyph);
-    // compositor.Compose();
-    glyph->Draw();
+    compositor->Compose();
+    // glyph->Draw();
 }
 
 void Document::Remove(Glyph::GlyphPtr& glyph) {
     // what if this glyph is not from current page ???? glyph won't be found and
     // won't be removed
     currentPage->Remove(glyph);
+    compositor->Compose();
 }
 
 void Document::SetCurrentPage(Page::PagePtr page) {
@@ -48,7 +45,12 @@ size_t Document::GetPageWidth() const { return pageWidth; }
 
 size_t Document::GetPageHeight() const { return pageHeight; }
 
-void Document::AddPage(const Page::PagePtr& page) { pages.push_back(page); }
+void Document::AddPage(const Page::PagePtr& page) {
+    pages.push_back(page);
+    if (compositor) {
+        compositor->Compose();  // page can be non-formated
+    }
+}
 
 Page::PagePtr Document::GetFirstPage() { return *(pages.begin()); }
 
