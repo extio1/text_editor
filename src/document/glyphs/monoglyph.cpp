@@ -26,3 +26,7 @@ void MonoGlyph::Remove(const GlyphPtr& glyph) {
     std::cout << "Monoglyph::Remove()" << std::endl;
     component->Remove(glyph);
 }
+
+Glyph::GlyphPtr MonoGlyph::GetFirstGlyph() { return component; }
+
+Glyph::GlyphPtr MonoGlyph::GetNextGlyph(GlyphPtr& glyph) { return nullptr; }

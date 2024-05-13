@@ -23,6 +23,9 @@ class MonoGlyph : public Glyph {
     void Remove(const GlyphPtr& glyph) override;
     void Add(GlyphPtr glyph) override;
 
+    GlyphPtr GetFirstGlyph() override;
+    GlyphPtr GetNextGlyph(GlyphPtr& glyph) override;
+
    protected:
     GlyphPtr component;
 };

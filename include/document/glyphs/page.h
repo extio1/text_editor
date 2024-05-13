@@ -17,6 +17,8 @@ class Page : public GlyphContainer {
 
     void Insert(GlyphPtr& glyph);
     void Remove(const GlyphPtr& glyph) override;
+
+    size_t GetColumnsCount();
 };
 
 #endif  // TEXT_EDITOR_PAGE_H_

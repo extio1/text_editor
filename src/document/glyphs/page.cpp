@@ -38,3 +38,5 @@ void Page::Remove(const GlyphPtr& ptr) {
         it = components.erase(it);
     }
 }
+
+size_t Page::GetColumnsCount() { return components.size(); }

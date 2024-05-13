@@ -68,6 +68,9 @@ void GlyphContainer::MoveGlyph(int x, int y) {
 }
 
 Glyph::GlyphPtr GlyphContainer::GetFirstGlyph() {
+    if (components.begin() == components.end()) {
+        return nullptr;
+    }
     return *(components.begin());
 }
 

@@ -11,3 +11,7 @@ void Character::Draw() {
 
 void Character::SetChar(char c) { symbol = c; }
 char Character::GetChar() const { return symbol; }
+
+Glyph::GlyphPtr Character::GetFirstGlyph() { return nullptr; }
+
+Glyph::GlyphPtr Character::GetNextGlyph(GlyphPtr& glyph) { return nullptr; }

@@ -83,6 +83,9 @@ class Glyph {
      */
     virtual void MoveGlyph(int x, int y);
 
+    virtual GlyphPtr GetFirstGlyph() = 0;
+    virtual GlyphPtr GetNextGlyph(GlyphPtr& glyph) = 0;
+
     void SetPosition(const Point& p);
     void SetPosition(int x, int y);
     void SetWidth(int width);

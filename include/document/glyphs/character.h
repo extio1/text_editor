@@ -29,6 +29,9 @@ class Character : public Glyph {
     void SetChar(char c);
     char GetChar() const;
 
+    GlyphPtr GetFirstGlyph() override;
+    GlyphPtr GetNextGlyph(GlyphPtr& glyph) override;
+
    private:
     char symbol;
 };

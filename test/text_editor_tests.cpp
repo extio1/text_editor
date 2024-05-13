@@ -2,6 +2,8 @@
 
 #include <cstdlib>
 
+#include "compositor/compositor.h"
+#include "compositor/simple_compositor/simple_compositor.h"
 #include "document/document.h"
 #include "document/glyphs/character.h"
 #include "document/glyphs/glyph.h"
@@ -761,7 +763,96 @@ TEST(Row_Remove4, RowRemoveNullPtr_WhenCalled_RemovesNothing) {
     ASSERT_FALSE(r.IsFull());
 }
 
-TEST(Compositor_SetDocument,
-     CompositorSetDocument_WhenCalled_SaveDocumentPointer) {
+TEST(SimpleCompositor_Compose1,
+     SimpleCompositorCompose_WhenCalled_ComposeAllGlyphInDocumentByDefault) {
     Document document;
+    document.SetCompositor(std::make_shared<SimpleCompositor>());
+
+    EXPECT_EQ(document.GetPagesCount(), 1);
+
+    // one page with one column with one row in document was added after in
+    // constructor
+    EXPECT_EQ(document.GetFirstPage()->GetColumnsCount(), 1);
+    Glyph::GlyphPtr firstColumn = document.GetFirstPage()->GetFirstGlyph();
+    EXPECT_EQ(document.GetFirstPage()->GetNextGlyph(firstColumn), nullptr);
+    EXPECT_EQ(document.GetFirstPage()->GetWidth(), 500);
+    EXPECT_EQ(document.GetFirstPage()->GetHeight(), 1000);
+
+    // empty first row in first column in first page
+    EXPECT_EQ(document.GetFirstPage()
+                  ->GetFirstGlyph()
+                  ->GetFirstGlyph()
+                  ->GetFirstGlyph(),
+              nullptr);
+    EXPECT_EQ(document.GetFirstPage()
+                  ->GetFirstGlyph()
+                  ->GetFirstGlyph()
+                  ->GetPosition()
+                  .x,
+              3);
+    EXPECT_EQ(document.GetFirstPage()
+                  ->GetFirstGlyph()
+                  ->GetFirstGlyph()
+                  ->GetPosition()
+                  .y,
+              5);
+    EXPECT_EQ(
+        document.GetFirstPage()->GetFirstGlyph()->GetFirstGlyph()->GetWidth(),
+        491);
+    EXPECT_EQ(
+        document.GetFirstPage()->GetFirstGlyph()->GetFirstGlyph()->GetHeight(),
+        1);
+
+    EXPECT_EQ(document.GetFirstPage()->GetFirstGlyph()->GetPosition().x, 3);
+    EXPECT_EQ(document.GetFirstPage()->GetFirstGlyph()->GetPosition().y, 5);
+    EXPECT_EQ(document.GetFirstPage()->GetFirstGlyph()->GetWidth(), 491);
+    EXPECT_EQ(document.GetFirstPage()->GetFirstGlyph()->GetHeight(), 985);
+}
+
+TEST(
+    SimpleCompositor_Compose2,
+    SimpleCompositorCompose_WhenCalled_ComposeAllGlyphInDocumentBySpecifiedParams) {
+    Document document;
+    document.SetCompositor(std::make_shared<SimpleCompositor>(
+        10, 20, 30, 40, Compositor::CENTER, 100));
+
+    EXPECT_EQ(document.GetPagesCount(), 1);
+
+    // one page with one column with one row in document was added after in
+    // constructor
+    EXPECT_EQ(document.GetFirstPage()->GetColumnsCount(), 1);
+    Glyph::GlyphPtr firstColumn = document.GetFirstPage()->GetFirstGlyph();
+    EXPECT_EQ(document.GetFirstPage()->GetNextGlyph(firstColumn), nullptr);
+    EXPECT_EQ(document.GetFirstPage()->GetWidth(), 500);
+    EXPECT_EQ(document.GetFirstPage()->GetHeight(), 1000);
+
+    // empty first row in first column in first page
+    EXPECT_EQ(document.GetFirstPage()
+                  ->GetFirstGlyph()
+                  ->GetFirstGlyph()
+                  ->GetFirstGlyph(),
+              nullptr);
+    EXPECT_EQ(document.GetFirstPage()
+                  ->GetFirstGlyph()
+                  ->GetFirstGlyph()
+                  ->GetPosition()
+                  .x,
+              30);
+    EXPECT_EQ(document.GetFirstPage()
+                  ->GetFirstGlyph()
+                  ->GetFirstGlyph()
+                  ->GetPosition()
+                  .y,
+              10);
+    EXPECT_EQ(
+        document.GetFirstPage()->GetFirstGlyph()->GetFirstGlyph()->GetWidth(),
+        430);
+    EXPECT_EQ(
+        document.GetFirstPage()->GetFirstGlyph()->GetFirstGlyph()->GetHeight(),
+        1);
+
+    EXPECT_EQ(document.GetFirstPage()->GetFirstGlyph()->GetPosition().x, 30);
+    EXPECT_EQ(document.GetFirstPage()->GetFirstGlyph()->GetPosition().y, 10);
+    EXPECT_EQ(document.GetFirstPage()->GetFirstGlyph()->GetWidth(), 430);
+    EXPECT_EQ(document.GetFirstPage()->GetFirstGlyph()->GetHeight(), 970);
 }

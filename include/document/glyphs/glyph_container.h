@@ -29,8 +29,8 @@ class GlyphContainer : public Glyph {
     Glyph::GlyphPtr GetGlyphByIndex(int index);
     GlyphPtr Find(const Point& point);
 
-    GlyphPtr GetFirstGlyph();
-    GlyphPtr GetNextGlyph(GlyphPtr& glyph);
+    GlyphPtr GetFirstGlyph() override;
+    GlyphPtr GetNextGlyph(GlyphPtr& glyph) override;
 
    protected:
     GlyphList components;

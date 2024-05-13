@@ -12,3 +12,7 @@ void Button::Draw() {
     std::cout << "Button::Draw()" << std::endl;
     // TO DO
 }
+
+Glyph::GlyphPtr Button::GetFirstGlyph() { return nullptr; }
+
+Glyph::GlyphPtr Button::GetNextGlyph(GlyphPtr& glyph) { return nullptr; }

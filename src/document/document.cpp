@@ -9,12 +9,17 @@
 #include "document/glyphs/page.h"
 
 Document::Document() {
-    compositor = std::make_shared<SimpleCompositor>();
-    compositor->SetDocument(this);
+    // compositor = std::make_shared<SimpleCompositor>();
+    // compositor->SetDocument(this);
 
     currentPage = std::make_shared<Page>(0, 0, pageWidth, pageHeight);
     AddPage(currentPage);
-    AddPage(std::make_shared<Page>(1, 2, pageWidth, pageHeight));
+    // compositor->Compose();
+}
+
+void Document::SetCompositor(std::shared_ptr<Compositor> compositor) {
+    this->compositor = compositor;
+    compositor->SetDocument(this);
     compositor->Compose();
 }
 
