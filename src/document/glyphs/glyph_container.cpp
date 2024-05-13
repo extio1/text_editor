@@ -66,3 +66,21 @@ void GlyphContainer::MoveGlyph(int x, int y) {
         component->MoveGlyph(x, y);
     }
 }
+
+Glyph::GlyphPtr GlyphContainer::GetFirstGlyph() {
+    return *(components.begin());
+}
+
+Glyph::GlyphPtr GlyphContainer::GetNextGlyph(GlyphPtr& glyph) {
+    auto currentGlyph =
+        std::find_if(components.begin(), components.end(),
+                     [&](const auto& elem) { return elem == glyph; });
+
+    assert(currentGlyph != components.end());
+
+    auto nextGlyph = std::next(currentGlyph);
+    if (nextGlyph == components.end()) {
+        return nullptr;
+    }
+    return *nextGlyph;
+}

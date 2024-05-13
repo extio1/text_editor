@@ -19,6 +19,7 @@ class SimpleCompositor : public Compositor {
         while (page != nullptr) {
             std::cout << page << " " << page->GetPosition().x << " "
                       << page->GetPosition().y << std::endl;
+
             page = document->GetNextPage(page);
         }
     }
