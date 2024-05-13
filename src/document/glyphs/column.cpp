@@ -30,7 +30,7 @@ void Column::Remove(const GlyphPtr& glyph) {
     auto intersectedGlyphIt = std::find_if(
         components.begin(), components.end(),
         [&](const auto& component) { return component->Intersects(glyph); });
-    assert(intersectedGlyphIt == components.end() &&
+    assert(intersectedGlyphIt != components.end() &&
            "No suitable row for removing");
 
     (*intersectedGlyphIt)->Remove(glyph);

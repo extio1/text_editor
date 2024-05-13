@@ -736,7 +736,7 @@ TEST(Row_Remove4, RowRemoveNullPtr_WhenCalled_RemovesNothing) {
     r.Insert(c1Ptr);
     r.Insert(c2Ptr);
 
-    r.Remove(nullptr);
+    ASSERT_DEATH(r.Remove(nullptr), "Cannot remove glyph by nullptr");
 
     ASSERT_EQ(r.GetPosition().x, 1);
     ASSERT_EQ(r.GetPosition().y, 2);
@@ -1376,4 +1376,189 @@ TEST(
     EXPECT_EQ(third->GetPosition().y, 10);
     EXPECT_EQ(third->GetWidth(), 5);
     EXPECT_EQ(third->GetHeight(), 5);
+}
+
+TEST(
+    Document_Remove1,
+    DocumentRemove_WhenCalled_RemoveCharactersWithLeftAlignmentAndComposeItself) {
+    Document document;
+    document.SetCompositor(std::make_shared<SimpleCompositor>(
+        10, 20, 30, 40, Compositor::LEFT, 100));
+
+    Character c1 = Character(100, 10, 5, 5, 'A');
+    Glyph::GlyphPtr c1Ptr = std::make_shared<Character>(c1);
+    Character c2 = Character(30, 10, 5, 5, 'A');
+    Glyph::GlyphPtr c2Ptr = std::make_shared<Character>(c2);
+    Character c3 = Character(35, 10, 5, 5, 'A');
+    Glyph::GlyphPtr c3Ptr = std::make_shared<Character>(c3);
+    document.Insert(c1Ptr);
+    document.Insert(c2Ptr);
+    document.Insert(c3Ptr);
+
+    EXPECT_EQ(c1Ptr->GetPosition().x, 40);
+    EXPECT_EQ(c1Ptr->GetPosition().y, 10);
+    EXPECT_EQ(c2Ptr->GetPosition().x, 30);
+    EXPECT_EQ(c2Ptr->GetPosition().y, 10);
+    EXPECT_EQ(c3Ptr->GetPosition().x, 35);
+    EXPECT_EQ(c3Ptr->GetPosition().y, 10);
+
+    document.Remove(c2Ptr);
+
+    Glyph::GlyphPtr first = document.GetFirstPage()
+                                ->GetFirstGlyph()
+                                ->GetFirstGlyph()
+                                ->GetFirstGlyph();
+    EXPECT_EQ(first, c3Ptr);
+    Glyph::GlyphPtr second =
+        document.GetFirstPage()->GetFirstGlyph()->GetFirstGlyph()->GetNextGlyph(
+            first);
+    EXPECT_EQ(second, c1Ptr);
+    Glyph::GlyphPtr third =
+        document.GetFirstPage()->GetFirstGlyph()->GetFirstGlyph()->GetNextGlyph(
+            second);
+    EXPECT_EQ(third, nullptr);
+    // check first character params
+    EXPECT_EQ(first->GetPosition().x, 30);
+    EXPECT_EQ(first->GetPosition().y, 10);
+    EXPECT_EQ(first->GetWidth(), 5);
+    EXPECT_EQ(first->GetHeight(), 5);
+
+    // check second character params
+    EXPECT_EQ(second->GetPosition().x, 35);
+    EXPECT_EQ(second->GetPosition().y, 10);
+    EXPECT_EQ(second->GetWidth(), 5);
+    EXPECT_EQ(second->GetHeight(), 5);
+}
+
+TEST(
+    Document_Remove2,
+    DocumentRemove_WhenCalled_RemoveCharactersWithCenterAlignmentAndComposeItself) {
+    Document document;
+    document.SetCompositor(std::make_shared<SimpleCompositor>(
+        10, 20, 30, 40, Compositor::CENTER, 100));
+
+    Character c1 = Character(100, 10, 5, 5, 'A');
+    Glyph::GlyphPtr c1Ptr = std::make_shared<Character>(c1);
+    Character c2 = Character(212, 10, 5, 5, 'A');
+    Glyph::GlyphPtr c2Ptr = std::make_shared<Character>(c2);
+    Character c3 = Character(215, 10, 5, 5, 'A');
+    Glyph::GlyphPtr c3Ptr = std::make_shared<Character>(c3);
+    document.Insert(c1Ptr);
+    document.Insert(c2Ptr);
+    document.Insert(c3Ptr);
+
+    document.Remove(c1Ptr);
+
+    Glyph::GlyphPtr first = document.GetFirstPage()
+                                ->GetFirstGlyph()
+                                ->GetFirstGlyph()
+                                ->GetFirstGlyph();
+    EXPECT_EQ(first, c2Ptr);
+    Glyph::GlyphPtr second =
+        document.GetFirstPage()->GetFirstGlyph()->GetFirstGlyph()->GetNextGlyph(
+            first);
+    EXPECT_EQ(second, c3Ptr);
+    Glyph::GlyphPtr third =
+        document.GetFirstPage()->GetFirstGlyph()->GetFirstGlyph()->GetNextGlyph(
+            second);
+    EXPECT_EQ(third, nullptr);
+    // check first character params
+    EXPECT_EQ(first->GetPosition().x, 210);
+    EXPECT_EQ(first->GetPosition().y, 10);
+    EXPECT_EQ(first->GetWidth(), 5);
+    EXPECT_EQ(first->GetHeight(), 5);
+
+    // check second character params
+    EXPECT_EQ(second->GetPosition().x, 215);
+    EXPECT_EQ(second->GetPosition().y, 10);
+    EXPECT_EQ(second->GetWidth(), 5);
+    EXPECT_EQ(second->GetHeight(), 5);
+}
+
+TEST(
+    Document_Remove3,
+    DocumentRemove_WhenCalled_RemoveCharactersWithRightAlignmentAndComposeItself) {
+    Document document;
+    document.SetCompositor(std::make_shared<SimpleCompositor>(
+        10, 20, 30, 40, Compositor::RIGHT, 100));
+
+    Character c1 = Character(100, 10, 5, 5, 'A');
+    Glyph::GlyphPtr c1Ptr = std::make_shared<Character>(c1);
+    Character c2 = Character(430, 10, 5, 5, 'A');
+    Glyph::GlyphPtr c2Ptr = std::make_shared<Character>(c2);
+    Character c3 = Character(425, 10, 5, 5, 'A');
+    Glyph::GlyphPtr c3Ptr = std::make_shared<Character>(c3);
+    document.Insert(c1Ptr);
+    document.Insert(c2Ptr);
+    document.Insert(c3Ptr);
+
+    document.Remove(c3Ptr);
+
+    EXPECT_EQ(document.GetPagesCount(), 1);
+
+    EXPECT_EQ(document.GetFirstPage()->GetColumnsCount(), 1);
+    Glyph::GlyphPtr firstColumn = document.GetFirstPage()->GetFirstGlyph();
+    EXPECT_EQ(document.GetFirstPage()->GetNextGlyph(firstColumn), nullptr);
+    EXPECT_EQ(document.GetFirstPage()->GetWidth(), 500);
+    EXPECT_EQ(document.GetFirstPage()->GetHeight(), 1000);
+
+    Glyph::GlyphPtr first = document.GetFirstPage()
+                                ->GetFirstGlyph()
+                                ->GetFirstGlyph()
+                                ->GetFirstGlyph();
+    EXPECT_EQ(first, c1Ptr);
+    Glyph::GlyphPtr second =
+        document.GetFirstPage()->GetFirstGlyph()->GetFirstGlyph()->GetNextGlyph(
+            first);
+    EXPECT_EQ(second, c2Ptr);
+    Glyph::GlyphPtr third =
+        document.GetFirstPage()->GetFirstGlyph()->GetFirstGlyph()->GetNextGlyph(
+            second);
+    EXPECT_EQ(third, nullptr);  // removed
+
+    // check first character params
+    EXPECT_EQ(first->GetPosition().x, 420);
+    EXPECT_EQ(first->GetPosition().y, 10);
+    EXPECT_EQ(first->GetWidth(), 5);
+    EXPECT_EQ(first->GetHeight(), 5);
+
+    // check second character params
+    EXPECT_EQ(second->GetPosition().x, 425);
+    EXPECT_EQ(second->GetPosition().y, 10);
+    EXPECT_EQ(second->GetWidth(), 5);
+    EXPECT_EQ(second->GetHeight(), 5);
+}
+
+TEST(Document_Remove4, DocumentRemove_WhenCalled_RemoveNothingByNullptr) {
+    Document document;
+    document.SetCompositor(std::make_shared<SimpleCompositor>(
+        10, 20, 30, 40, Compositor::RIGHT, 100));
+
+    Character c1 = Character(100, 10, 5, 5, 'A');
+    Glyph::GlyphPtr c1Ptr = std::make_shared<Character>(c1);
+    Character c2 = Character(430, 10, 5, 5, 'A');
+    Glyph::GlyphPtr c2Ptr = std::make_shared<Character>(c2);
+    Character c3 = Character(425, 10, 5, 5, 'A');
+    Glyph::GlyphPtr c3Ptr = std::make_shared<Character>(c3);
+    document.Insert(c1Ptr);
+    document.Insert(c2Ptr);
+    document.Insert(c3Ptr);
+
+    EXPECT_EQ(c3Ptr->GetPosition().x, 420);
+    EXPECT_EQ(c3Ptr->GetPosition().y, 10);
+
+    Glyph::GlyphPtr c4Ptr = nullptr;
+
+    ASSERT_DEATH(document.Remove(c4Ptr), "Cannot remove glyph by nullptr");
+}
+
+TEST(Document_Remove5, DocumentRemove_WhenCalled_RemoveFromEmptyDocument) {
+    Document document;
+    document.SetCompositor(std::make_shared<SimpleCompositor>(
+        10, 20, 30, 40, Compositor::RIGHT, 100));
+
+    Character c1 = Character(100, 10, 5, 5, 'A');
+    Glyph::GlyphPtr c1Ptr = std::make_shared<Character>(c1);
+
+    ASSERT_DEATH(document.Remove(c1Ptr), "No suitable character for removing");
 }

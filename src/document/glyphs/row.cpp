@@ -41,11 +41,13 @@ void Row::Insert(GlyphPtr& glyph) {
 }
 
 void Row::Remove(const GlyphPtr& ptr) {
+    assert(ptr != nullptr && "Cannot remove glyph by nullptr");
     auto it = std::find(components.begin(), components.end(), ptr);
-    if (it != components.end()) {
-        usedWidth -= (*it)->GetWidth();
-        components.erase(it);
-    }
+
+    assert(it != components.end() && "No suitable character for removing");
+
+    usedWidth -= (*it)->GetWidth();
+    components.erase(it);
 }
 
 bool Row::IsEmpty() const { return components.empty(); }
