@@ -37,5 +37,5 @@ if(CMAKE_BUILD_TYPE STREQUAL "Debug")
     target_compile_options(${target_test} PRIVATE -Wall -Wextra -Wconversion -pedantic -g)
 endif()
 
-target_link_libraries(${target} document point)
-target_link_libraries(${target_test} document point GTest::gtest_main)
+target_link_libraries(${target} document point compositor)
+target_link_libraries(${target_test} document point compositor GTest::gtest_main)

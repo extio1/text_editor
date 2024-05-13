@@ -18,7 +18,9 @@ Page::Page(const int x, const int y, const int width, const int height)
 }
 
 void Page::Draw() {
-    std::cout << "Page::Draw()" << std::endl;
+    std::cout << "Page::Draw()" <<
+
+        std::endl;
     GlyphContainer::Draw();
 }
 

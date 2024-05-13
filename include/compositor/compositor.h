@@ -28,11 +28,11 @@ class Compositor {
     Compositor() {}
     virtual ~Compositor() = default;
 
-    // void SetDocument(Document* document);
-    void SetDocument(Document* document) {
-        std::cout << "Compositor::SetDocument()" << std::endl;
-        this->document = document;
-    }
+    void SetDocument(Document* document);
+    // void SetDocument(Document* document) {
+    //     std::cout << "Compositor::SetDocument()" << std::endl;
+    //     this->document = document;
+    // }
 
     virtual void Compose() = 0;
 
