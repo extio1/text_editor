@@ -9,12 +9,19 @@ void SimpleCompositor::Compose() {
     std::cout << document->GetPagesCount() << std::endl;
     GlyphContainer::GlyphList list = CutAllCharacters();
     for (auto& glyph : list) {
-        std::cout << glyph << std::endl;
+        std::cout << *glyph << std::endl;
     }
     Page::PagePtr page = document->GetFirstPage();
     while (page != nullptr) {
         ComposePage(page, list);
         page = document->GetNextPage(page);
+    }
+
+    while (!list.empty()) {
+        Page::PagePtr newPage =
+            std::make_shared<Page>(0, 0, pageWidth, pageHeight);
+        document->AddPage(newPage);
+        ComposePage(newPage, list);
     }
 }
 
@@ -78,6 +85,17 @@ void SimpleCompositor::ComposeColumn(Glyph::GlyphPtr& column, int x, int y,
         currentY += row->GetHeight() + lineSpacing;
         row = column->GetNextGlyph(row);
     }
+
+    while (!list.empty()) {
+        if (currentY + charHeight <= column->GetBottomBorder() - bottomIndent) {
+            Glyph::GlyphPtr newRow =
+                std::make_shared<Row>(0, 0, width, charHeight);
+            column->Add(newRow);
+            ComposeRow(newRow, x, currentY, width, list);
+        } else {
+            break;  // cannot add one more row
+        }
+    }
 }
 
 void SimpleCompositor::ComposeRow(Glyph::GlyphPtr& row, int x, int y, int width,
@@ -109,22 +127,22 @@ void SimpleCompositor::ComposeRow(Glyph::GlyphPtr& row, int x, int y, int width,
     // now compose all characters that was added to row due to format params
     switch (alignment) {
         case LEFT: {
-            currentX = x;
+            currentX = leftIndent;
             break;
         }
         case CENTER: {
-            currentX = floor((pageWidth - leftIndent - rightIndent -
-                              GetNestedGlyphsWidth(row)) /
-                             2);
+            currentX =
+                leftIndent + floor((pageWidth - leftIndent - rightIndent -
+                                    GetNestedGlyphsWidth(row)) /
+                                   2);
             break;
         }
         case RIGHT: {
-            currentX = (pageWidth - leftIndent - rightIndent -
-                        GetNestedGlyphsWidth(row));
+            currentX = (pageWidth - rightIndent - GetNestedGlyphsWidth(row));
             break;
         }
         case JUSTIFIED: {
-            currentX = x;
+            currentX = leftIndent;
             break;
         }
     }

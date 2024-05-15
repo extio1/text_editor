@@ -1042,7 +1042,7 @@ TEST(
                   ->GetFirstGlyph()
                   ->GetPosition()
                   .x,
-              212);
+              242);
     EXPECT_EQ(document.GetFirstPage()
                   ->GetFirstGlyph()
                   ->GetFirstGlyph()
@@ -1112,7 +1112,7 @@ TEST(Document_Insert4,
                   ->GetFirstGlyph()
                   ->GetPosition()
                   .x,
-              425);
+              455);
     EXPECT_EQ(document.GetFirstPage()
                   ->GetFirstGlyph()
                   ->GetFirstGlyph()
@@ -1289,9 +1289,9 @@ TEST(
 
     Character c1 = Character(100, 10, 5, 5, 'A');
     Glyph::GlyphPtr c1Ptr = std::make_shared<Character>(c1);
-    Character c2 = Character(212, 10, 5, 5, 'A');
+    Character c2 = Character(242, 10, 5, 5, 'A');
     Glyph::GlyphPtr c2Ptr = std::make_shared<Character>(c2);
-    Character c3 = Character(215, 10, 5, 5, 'A');
+    Character c3 = Character(250, 10, 5, 5, 'A');
     Glyph::GlyphPtr c3Ptr = std::make_shared<Character>(c3);
     document.Insert(c1Ptr);
     document.Insert(c2Ptr);
@@ -1305,32 +1305,32 @@ TEST(
     Glyph::GlyphPtr second =
         document.GetFirstPage()->GetFirstGlyph()->GetFirstGlyph()->GetNextGlyph(
             first);
-    EXPECT_EQ(second, c3Ptr);
+    EXPECT_EQ(second, c1Ptr);
     Glyph::GlyphPtr third =
         document.GetFirstPage()->GetFirstGlyph()->GetFirstGlyph()->GetNextGlyph(
             second);
-    EXPECT_EQ(third, c1Ptr);
+    EXPECT_EQ(third, c3Ptr);
     // check first character params
-    EXPECT_EQ(first->GetPosition().x, 207);
+    EXPECT_EQ(first->GetPosition().x, 237);
     EXPECT_EQ(first->GetPosition().y, 10);
     EXPECT_EQ(first->GetWidth(), 5);
     EXPECT_EQ(first->GetHeight(), 5);
 
     // check second character params
-    EXPECT_EQ(second->GetPosition().x, 212);
+    EXPECT_EQ(second->GetPosition().x, 242);
     EXPECT_EQ(second->GetPosition().y, 10);
     EXPECT_EQ(second->GetWidth(), 5);
     EXPECT_EQ(second->GetHeight(), 5);
 
     // check third character params
-    EXPECT_EQ(third->GetPosition().x, 217);
+    EXPECT_EQ(third->GetPosition().x, 247);
     EXPECT_EQ(third->GetPosition().y, 10);
     EXPECT_EQ(third->GetWidth(), 5);
     EXPECT_EQ(third->GetHeight(), 5);
 }
 
 TEST(
-    Document_Insert7,
+    Document_Insert8,
     DocumentInsert_WhenCalled_InsertSeveralCharactersDueToRightAlignmentAndComposeItself) {
     Document document;
     document.SetCompositor(std::make_shared<SimpleCompositor>(
@@ -1338,9 +1338,9 @@ TEST(
 
     Character c1 = Character(100, 10, 5, 5, 'A');
     Glyph::GlyphPtr c1Ptr = std::make_shared<Character>(c1);
-    Character c2 = Character(430, 10, 5, 5, 'A');
+    Character c2 = Character(460, 10, 5, 5, 'A');
     Glyph::GlyphPtr c2Ptr = std::make_shared<Character>(c2);
-    Character c3 = Character(425, 10, 5, 5, 'A');
+    Character c3 = Character(460, 10, 5, 5, 'A');
     Glyph::GlyphPtr c3Ptr = std::make_shared<Character>(c3);
     document.Insert(c1Ptr);
     document.Insert(c2Ptr);
@@ -1354,28 +1354,132 @@ TEST(
     Glyph::GlyphPtr second =
         document.GetFirstPage()->GetFirstGlyph()->GetFirstGlyph()->GetNextGlyph(
             first);
-    EXPECT_EQ(second, c3Ptr);
+    EXPECT_EQ(second, c2Ptr);
     Glyph::GlyphPtr third =
         document.GetFirstPage()->GetFirstGlyph()->GetFirstGlyph()->GetNextGlyph(
             second);
-    EXPECT_EQ(third, c2Ptr);
+    EXPECT_EQ(third, c3Ptr);
     // check first character params
-    EXPECT_EQ(first->GetPosition().x, 415);
+    EXPECT_EQ(first->GetPosition().x, 445);
     EXPECT_EQ(first->GetPosition().y, 10);
     EXPECT_EQ(first->GetWidth(), 5);
     EXPECT_EQ(first->GetHeight(), 5);
 
     // check second character params
-    EXPECT_EQ(second->GetPosition().x, 420);
+    EXPECT_EQ(second->GetPosition().x, 450);
     EXPECT_EQ(second->GetPosition().y, 10);
     EXPECT_EQ(second->GetWidth(), 5);
     EXPECT_EQ(second->GetHeight(), 5);
 
     // check third character params
-    EXPECT_EQ(third->GetPosition().x, 425);
+    EXPECT_EQ(third->GetPosition().x, 455);
     EXPECT_EQ(third->GetPosition().y, 10);
     EXPECT_EQ(third->GetWidth(), 5);
     EXPECT_EQ(third->GetHeight(), 5);
+}
+
+TEST(
+    Document_Insert9,
+    DocumentInsert_WhenCalled_InsertWideCharactersDueToLeftAlignmentAndComposeItself) {
+    Document document;
+    document.SetCompositor(std::make_shared<SimpleCompositor>(
+        10, 20, 30, 40, Compositor::LEFT, 100));
+
+    Character c1 = Character(100, 10, 150, 5, 'A');
+    Glyph::GlyphPtr c1Ptr = std::make_shared<Character>(c1);
+    Character c2 = Character(30, 10, 150, 5, 'A');
+    Glyph::GlyphPtr c2Ptr = std::make_shared<Character>(c2);
+    Character c3 = Character(35, 10, 150, 5, 'A');
+    Glyph::GlyphPtr c3Ptr = std::make_shared<Character>(c3);
+    document.Insert(c1Ptr);
+    document.Insert(c2Ptr);
+    document.Insert(c3Ptr);
+
+    Glyph::GlyphPtr firstRow =
+        document.GetFirstPage()->GetFirstGlyph()->GetFirstGlyph();
+
+    Glyph::GlyphPtr firstChar = firstRow->GetFirstGlyph();
+    EXPECT_EQ(firstChar, c3Ptr);
+    Glyph::GlyphPtr secondChar = firstRow->GetNextGlyph(firstChar);
+    EXPECT_EQ(secondChar, c2Ptr);
+    Glyph::GlyphPtr movedChar = firstRow->GetNextGlyph(secondChar);
+    EXPECT_EQ(movedChar, nullptr);
+
+    Glyph::GlyphPtr secondRow =
+        document.GetFirstPage()->GetFirstGlyph()->GetNextGlyph(firstRow);
+    Glyph::GlyphPtr thirdChar = secondRow->GetFirstGlyph();
+    EXPECT_EQ(thirdChar, c1Ptr);
+
+    // check first character params
+    EXPECT_EQ(firstChar->GetPosition().x, 30);
+    EXPECT_EQ(firstChar->GetPosition().y, 10);
+    EXPECT_EQ(firstChar->GetWidth(), 150);
+    EXPECT_EQ(firstChar->GetHeight(), 5);
+
+    // check second character params
+    EXPECT_EQ(secondChar->GetPosition().x, 180);
+    EXPECT_EQ(secondChar->GetPosition().y, 10);
+    EXPECT_EQ(secondChar->GetWidth(), 150);
+    EXPECT_EQ(secondChar->GetHeight(), 5);
+
+    // check third character params
+    EXPECT_EQ(thirdChar->GetPosition().x, 30);
+    EXPECT_EQ(thirdChar->GetPosition().y,
+              115);  // topIndent=10 + thirdChar.height=5 + lineSpacing=100
+    EXPECT_EQ(thirdChar->GetWidth(), 150);
+    EXPECT_EQ(thirdChar->GetHeight(), 5);
+}
+
+TEST(
+    Document_Insert10,
+    DocumentInsert_WhenCalled_InsertWideCharactersDueToCenterAlignmentAndComposeItself) {
+    Document document;
+    document.SetCompositor(std::make_shared<SimpleCompositor>(
+        10, 20, 30, 40, Compositor::CENTER, 100));
+
+    Character c1 = Character(100, 10, 150, 5, 'A');
+    Glyph::GlyphPtr c1Ptr = std::make_shared<Character>(c1);
+    Character c2 = Character(320, 10, 150, 5, 'A');
+    Glyph::GlyphPtr c2Ptr = std::make_shared<Character>(c2);
+    Character c3 = Character(395, 10, 150, 5, 'A');
+    Glyph::GlyphPtr c3Ptr = std::make_shared<Character>(c3);
+    document.Insert(c1Ptr);
+    document.Insert(c2Ptr);
+    document.Insert(c3Ptr);
+
+    Glyph::GlyphPtr firstRow =
+        document.GetFirstPage()->GetFirstGlyph()->GetFirstGlyph();
+
+    Glyph::GlyphPtr firstChar = firstRow->GetFirstGlyph();
+    EXPECT_EQ(firstChar, c1Ptr);
+    Glyph::GlyphPtr secondChar = firstRow->GetNextGlyph(firstChar);
+    EXPECT_EQ(secondChar, c2Ptr);
+    Glyph::GlyphPtr movedChar = firstRow->GetNextGlyph(secondChar);
+    EXPECT_EQ(movedChar, nullptr);
+
+    Glyph::GlyphPtr secondRow =
+        document.GetFirstPage()->GetFirstGlyph()->GetNextGlyph(firstRow);
+    Glyph::GlyphPtr thirdChar = secondRow->GetFirstGlyph();
+    EXPECT_EQ(thirdChar, c3Ptr);
+
+    // check first character params
+    EXPECT_EQ(firstChar->GetPosition().x, 95);
+    EXPECT_EQ(firstChar->GetPosition().y, 10);
+    EXPECT_EQ(firstChar->GetWidth(), 150);
+    EXPECT_EQ(firstChar->GetHeight(), 5);
+
+    // check second character params
+    EXPECT_EQ(secondChar->GetPosition().x, 245);
+    EXPECT_EQ(secondChar->GetPosition().y, 10);
+    EXPECT_EQ(secondChar->GetWidth(), 150);
+    EXPECT_EQ(secondChar->GetHeight(), 5);
+
+    // check third character params
+    EXPECT_EQ(thirdChar->GetPosition().x, 170);
+    EXPECT_EQ(thirdChar->GetPosition().y,
+              115);  // topIndent=10 + thirdChar.height=5 + lineSpacing=100
+    EXPECT_EQ(thirdChar->GetWidth(), 150);
+    EXPECT_EQ(thirdChar->GetHeight(), 5);
 }
 
 TEST(
@@ -1439,9 +1543,9 @@ TEST(
 
     Character c1 = Character(100, 10, 5, 5, 'A');
     Glyph::GlyphPtr c1Ptr = std::make_shared<Character>(c1);
-    Character c2 = Character(212, 10, 5, 5, 'A');
+    Character c2 = Character(242, 10, 5, 5, 'A');
     Glyph::GlyphPtr c2Ptr = std::make_shared<Character>(c2);
-    Character c3 = Character(215, 10, 5, 5, 'A');
+    Character c3 = Character(250, 10, 5, 5, 'A');
     Glyph::GlyphPtr c3Ptr = std::make_shared<Character>(c3);
     document.Insert(c1Ptr);
     document.Insert(c2Ptr);
@@ -1463,13 +1567,13 @@ TEST(
             second);
     EXPECT_EQ(third, nullptr);
     // check first character params
-    EXPECT_EQ(first->GetPosition().x, 210);
+    EXPECT_EQ(first->GetPosition().x, 240);
     EXPECT_EQ(first->GetPosition().y, 10);
     EXPECT_EQ(first->GetWidth(), 5);
     EXPECT_EQ(first->GetHeight(), 5);
 
     // check second character params
-    EXPECT_EQ(second->GetPosition().x, 215);
+    EXPECT_EQ(second->GetPosition().x, 245);
     EXPECT_EQ(second->GetPosition().y, 10);
     EXPECT_EQ(second->GetWidth(), 5);
     EXPECT_EQ(second->GetHeight(), 5);
@@ -1484,9 +1588,9 @@ TEST(
 
     Character c1 = Character(100, 10, 5, 5, 'A');
     Glyph::GlyphPtr c1Ptr = std::make_shared<Character>(c1);
-    Character c2 = Character(430, 10, 5, 5, 'A');
+    Character c2 = Character(460, 10, 5, 5, 'A');
     Glyph::GlyphPtr c2Ptr = std::make_shared<Character>(c2);
-    Character c3 = Character(425, 10, 5, 5, 'A');
+    Character c3 = Character(460, 10, 5, 5, 'A');
     Glyph::GlyphPtr c3Ptr = std::make_shared<Character>(c3);
     document.Insert(c1Ptr);
     document.Insert(c2Ptr);
@@ -1517,13 +1621,13 @@ TEST(
     EXPECT_EQ(third, nullptr);  // removed
 
     // check first character params
-    EXPECT_EQ(first->GetPosition().x, 420);
+    EXPECT_EQ(first->GetPosition().x, 450);
     EXPECT_EQ(first->GetPosition().y, 10);
     EXPECT_EQ(first->GetWidth(), 5);
     EXPECT_EQ(first->GetHeight(), 5);
 
     // check second character params
-    EXPECT_EQ(second->GetPosition().x, 425);
+    EXPECT_EQ(second->GetPosition().x, 455);
     EXPECT_EQ(second->GetPosition().y, 10);
     EXPECT_EQ(second->GetWidth(), 5);
     EXPECT_EQ(second->GetHeight(), 5);
@@ -1536,15 +1640,15 @@ TEST(Document_Remove4, DocumentRemove_WhenCalled_RemoveNothingByNullptr) {
 
     Character c1 = Character(100, 10, 5, 5, 'A');
     Glyph::GlyphPtr c1Ptr = std::make_shared<Character>(c1);
-    Character c2 = Character(430, 10, 5, 5, 'A');
+    Character c2 = Character(460, 10, 5, 5, 'A');
     Glyph::GlyphPtr c2Ptr = std::make_shared<Character>(c2);
-    Character c3 = Character(425, 10, 5, 5, 'A');
+    Character c3 = Character(460, 10, 5, 5, 'A');
     Glyph::GlyphPtr c3Ptr = std::make_shared<Character>(c3);
     document.Insert(c1Ptr);
     document.Insert(c2Ptr);
     document.Insert(c3Ptr);
 
-    EXPECT_EQ(c3Ptr->GetPosition().x, 420);
+    EXPECT_EQ(c3Ptr->GetPosition().x, 455);
     EXPECT_EQ(c3Ptr->GetPosition().y, 10);
 
     Glyph::GlyphPtr c4Ptr = nullptr;
