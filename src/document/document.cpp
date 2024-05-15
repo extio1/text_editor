@@ -78,9 +78,22 @@ void Document::SelectGlyphs(GlyphContainer::GlyphList& glyphs) {
 }
 
 void Document::PasteGlyphs(int x, int y) {
-    // TO DO
+    int currentX = x;
+    int currentY = y;
+    Glyph::GlyphPtr glyph;
+    for (auto& glyph : selectedGlyphs) {
+        glyph->SetPosition(Point(currentX, currentY));  // set new position
+        this->Insert(glyph);
+        currentX = glyph->GetPosition().x +
+                   glyph->GetWidth();       // insert next glyph after this
+        currentY = glyph->GetPosition().y;  // insert next glyph to the same row
+    }
 }
 
 void Document::CutGlyphs(GlyphContainer::GlyphList& glyphs) {
-    // TO DO
+    selectedGlyphs.clear();
+    for (auto& glyph : glyphs) {
+        selectedGlyphs.push_back(glyph);
+        this->Remove(glyph);
+    }
 }

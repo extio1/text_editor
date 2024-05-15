@@ -5,12 +5,9 @@
 int charHeight = 1;
 
 void SimpleCompositor::Compose() {
-    std::cout << "SimpleCompositor::Compose()" << std::endl;
-    std::cout << document->GetPagesCount() << std::endl;
+    // std::cout << "SimpleCompositor::Compose()" << std::endl;
     GlyphContainer::GlyphList list = CutAllCharacters();
-    for (auto& glyph : list) {
-        std::cout << *glyph << std::endl;
-    }
+
     Page::PagePtr page = document->GetFirstPage();
     while (page != nullptr) {
         ComposePage(page, list);
@@ -51,15 +48,13 @@ GlyphContainer::GlyphList SimpleCompositor::CutAllCharacters() {
 
 void SimpleCompositor::ComposePage(Page::PagePtr& page,
                                    GlyphContainer::GlyphList& list) {
-    std::cout << "Composing page: " << page << " " << *page << std::endl;
+    // std::cout << "Composing page: " << page << " " << *page << std::endl;
 
     size_t columnsCount = page->GetColumnsCount();
 
     // columns on page have the same width
     int columnWidth =
         floor((page->GetWidth() - leftIndent - rightIndent) / columnsCount);
-    std::cout << columnsCount << " columns " << columnWidth << " width"
-              << std::endl;
     Glyph::GlyphPtr column = page->GetFirstGlyph();
     int currentX = leftIndent;
     while (column != nullptr) {
@@ -73,7 +68,8 @@ void SimpleCompositor::ComposePage(Page::PagePtr& page,
 void SimpleCompositor::ComposeColumn(Glyph::GlyphPtr& column, int x, int y,
                                      int width, int height,
                                      GlyphContainer::GlyphList& list) {
-    std::cout << "Composing column: " << column << " " << *column << std::endl;
+    // std::cout << "Composing column: " << column << " " << *column <<
+    // std::endl;
     column->SetPosition(Point(x, y));
     column->SetWidth(width);
     column->SetHeight(height);
@@ -100,7 +96,7 @@ void SimpleCompositor::ComposeColumn(Glyph::GlyphPtr& column, int x, int y,
 
 void SimpleCompositor::ComposeRow(Glyph::GlyphPtr& row, int x, int y, int width,
                                   GlyphContainer::GlyphList& list) {
-    std::cout << "Composing row: " << row << " " << *row << std::endl;
+    // std::cout << "Composing row: " << row << " " << *row << std::endl;
     row->SetPosition(Point(x, y));
     row->SetWidth(width);
 
@@ -146,8 +142,8 @@ void SimpleCompositor::ComposeRow(Glyph::GlyphPtr& row, int x, int y, int width,
             break;
         }
     }
-    std::cout << "currentX " << currentX << " " << GetNestedGlyphsWidth(row)
-              << std::endl;
+    // std::cout << "currentX " << currentX << " " << GetNestedGlyphsWidth(row)
+    //           << std::endl;
 
     int characterSpacing;
     switch (alignment) {
@@ -176,7 +172,7 @@ void SimpleCompositor::ComposeRow(Glyph::GlyphPtr& row, int x, int y, int width,
         }
     }
 
-    std::cout << "characterSpacing " << characterSpacing << std::endl;
+    // std::cout << "characterSpacing " << characterSpacing << std::endl;
 
     Glyph::GlyphPtr character = row->GetFirstGlyph();
     while (character != nullptr) {
@@ -188,8 +184,8 @@ void SimpleCompositor::ComposeRow(Glyph::GlyphPtr& row, int x, int y, int width,
 
 void SimpleCompositor::ComposeCharacter(Glyph::GlyphPtr& character, int x,
                                         int y) {
-    std::cout << "Composing character: " << character << " " << *character
-              << std::endl;
+    // std::cout << "Composing character: " << character << " " << *character
+    //           << std::endl;
     character->SetPosition(Point(x, y));
 }
 
