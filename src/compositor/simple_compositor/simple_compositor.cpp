@@ -7,18 +7,46 @@ int charHeight = 1;
 void SimpleCompositor::Compose() {
     std::cout << "SimpleCompositor::Compose()" << std::endl;
     std::cout << document->GetPagesCount() << std::endl;
+    GlyphContainer::GlyphList list = CutAllCharacters();
+    for (auto& glyph : list) {
+        std::cout << glyph << std::endl;
+    }
     Page::PagePtr page = document->GetFirstPage();
     while (page != nullptr) {
-        ComposePage(page);
+        ComposePage(page, list);
         page = document->GetNextPage(page);
     }
 }
 
-void SimpleCompositor::ComposePage(Page::PagePtr& page) {
+GlyphContainer::GlyphList SimpleCompositor::CutAllCharacters() {
+    GlyphContainer::GlyphList charactersList;
+
+    for (Page::PagePtr page = document->GetFirstPage(); page != nullptr;
+         page = document->GetNextPage(page)) {
+        for (Glyph::GlyphPtr column = page->GetFirstGlyph(); column != nullptr;
+             column = page->GetNextGlyph(column)) {
+            for (Glyph::GlyphPtr row = column->GetFirstGlyph(); row != nullptr;
+                 row = column->GetNextGlyph(row)) {
+                for (Glyph::GlyphPtr character = row->GetFirstGlyph();
+                     character != nullptr;) {
+                    charactersList.push_back(character);
+                    Glyph::GlyphPtr nextCharacter =
+                        row->GetNextGlyph(character);
+                    row->Remove(character);
+                    character = nextCharacter;
+                }
+            }
+        }
+    }
+
+    return charactersList;
+}
+
+void SimpleCompositor::ComposePage(Page::PagePtr& page,
+                                   GlyphContainer::GlyphList& list) {
     std::cout << "Composing page: " << page << " " << *page << std::endl;
 
     size_t columnsCount = page->GetColumnsCount();
-    GlyphContainer::GlyphList cutRows;
 
     // columns on page have the same width
     int columnWidth =
@@ -28,78 +56,57 @@ void SimpleCompositor::ComposePage(Page::PagePtr& page) {
     Glyph::GlyphPtr column = page->GetFirstGlyph();
     int currentX = leftIndent;
     while (column != nullptr) {
-        for (auto& row : cutRows) {
-            column->InsertFront(row);
-        }
-        cutRows.clear();
-        cutRows = ComposeColumn(column, currentX, topIndent, columnWidth,
-                                page->GetHeight() - topIndent - bottomIndent);
+        ComposeColumn(column, currentX, topIndent, columnWidth,
+                      page->GetHeight() - topIndent - bottomIndent, list);
         currentX += columnWidth;
         column = page->GetNextGlyph(column);
     }
-
-    if (!cutRows.empty()) {
-        Page::PagePtr newPage = std::make_shared<Page>(
-            Page(page->GetPosition().x, page->GetPosition().y, page->GetWidth(),
-                 page->GetHeight()));
-        for (auto& row : cutRows) {
-            newPage->InsertFront(row);  // what if not all cut rows can be
-                                        // replaced in new page???
-        }
-        document->AddPage(page);
-    }
 }
 
-GlyphContainer::GlyphList SimpleCompositor::ComposeColumn(
-    Glyph::GlyphPtr& column, int x, int y, int width, int height) {
+void SimpleCompositor::ComposeColumn(Glyph::GlyphPtr& column, int x, int y,
+                                     int width, int height,
+                                     GlyphContainer::GlyphList& list) {
     std::cout << "Composing column: " << column << " " << *column << std::endl;
     column->SetPosition(Point(x, y));
     column->SetWidth(width);
     column->SetHeight(height);
 
-    // after setting column borders cut excess rows from it
-    GlyphContainer::GlyphList cutRows = CutExcessRows(column);
-
-    GlyphContainer::GlyphList cutCharacters;
-
     Glyph::GlyphPtr row = column->GetFirstGlyph();
     int currentY = topIndent;
     while (row != nullptr) {
-        for (auto& character : cutCharacters) {
-            row->InsertFront(character);
-        }
-        cutCharacters.clear();
-        cutCharacters = ComposeRow(row, x, currentY, width);
+        ComposeRow(row, x, currentY, width, list);
         currentY += row->GetHeight() + lineSpacing;
         row = column->GetNextGlyph(row);
     }
-
-    if (!cutCharacters.empty()) {
-        Glyph::GlyphPtr newRow = std::make_shared<Row>(
-            Row(column->GetPosition().x, column->GetPosition().x, width,
-                charHeight));
-        for (auto& character : cutCharacters) {
-            newRow->InsertFront(character);  // what if not all cut characters
-                                             // can be replaced in new row???
-        }
-        column->Add(newRow);
-    }
-
-    return cutRows;
 }
 
-GlyphContainer::GlyphList SimpleCompositor::ComposeRow(Glyph::GlyphPtr& row,
-                                                       int x, int y,
-                                                       int width) {
+void SimpleCompositor::ComposeRow(Glyph::GlyphPtr& row, int x, int y, int width,
+                                  GlyphContainer::GlyphList& list) {
     std::cout << "Composing row: " << row << " " << *row << std::endl;
     row->SetPosition(Point(x, y));
     row->SetWidth(width);
 
-    // after setting row borders cut excess characters from it
-    GlyphContainer::GlyphList cutCharacters = CutExcessCharacters(row);
+    int currentX = 0;
+    while (!list.empty()) {
+        Glyph::GlyphPtr currentChar = list.front();
+        // if character is bigger than row, we cannot insert it in any row in
+        // document, so lessen character
+        if (currentChar->GetWidth() > row->GetWidth()) {
+            currentChar->SetWidth(row->GetWidth());
+        }
+        // while there is enough space in row add characters
+        if (currentX + currentChar->GetWidth() <= row->GetWidth()) {
+            ComposeCharacter(currentChar, currentX,
+                             y);  // firstly set new position of char
+            row->Insert(currentChar);
+            currentX += currentChar->GetWidth();
+            list.pop_front();
+        } else {
+            break;  // move to the next row
+        }
+    }
 
-    Glyph::GlyphPtr character = row->GetFirstGlyph();
-    int currentX;
+    // now compose all characters that was added to row due to format params
     switch (alignment) {
         case LEFT: {
             currentX = x;
@@ -153,13 +160,12 @@ GlyphContainer::GlyphList SimpleCompositor::ComposeRow(Glyph::GlyphPtr& row,
 
     std::cout << "characterSpacing " << characterSpacing << std::endl;
 
+    Glyph::GlyphPtr character = row->GetFirstGlyph();
     while (character != nullptr) {
         ComposeCharacter(character, currentX, y);
         currentX += character->GetWidth() + characterSpacing;
         character = row->GetNextGlyph(character);
     }
-
-    return cutCharacters;
 }
 
 void SimpleCompositor::ComposeCharacter(Glyph::GlyphPtr& character, int x,
@@ -197,64 +203,4 @@ int SimpleCompositor::GetNestedGlyphsHeight(Glyph::GlyphPtr& glyph) {
         current = glyph->GetNextGlyph(current);
     }
     return height;
-}
-
-GlyphContainer::GlyphList SimpleCompositor::CutExcessCharacters(
-    Glyph::GlyphPtr& row) {
-    GlyphContainer::GlyphList cutCharacters;
-
-    if (row->GetWidth() >= GetNestedGlyphsWidth(row)) {
-        return cutCharacters;
-    }
-
-    // skip serial characters that can be placed in row
-    Glyph::GlyphPtr character = row->GetFirstGlyph();
-    int accumulatedWidth = 0;
-    while (character != nullptr) {
-        if (accumulatedWidth + character->GetWidth() > row->GetWidth()) {
-            break;
-        }
-        accumulatedWidth += character->GetWidth();
-        character = row->GetNextGlyph(row);
-    }
-
-    // cut excess characters from row and paste into the list
-    while (character != nullptr) {
-        cutCharacters.push_back(character);
-        Glyph::GlyphPtr nextCharacter = row->GetNextGlyph(character);
-        row->Remove(character);
-        character = nextCharacter;
-    }
-
-    return cutCharacters;
-}
-
-GlyphContainer::GlyphList SimpleCompositor::CutExcessRows(
-    Glyph::GlyphPtr& column) {
-    GlyphContainer::GlyphList cutRows;
-
-    if (column->GetHeight() >= GetNestedGlyphsHeight(column)) {
-        return cutRows;
-    }
-
-    // skip serial rows that can be placed in column
-    Glyph::GlyphPtr row = column->GetFirstGlyph();
-    int accumulatedHeight = 0;
-    while (row != nullptr) {
-        if (accumulatedHeight + row->GetHeight() > column->GetHeight()) {
-            break;
-        }
-        accumulatedHeight += row->GetHeight();
-        row = column->GetNextGlyph(row);
-    }
-
-    // cut excess row from column and paste into the list
-    while (row != nullptr) {
-        cutRows.push_back(row);
-        Glyph::GlyphPtr nextRow = column->GetNextGlyph(row);
-        column->Remove(row);
-        row = nextRow;
-    }
-
-    return cutRows;
 }
