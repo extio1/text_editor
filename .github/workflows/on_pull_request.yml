@@ -29,4 +29,5 @@ jobs:
         with:
           name: build-artifacts
           path: build
+      - run: cd build
       - run: GTEST_COLOR=1 ctest -V
