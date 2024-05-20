@@ -2,7 +2,8 @@ set(target executor)
 
 set(sources 
     "executor.cpp"
-    "command/insert_symbol.cpp"
+    "command/insert_character.cpp"
+    "command/remove_character.cpp"
 )
 
 add_library(executor SHARED ${sources})

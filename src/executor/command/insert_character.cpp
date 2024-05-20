@@ -4,8 +4,9 @@
 
 InsertCharacter::InsertCharacter(Document& doc, int x, int y, int width,
                                  int height, char symbol)
-    : character(std::make_shared<Character>(x, y, width, height, symbol)),
-      doc(doc) {}
+    : doc(doc),
+      character(std::make_shared<Character>(x, y, width, height, symbol))
+{}
 
 void InsertCharacter::Execute() { doc.Insert(character); }
 
