@@ -42,7 +42,7 @@ void Document::Remove(Glyph::GlyphPtr& glyph) {
 
     // what if this glyph is not from current page ???? glyph won't be found and
     // assertion will failed
-    std::cout << std::endl;
+    std::cout << "Document::Remove()" << std::endl;
     assert(glyph != nullptr && "Cannot remove glyph by nullptr");
     currentPage->Remove(glyph);
     compositor->Compose();

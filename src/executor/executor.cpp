@@ -28,7 +28,9 @@ void Executor::Undo() {
     if (n_executed > 0) {
         auto c = command_history.pop();
         auto rc = std::dynamic_pointer_cast<ReversibleCommand>(c);
-        if (rc) rc->Unexecute();
+        if (rc) {
+            rc->Unexecute();
+        }
 
         --n_executed;
         ++n_unexecuted;

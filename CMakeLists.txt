@@ -21,4 +21,4 @@ if(CMAKE_BUILD_TYPE STREQUAL "Debug")
     target_compile_options(${target} PRIVATE -Wall -Wextra -Wconversion -pedantic -g)
 endif()
 
-target_link_libraries(${target} document point compositor)
+target_link_libraries(${target} executor document point compositor)
