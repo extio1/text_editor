@@ -3,8 +3,9 @@
 #include "document/glyphs/character.h"
 
 RemoveCharacter::RemoveCharacter(Document& doc, int x, int y)
-    : character(std::make_shared<Character>(x, y, 0, 0, 0)),  // Constuctor OK?
-      doc(doc) {}
+    : doc(doc),
+      character(std::make_shared<Character>(x, y, 0, 0, 0))  // Constuctor OK?
+{}
 
 void RemoveCharacter::Execute() { doc.Remove(character); }
 
