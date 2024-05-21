@@ -33,6 +33,8 @@ class Character : public Glyph {
     GlyphPtr GetFirstGlyph() override;
     GlyphPtr GetNextGlyph(GlyphPtr& glyph) override;
 
+    std::shared_ptr<Glyph> clone() const override;
+
    private:
     char symbol;
 };

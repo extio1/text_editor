@@ -15,3 +15,9 @@ char Character::GetChar() const { return symbol; }
 Glyph::GlyphPtr Character::GetFirstGlyph() { return nullptr; }
 
 Glyph::GlyphPtr Character::GetNextGlyph(GlyphPtr& glyph) { return nullptr; }
+
+std::shared_ptr<Glyph> Character::clone() const {
+    Character* copy = new Character(this->x, this->y, this->width, this->height,
+                                    this->symbol);
+    return std::make_shared<Character>(*copy);
+}

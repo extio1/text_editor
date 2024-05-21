@@ -92,6 +92,8 @@ class Glyph {
     virtual GlyphPtr GetFirstGlyph() = 0;
     virtual GlyphPtr GetNextGlyph(GlyphPtr& glyph) = 0;
 
+    virtual std::shared_ptr<Glyph> clone() const = 0;
+
     void SetPosition(const Point& p);
     void SetPosition(int x, int y);
     void SetWidth(int width);

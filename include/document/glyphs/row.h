@@ -37,6 +37,8 @@ class Row : public GlyphContainer {
 
     void Remove(const GlyphPtr& glyph) override;
 
+    std::shared_ptr<Glyph> clone() const override;
+
     bool IsEmpty() const;
     bool IsFull() const;
 

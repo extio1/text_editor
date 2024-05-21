@@ -20,7 +20,6 @@ void Document::SetCompositor(std::shared_ptr<Compositor> compositor) {
 }
 
 void Document::Insert(Glyph::GlyphPtr& glyph) {
-    std::cout << "Document::Insert()" << std::endl;
     currentPage->Insert(glyph);
     compositor->Compose();
     // glyph->Draw();
@@ -82,12 +81,15 @@ void Document::PasteGlyphs(int x, int y) {
     int currentY = y;
     Glyph::GlyphPtr glyph;
     for (auto& glyph : selectedGlyphs) {
-        glyph->SetPosition(Point(currentX, currentY));  // set new position
-        this->Insert(glyph);
-        currentX = glyph->GetPosition().x +
-                   glyph->GetWidth();       // insert next glyph after this
-        currentY = glyph->GetPosition().y;  // insert next glyph to the same row
+        Glyph::GlyphPtr copy = glyph->clone();
+        copy->SetPosition(Point(currentX, currentY));  // set new position
+        this->Insert(copy);
+        currentX = copy->GetPosition().x +
+                   copy->GetWidth();       // insert next glyph after this
+        currentY = copy->GetPosition().y;  // insert next glyph to the same row
     }
+    // selected glyphs is not removed from selectedGlyphs, they can be pasted or
+    // cut one more time
 }
 
 void Document::CutGlyphs(GlyphContainer::GlyphList& glyphs) {

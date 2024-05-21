@@ -3,7 +3,7 @@
 #include <iostream>
 
 void Compositor::SetDocument(Document* document) {
-    std::cout << "Compositor::SetDocument()" << std::endl;
+    // std::cout << "Compositor::SetDocument()" << std::endl;
     this->document = document;
 }
 

@@ -27,6 +27,8 @@ class MonoGlyph : public Glyph {
     GlyphPtr GetFirstGlyph() override;
     GlyphPtr GetNextGlyph(GlyphPtr& glyph) override;
 
+    std::shared_ptr<Glyph> clone() const override {}  //???
+
    protected:
     GlyphPtr component;
 };
