@@ -1771,10 +1771,7 @@ TEST(Document_CutGlyphs,
     document.Insert(c2Ptr);
     document.Insert(c3Ptr);
 
-    GlyphContainer::GlyphList list;
-    list.push_back(c1Ptr);
-    list.push_back(c3Ptr);
-    document.CutGlyphs(list);
+    document.CutGlyphs(Point(36, 10), Point(45, 10));
 
     Glyph::GlyphPtr first = document.GetFirstPage()
                                 ->GetFirstGlyph()
@@ -1809,11 +1806,7 @@ TEST(Document_CutPasteGlyphs,
     document.Insert(c2Ptr);
     document.Insert(c3Ptr);
 
-    GlyphContainer::GlyphList list;
-
-    list.push_back(c2Ptr);
-    list.push_back(c3Ptr);
-    document.CutGlyphs(list);
+    document.CutGlyphs(Point(30, 10), Point(40, 10));
 
     document.PasteGlyphs(30, 10);
 

@@ -76,13 +76,6 @@ Page::PagePtr Document::GetNextPage(const Page::PagePtr& pagePtr) {
     return std::static_pointer_cast<Page>(*nextPage);
 }
 
-// void Document::SelectGlyphs(GlyphContainer::GlyphList& glyphs) {
-//     selectedGlyphs.clear();
-//     for (auto& glyph : glyphs) {
-//         selectedGlyphs.push_back(glyph);
-//     }
-// }
-
 void Document::SelectGlyphs(const Point& start, const Point& end) {
     Glyph::GlyphPtr area = std::make_shared<Column>(
         Column(start.x, start.y, end.x - start.x - 1, end.y - start.y - 1));
@@ -99,26 +92,28 @@ void Document::SelectGlyphs(const Point& start, const Point& end) {
     }
 }
 
-void Document::PasteGlyphs(int x, int y) {
+Glyph::GlyphList Document::PasteGlyphs(int x, int y) {
     int currentX = x;
     int currentY = y;
     Glyph::GlyphPtr glyph;
+    Glyph::GlyphList copiesList;
     for (auto& glyph : selectedGlyphs) {
         Glyph::GlyphPtr copy = glyph->Clone();
         copy->SetPosition(Point(currentX, currentY));  // set new position
         this->Insert(copy);
+        copiesList.push_back(copy);
         currentX = copy->GetPosition().x +
                    copy->GetWidth();       // insert next glyph after this
         currentY = copy->GetPosition().y;  // insert next glyph to the same row
     }
     // selected glyphs is not removed from selectedGlyphs, they can be pasted or
     // cut one more time
+    return copiesList;
 }
 
-void Document::CutGlyphs(GlyphContainer::GlyphList& glyphs) {
-    selectedGlyphs.clear();
-    for (auto& glyph : glyphs) {
-        selectedGlyphs.push_back(glyph);
+void Document::CutGlyphs(const Point& start, const Point& end) {
+    SelectGlyphs(start, end);
+    for (auto& glyph : selectedGlyphs) {
         this->Remove(glyph);
     }
 }

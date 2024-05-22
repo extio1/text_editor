@@ -31,14 +31,12 @@ class Document {
      */
     void Remove(Glyph::GlyphPtr& glyph);
 
-    // /**
-    //  * @brief           Saves selected glyphs from the document to the buffer
-    //  of
-    //  * selected glyphs.
-    //  * @param glyphs    Pointer to the list of glyphs.
-    //  */
-    // void SelectGlyphs(GlyphContainer::GlyphList& glyphs);
-
+    /**
+     * @brief           Inserts glyphs from the buffer of selected glyphs into
+     * the document by the position.
+     * @param start     The starting point of the selected area in document.
+     * @param end       The end point of the selected area in document.
+     */
     void SelectGlyphs(const Point& start, const Point& end);
 
     /**
@@ -46,15 +44,17 @@ class Document {
      * the document by the position.
      * @param x         Horizontal coordinate.
      * @param y         Vertical coordinate.
+     * @return          List of created and inserted in document glyphs.
      */
-    void PasteGlyphs(int x, int y);
+    Glyph::GlyphList PasteGlyphs(int x, int y);
 
     /**
-     * @brief           Removes selected glyphs from the document and saves them
-     * to the selected buffer.
-     * @param glyphs    Pointer to the list of glyphs.
+     * @brief           Removes selected glyphs from the document and leaves
+     * them saved in the buffer.
+     * @param start     The starting point of the selected area in document.
+     * @param end       The end point of the selected area in document.
      */
-    void CutGlyphs(GlyphContainer::GlyphList& glyphs);
+    void CutGlyphs(const Point& start, const Point& end);
 
     void SetCurrentPage(Page::PagePtr page);
     Page::PagePtr GetCurrentPage();
