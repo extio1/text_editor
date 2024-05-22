@@ -7,7 +7,7 @@
 
 class RemoveCharacter : public ReversibleCommand {
    public:
-    RemoveCharacter(Document& doc, int x, int y);
+    explicit RemoveCharacter(IDocument& doc, int x, int y);
 
     RemoveCharacter(RemoveCharacter&&) = default;
     RemoveCharacter& operator=(RemoveCharacter&&) = default;
@@ -20,7 +20,7 @@ class RemoveCharacter : public ReversibleCommand {
     ~RemoveCharacter() override;
 
    private:
-    Document& doc;
+    IDocument& doc;
     Glyph::GlyphPtr character;
 };
 

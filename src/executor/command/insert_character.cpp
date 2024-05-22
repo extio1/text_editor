@@ -2,7 +2,7 @@
 
 #include "document/glyphs/character.h"
 
-InsertCharacter::InsertCharacter(Document& doc, int x, int y, int width,
+InsertCharacter::InsertCharacter(IDocument& doc, int x, int y, int width,
                                  int height, char symbol)
     : doc(doc),
       character(std::make_shared<Character>(x, y, width, height, symbol))

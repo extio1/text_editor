@@ -11,19 +11,19 @@ class CircularBuffer {
     explicit CircularBuffer(size_t capacity)
         : buffer(std::vector<T>(capacity)),
           capacity(capacity),
-          next_indx(capacity) {}
+          next_index(capacity) {}
 
     bool empty() { return capacity == 0; }
 
     void push(T&& obj) {
-        buffer[next_indx++] = std::move(obj);
+        buffer[next_index++] = std::move(obj);
         ++capacity;
     }
 
-    const T& get_next() { return buffer[next_indx++]; }
+    const T& get_next() { return buffer[next_index++]; }
 
     const T& pop() {
-        auto& v = buffer[--next_indx];
+        auto& v = buffer[--next_index];
         --capacity;
         return v;
     }
@@ -54,6 +54,8 @@ class CircularBuffer {
             val = (val > 0) ? val - 1 : max_value - 1;
             return v;
         }
+
+        bool operator==(const int o) { return val == o; }
 
         std::size_t get_value() { return val; }
 
@@ -88,7 +90,7 @@ class CircularBuffer {
             return v;
         }
 
-        bool operator==(int o) { return val == o; }
+        bool operator==(const int o) { return val == o; }
 
         std::size_t get_value() { return val; }
 
@@ -98,6 +100,6 @@ class CircularBuffer {
     };
 
     std::vector<T> buffer;
-    CircularValue next_indx;  // Index there to push new element
+    CircularValue next_index;  // Index there to push new element
     LimitedValue capacity;    // Current number of elements in circular buffer
 };

@@ -9,9 +9,22 @@
 const int pageWidth = 500;
 const int pageHeight = 1000;
 
+/**
+ * Interface for google mock.
+ * Executor's commands depend on this interface
+ */
+class IDocument {
+   public:
+    virtual void Insert(Glyph::GlyphPtr& glyph) = 0;
+    virtual void Remove(Glyph::GlyphPtr& glyph) = 0;
+    virtual void SelectGlyphs(GlyphContainer::GlyphList& glyphs) = 0;
+    virtual void PasteGlyphs(int x, int y) = 0;
+    virtual void CutGlyphs(GlyphContainer::GlyphList& glyphs) = 0;
+};
+
 class Compositor;
 
-class Document {
+class Document : public IDocument {
    public:
     using PageList = std::list<Page::PagePtr>;
 
@@ -75,5 +88,6 @@ class Document {
 
     GlyphContainer::GlyphList selectedGlyphs;
 };
+
 
 #endif  // TEXT_EDITOR_DOCUMENT_H_
