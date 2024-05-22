@@ -7,6 +7,10 @@ MonoGlyph::MonoGlyph(GlyphPtr& glyph)
     component = glyph;
 }
 
+Glyph::GlyphList MonoGlyph::Select(const Glyph::GlyphPtr& area) {
+    return component->Select(area);
+}
+
 void MonoGlyph::Draw() {
     std::cout << "Monoglyph::Draw()" << std::endl;
     component->Draw();

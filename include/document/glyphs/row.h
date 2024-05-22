@@ -22,6 +22,8 @@ class Row : public GlyphContainer {
      */
     explicit Row(const int x, const int y, const int width, const int height);
 
+    Glyph::GlyphList Select(const Glyph::GlyphPtr& area) override;
+
     /**
      * @brief           Inserts a glyph into the string at the position closest
      * to the specified one.

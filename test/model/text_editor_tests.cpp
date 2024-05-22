@@ -309,47 +309,48 @@ TEST(GlyphContainer_GetGlyphByIndex3,
     ASSERT_DEATH(rowPtr->GetGlyphByIndex(-1), "Invalid index of glyph");
 }
 
-TEST(GlyphContainer_Find1, GlyphContainerFind_WhenCalled_ReturnsGlyphPtr) {
-    Row r = Row(1, 2, 3, 4);
-    std::shared_ptr<GlyphContainer> rowPtr = std::make_shared<Row>(r);
-    Character c = Character(1, 2, 3, 4, 'A');
-    Glyph::GlyphPtr cPtr = std::make_shared<Character>(c);
-    rowPtr->Add(cPtr);
+// TEST(GlyphContainer_Find1, GlyphContainerFind_WhenCalled_ReturnsGlyphPtr) {
+//     Row r = Row(1, 2, 3, 4);
+//     std::shared_ptr<GlyphContainer> rowPtr = std::make_shared<Row>(r);
+//     Character c = Character(1, 2, 3, 4, 'A');
+//     Glyph::GlyphPtr cPtr = std::make_shared<Character>(c);
+//     rowPtr->Add(cPtr);
 
-    Character c2 = Character(5, 6, 7, 8, 'B');
-    Glyph::GlyphPtr c2Ptr = std::make_shared<Character>(c2);
-    rowPtr->Add(c2Ptr);
+//     Character c2 = Character(5, 6, 7, 8, 'B');
+//     Glyph::GlyphPtr c2Ptr = std::make_shared<Character>(c2);
+//     rowPtr->Add(c2Ptr);
 
-    ASSERT_EQ(rowPtr->Find(Point(1, 2)), cPtr);
-}
+//     ASSERT_EQ(rowPtr->Find(Point(1, 2)), cPtr);
+// }
 
-TEST(GlyphContainer_Find2, GlyphContainerFind_WhenCalled_ReturnsGlyphPtr) {
-    Row r = Row(1, 2, 3, 4);
-    std::shared_ptr<GlyphContainer> rowPtr = std::make_shared<Row>(r);
-    Character c = Character(1, 2, 3, 4, 'A');
-    Glyph::GlyphPtr cPtr = std::make_shared<Character>(c);
-    rowPtr->Add(cPtr);
+// TEST(GlyphContainer_Find2, GlyphContainerFind_WhenCalled_ReturnsGlyphPtr) {
+//     Row r = Row(1, 2, 3, 4);
+//     std::shared_ptr<GlyphContainer> rowPtr = std::make_shared<Row>(r);
+//     Character c = Character(1, 2, 3, 4, 'A');
+//     Glyph::GlyphPtr cPtr = std::make_shared<Character>(c);
+//     rowPtr->Add(cPtr);
 
-    Character c2 = Character(5, 6, 7, 8, 'B');
-    Glyph::GlyphPtr c2Ptr = std::make_shared<Character>(c2);
-    rowPtr->Add(c2Ptr);
+//     Character c2 = Character(5, 6, 7, 8, 'B');
+//     Glyph::GlyphPtr c2Ptr = std::make_shared<Character>(c2);
+//     rowPtr->Add(c2Ptr);
 
-    ASSERT_EQ(rowPtr->Find(Point(0, 0)), nullptr);
-}
+//     ASSERT_EQ(rowPtr->Find(Point(0, 0)), nullptr);
+// }
 
-TEST(GlyphContainer_Find3, GlyphContainerFind_WhenCalled_ReturnsFirstGlyphPtr) {
-    Row r = Row(1, 2, 3, 4);
-    std::shared_ptr<GlyphContainer> rowPtr = std::make_shared<Row>(r);
-    Character c = Character(1, 2, 3, 4, 'A');
-    Glyph::GlyphPtr cPtr = std::make_shared<Character>(c);
-    rowPtr->Add(cPtr);
+// TEST(GlyphContainer_Find3,
+// GlyphContainerFind_WhenCalled_ReturnsFirstGlyphPtr) {
+//     Row r = Row(1, 2, 3, 4);
+//     std::shared_ptr<GlyphContainer> rowPtr = std::make_shared<Row>(r);
+//     Character c = Character(1, 2, 3, 4, 'A');
+//     Glyph::GlyphPtr cPtr = std::make_shared<Character>(c);
+//     rowPtr->Add(cPtr);
 
-    Character c2 = Character(1, 2, 3, 4, 'B');
-    Glyph::GlyphPtr c2Ptr = std::make_shared<Character>(c2);
-    rowPtr->Add(c2Ptr);
+//     Character c2 = Character(1, 2, 3, 4, 'B');
+//     Glyph::GlyphPtr c2Ptr = std::make_shared<Character>(c2);
+//     rowPtr->Add(c2Ptr);
 
-    ASSERT_EQ(rowPtr->Find(Point(1, 2)), cPtr);
-}
+//     ASSERT_EQ(rowPtr->Find(Point(1, 2)), cPtr);
+// }
 
 TEST(GlyphContainer_Add1, GlyphContainerAdd_WhenCalled_AddsGlyph) {
     Row r = Row(1, 2, 3, 4);
@@ -1614,10 +1615,7 @@ TEST(Document_SelectGlyphs,
     document.Insert(c2Ptr);
     document.Insert(c3Ptr);
 
-    GlyphContainer::GlyphList list;
-    list.push_back(c1Ptr);
-    list.push_back(c3Ptr);
-    document.SelectGlyphs(list);
+    document.SelectGlyphs(Point(30, 10), Point(45, 10));
 
     // nothing change
     Glyph::GlyphPtr first = document.GetFirstPage()
@@ -1767,11 +1765,7 @@ TEST(Document_SelectPasteGlyphs,
     document.Insert(c2Ptr);
     document.Insert(c3Ptr);
 
-    GlyphContainer::GlyphList list;
-
-    list.push_back(c2Ptr);
-    list.push_back(c3Ptr);
-    document.SelectGlyphs(list);
+    document.SelectGlyphs(Point(30, 10), Point(40, 10));
 
     document.PasteGlyphs(30, 10);
 

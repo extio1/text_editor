@@ -6,6 +6,7 @@
 #include <optional>
 
 #include "document/glyphs/row.h"
+#include "utils/find_all_if.h"
 
 int charHeight = 1;  // temporary!!!
 
@@ -14,6 +15,21 @@ Column::Column(const int x, const int y, const int width, const int height)
     Glyph::GlyphPtr firstRowPtr =
         std::make_shared<Row>(Row(x, y, width, charHeight));
     this->Add(firstRowPtr);
+}
+
+Glyph::GlyphList Column::Select(const Glyph::GlyphPtr& area) {
+    auto intersectedRows = find_all_if(
+        components.begin(), components.end(),
+        [&](const auto& component) { return component->Intersects(area); });
+
+    Glyph::GlyphList list;
+
+    for (auto row : intersectedRows) {
+        Glyph::GlyphList glyphsFromCurrentRow = (*row)->Select(area);
+        list.insert(list.end(), glyphsFromCurrentRow.begin(),
+                    glyphsFromCurrentRow.end());
+    }
+    return list;
 }
 
 void Column::Insert(GlyphPtr& glyph) {

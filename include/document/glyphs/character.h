@@ -22,6 +22,8 @@ class Character : public Glyph {
     ~Character() {}
     void Draw() override;
 
+    Glyph::GlyphList Select(const Glyph::GlyphPtr& area) override {}
+
     void Insert(GlyphPtr& glyph) override {}
     void InsertFront(GlyphPtr& glyph) override {}
     void Remove(const GlyphPtr& glyph) override {}

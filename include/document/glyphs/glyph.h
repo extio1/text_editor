@@ -2,6 +2,7 @@
 #define TEXT_EDITOR_GLYPH_H_
 
 #include <iostream>
+#include <list>
 #include <memory>
 
 #include "utils/point.h"
@@ -12,6 +13,7 @@
 class Glyph {
    public:
     using GlyphPtr = std::shared_ptr<Glyph>;
+    using GlyphList = std::list<Glyph::GlyphPtr>;
 
     /**
      * @brief           Creates glyph with specified position and size.
@@ -54,6 +56,8 @@ class Glyph {
      * @param glyph     Pointer to the glyph.
      */
     bool Intersects(const GlyphPtr& glyph) const;
+
+    virtual GlyphList Select(const Glyph::GlyphPtr& area) = 0;
 
     /**
      * @brief           Inserts by index another glyph into the glyph passed by

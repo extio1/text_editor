@@ -30,16 +30,6 @@ Glyph::GlyphPtr GlyphContainer::GetGlyphByIndex(int index) {
     return nullptr;
 }
 
-// what if more than one glyphs intersects point???
-Glyph::GlyphPtr GlyphContainer::Find(const Point& point) {
-    for (auto& it : components) {
-        if (it->Intersects(point)) {
-            return it;
-        }
-    }
-    return nullptr;
-}
-
 void GlyphContainer::Draw() {
     std::cout << "GlyphContainer::Draw()" << std::endl;
     for (auto component : components) {

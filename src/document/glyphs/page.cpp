@@ -4,6 +4,7 @@
 #include <cassert>
 
 #include "document/document.h"
+#include "utils/find_all_if.h"
 
 Page::Page(const int x, const int y, const int width, const int height)
     : GlyphContainer(x, y, width, height) {
@@ -15,6 +16,21 @@ Page::Page(const int x, const int y, const int width, const int height)
 void Page::Draw() {
     std::cout << "Page::Draw()" << std::endl;
     GlyphContainer::Draw();
+}
+
+Glyph::GlyphList Page::Select(const Glyph::GlyphPtr& area) {
+    auto intersectedColumns = find_all_if(
+        components.begin(), components.end(),
+        [&](const auto& component) { return component->Intersects(area); });
+
+    Glyph::GlyphList list;
+
+    for (auto column : intersectedColumns) {
+        Glyph::GlyphList glyphsFromCurrentColumn = (*column)->Select(area);
+        list.insert(list.end(), glyphsFromCurrentColumn.begin(),
+                    glyphsFromCurrentColumn.end());
+    }
+    return list;
 }
 
 void Page::Insert(GlyphPtr& glyph) {

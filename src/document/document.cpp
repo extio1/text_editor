@@ -69,7 +69,23 @@ Page::PagePtr Document::GetNextPage(const Page::PagePtr& pagePtr) {
     return std::static_pointer_cast<Page>(*nextPage);
 }
 
-void Document::SelectGlyphs(GlyphContainer::GlyphList& glyphs) {
+// void Document::SelectGlyphs(GlyphContainer::GlyphList& glyphs) {
+//     selectedGlyphs.clear();
+//     for (auto& glyph : glyphs) {
+//         selectedGlyphs.push_back(glyph);
+//     }
+// }
+
+void Document::SelectGlyphs(const Point& start, const Point& end) {
+    Glyph::GlyphPtr area = std::make_shared<Column>(
+        Column(start.x, start.y, end.x - start.x - 1, end.y - start.y - 1));
+    GlyphContainer::GlyphList list;
+    Glyph::GlyphList glyphs = currentPage->Select(area);
+    std::cout << "Selected glyphs:" << std::endl;
+    for (auto glyph : glyphs) {
+        std::cout << *glyph << std::endl;
+    }
+
     selectedGlyphs.clear();
     for (auto& glyph : glyphs) {
         selectedGlyphs.push_back(glyph);

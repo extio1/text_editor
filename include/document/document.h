@@ -31,12 +31,15 @@ class Document {
      */
     void Remove(Glyph::GlyphPtr& glyph);
 
-    /**
-     * @brief           Saves selected glyphs from the document to the buffer of
-     * selected glyphs.
-     * @param glyphs    Pointer to the list of glyphs.
-     */
-    void SelectGlyphs(GlyphContainer::GlyphList& glyphs);
+    // /**
+    //  * @brief           Saves selected glyphs from the document to the buffer
+    //  of
+    //  * selected glyphs.
+    //  * @param glyphs    Pointer to the list of glyphs.
+    //  */
+    // void SelectGlyphs(GlyphContainer::GlyphList& glyphs);
+
+    void SelectGlyphs(const Point& start, const Point& end);
 
     /**
      * @brief           Inserts glyphs from the buffer of selected glyphs into
