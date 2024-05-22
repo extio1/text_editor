@@ -37,3 +37,6 @@
 
 # Build
 build/*
+
+# idea configs
+.idea/*

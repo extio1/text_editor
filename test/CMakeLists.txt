@@ -6,3 +6,4 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(googletest)
 
 add_subdirectory(model)
+add_subdirectory(controller)
