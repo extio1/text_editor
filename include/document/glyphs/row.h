@@ -30,13 +30,6 @@ class Row : public GlyphContainer {
      * @param glyph     Pointer to the glyph.
      */
     void Insert(GlyphPtr& glyph);
-
-    /**
-     * @brief           Inserts a glyph at the beginning of the line.
-     * @param glyph     Pointer to the glyph.
-     */
-    void InsertFront(GlyphPtr& glyph);
-
     void Remove(const GlyphPtr& glyph) override;
 
     std::shared_ptr<Glyph> Clone() const override;

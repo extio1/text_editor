@@ -26,11 +26,6 @@ void MonoGlyph::Insert(GlyphPtr& glyph) {
     component->Insert(glyph);
 }
 
-void MonoGlyph::InsertFront(GlyphPtr& glyph) {
-    std::cout << "Monoglyph::Insert()" << std::endl;
-    component->InsertFront(glyph);
-}
-
 void MonoGlyph::Remove(const GlyphPtr& glyph) {
     std::cout << "Monoglyph::Remove()" << std::endl;
     component->Remove(glyph);

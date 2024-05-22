@@ -42,10 +42,6 @@ void Column::Insert(GlyphPtr& glyph) {
     (*intersectedGlyphIt)->Insert(glyph);
 }
 
-void Column::InsertFront(GlyphPtr& glyph) {
-    // TO DO
-}
-
 void Column::Remove(const GlyphPtr& glyph) {
     assert(glyph != nullptr && "Cannot remove glyph by nullptr");
     auto it = std::find(components.begin(), components.end(), glyph);

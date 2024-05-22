@@ -43,10 +43,6 @@ void Page::Insert(GlyphPtr& glyph) {
     (*intersectedGlyphIt)->Insert(glyph);
 }
 
-void Page::InsertFront(GlyphPtr& glyph) {
-    // TO DO
-}
-
 void Page::Remove(const GlyphPtr& glyph) {
     assert(glyph != nullptr && "Cannot remove glyph by nullptr");
     auto it = std::find(components.begin(), components.end(), glyph);
