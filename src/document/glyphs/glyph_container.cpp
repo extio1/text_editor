@@ -49,17 +49,6 @@ void GlyphContainer::Draw() {
 
 void GlyphContainer::Add(GlyphPtr glyph) { components.push_back(glyph); }
 
-// void GlyphContainer::Insert(GlyphPtr glyph, int index) {
-//     assert(index >= 0 && "Invalid position for inserting glyph");
-//     if (index >= components.size()) {
-//         components.push_back(glyph);
-//     } else {
-//         auto iter = components.begin();
-//         std::advance(iter, index);
-//         components.insert(iter, glyph);
-//     }
-// }
-
 void GlyphContainer::MoveGlyph(int x, int y) {
     Glyph::MoveGlyph(x, y);
     for (auto component : components) {

@@ -45,7 +45,7 @@ bool Column::IsFull() const { return usedHeight >= height; }
 int Column::GetFreeSpace() const { return height - usedHeight; }
 int Column::GetUsedSpace() const { return usedHeight; }
 
-std::shared_ptr<Glyph> Column::clone() const {
+std::shared_ptr<Glyph> Column::Clone() const {
     Column* copy = new Column(this->x, this->y, this->width, this->height);
     return std::make_shared<Column>(*copy);
 }

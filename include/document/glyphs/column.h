@@ -28,7 +28,7 @@ class Column : public GlyphContainer {
     void InsertFront(GlyphPtr& glyph) override;
     void Remove(const GlyphPtr& glyph) override;
 
-    std::shared_ptr<Glyph> clone() const override;
+    std::shared_ptr<Glyph> Clone() const override;
 
     bool IsEmpty() const;
     bool IsFull() const;

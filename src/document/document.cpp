@@ -81,7 +81,7 @@ void Document::PasteGlyphs(int x, int y) {
     int currentY = y;
     Glyph::GlyphPtr glyph;
     for (auto& glyph : selectedGlyphs) {
-        Glyph::GlyphPtr copy = glyph->clone();
+        Glyph::GlyphPtr copy = glyph->Clone();
         copy->SetPosition(Point(currentX, currentY));  // set new position
         this->Insert(copy);
         currentX = copy->GetPosition().x +

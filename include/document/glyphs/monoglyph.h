@@ -15,7 +15,7 @@ class MonoGlyph : public Glyph {
      * itself.
      * @param glyph     A two-dimensional point.
      */
-    explicit MonoGlyph(GlyphPtr glyph);
+    explicit MonoGlyph(GlyphPtr& glyph);
 
     void Draw();
 
@@ -27,7 +27,7 @@ class MonoGlyph : public Glyph {
     GlyphPtr GetFirstGlyph() override;
     GlyphPtr GetNextGlyph(GlyphPtr& glyph) override;
 
-    std::shared_ptr<Glyph> clone() const override {}  //???
+    std::shared_ptr<Glyph> Clone() const override;
 
    protected:
     GlyphPtr component;

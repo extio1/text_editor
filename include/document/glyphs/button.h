@@ -34,7 +34,7 @@ class Button : public Glyph {
      */
     bool IsPressed() const;
 
-    std::shared_ptr<Glyph> clone() const override;
+    std::shared_ptr<Glyph> Clone() const override;
 
    private:
     std::string name;

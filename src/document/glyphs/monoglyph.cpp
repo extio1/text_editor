@@ -1,6 +1,6 @@
 #include "document/glyphs/monoglyph.h"
 
-MonoGlyph::MonoGlyph(GlyphPtr glyph)
+MonoGlyph::MonoGlyph(GlyphPtr& glyph)
     : Glyph(glyph->GetPosition().x, glyph->GetPosition().y, glyph->GetWidth(),
             glyph->GetHeight()) {
     std::cout << "Monoglyph::Constructor()" << std::endl;
@@ -35,3 +35,10 @@ void MonoGlyph::Remove(const GlyphPtr& glyph) {
 Glyph::GlyphPtr MonoGlyph::GetFirstGlyph() { return component; }
 
 Glyph::GlyphPtr MonoGlyph::GetNextGlyph(GlyphPtr& glyph) { return nullptr; }
+
+std::shared_ptr<Glyph> MonoGlyph::Clone() const {
+    // MonoGlyph* copy =
+    //     new MonoGlyph(this->component);
+    // return std::make_shared<MonoGlyph>(*copy);
+    return nullptr;  //???
+}

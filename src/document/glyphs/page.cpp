@@ -43,7 +43,7 @@ void Page::Remove(const GlyphPtr& glyph) {
 
 size_t Page::GetColumnsCount() { return components.size(); }
 
-std::shared_ptr<Glyph> Page::clone() const {
+std::shared_ptr<Glyph> Page::Clone() const {
     Page* copy = new Page(this->x, this->y, this->width, this->height);
     return std::make_shared<Page>(*copy);
 }

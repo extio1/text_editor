@@ -92,7 +92,12 @@ class Glyph {
     virtual GlyphPtr GetFirstGlyph() = 0;
     virtual GlyphPtr GetNextGlyph(GlyphPtr& glyph) = 0;
 
-    virtual std::shared_ptr<Glyph> clone() const = 0;
+    /**
+     * @brief           Creates a copy of the glyph and wraps it in a smart
+     * pointer.
+     * @return          Shared pointer to the copy of glyph.
+     */
+    virtual std::shared_ptr<Glyph> Clone() const = 0;
 
     void SetPosition(const Point& p);
     void SetPosition(int x, int y);

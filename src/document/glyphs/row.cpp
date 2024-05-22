@@ -60,7 +60,7 @@ bool Row::IsFull() const { return usedWidth >= width; }
 int Row::GetFreeSpace() const { return width - usedWidth; }
 int Row::GetUsedSpace() const { return usedWidth; }
 
-std::shared_ptr<Glyph> Row::clone() const {
+std::shared_ptr<Glyph> Row::Clone() const {
     Row* copy = new Row(this->x, this->y, this->width, this->height);
     return std::make_shared<Row>(*copy);
 }
