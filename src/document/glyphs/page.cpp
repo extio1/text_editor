@@ -48,6 +48,13 @@ void Page::InsertFront(GlyphPtr& glyph) {
 }
 
 void Page::Remove(const GlyphPtr& glyph) {
+    assert(glyph != nullptr && "Cannot remove glyph by nullptr");
+    auto it = std::find(components.begin(), components.end(), glyph);
+    if (it != components.end()) {
+        if (it != components.begin()) components.erase(it);
+        return;
+    }
+
     auto intersectedGlyphIt = std::find_if(
         components.begin(), components.end(),
         [&](const auto& component) { return component->Intersects(glyph); });

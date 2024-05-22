@@ -26,6 +26,13 @@ void Document::Insert(Glyph::GlyphPtr& glyph) {
 }
 
 void Document::Remove(Glyph::GlyphPtr& glyph) {
+    assert(glyph != nullptr && "Cannot remove glyph by nullptr");
+    auto it = std::find(pages.begin(), pages.end(), glyph);
+    if (it != pages.end()) {
+        if (it != pages.begin()) pages.erase(it);
+        return;
+    }
+
     // what if this glyph is not from current page ???? glyph won't be found and
     // assertion will failed
     std::cout << std::endl;
@@ -48,9 +55,9 @@ size_t Document::GetPageHeight() const { return pageHeight; }
 
 void Document::AddPage(const Page::PagePtr& page) {
     pages.push_back(page);
-    if (compositor) {
-        compositor->Compose();  // page can be non-formated
-    }
+    // if (compositor) {
+    // compositor->Compose();  // page can be non-formated
+    // }
 }
 
 Page::PagePtr Document::GetFirstPage() { return *(pages.begin()); }

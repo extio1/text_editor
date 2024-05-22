@@ -1399,6 +1399,63 @@ TEST(
 }
 
 TEST(Document_Insert11,
+     DocumentInsert_WhenCalled_InsertCharactersIntoSeveralPages) {
+    Document document;
+    document.SetCompositor(std::make_shared<SimpleCompositor>(
+        10, 20, 30, 40, Compositor::CENTER, 100));
+
+    Character c1 = Character(100, 10, 150, 1000, 'A');
+    Glyph::GlyphPtr c1Ptr = std::make_shared<Character>(c1);
+    Character c2 = Character(320, 10, 150, 1000, 'A');
+    Glyph::GlyphPtr c2Ptr = std::make_shared<Character>(c2);
+    Character c3 = Character(395, 10, 150, 5, 'A');
+    Glyph::GlyphPtr c3Ptr = std::make_shared<Character>(c3);
+    document.Insert(c1Ptr);
+    document.Insert(c2Ptr);
+    document.Insert(c3Ptr);
+
+    Glyph::GlyphPtr firstRow =
+        document.GetFirstPage()->GetFirstGlyph()->GetFirstGlyph();
+
+    Glyph::GlyphPtr firstChar = firstRow->GetFirstGlyph();
+    EXPECT_EQ(firstChar, c1Ptr);
+    Glyph::GlyphPtr secondChar = firstRow->GetNextGlyph(firstChar);
+    EXPECT_EQ(secondChar, c2Ptr);
+    Glyph::GlyphPtr movedChar = firstRow->GetNextGlyph(secondChar);
+    EXPECT_EQ(movedChar, nullptr);
+
+    // only one row is on the first page
+    EXPECT_EQ(document.GetFirstPage()->GetFirstGlyph()->GetNextGlyph(firstRow),
+              nullptr);
+
+    // second row on the next page
+    Glyph::GlyphPtr secondRow = document.GetNextPage(document.GetFirstPage())
+                                    ->GetFirstGlyph()
+                                    ->GetFirstGlyph();
+    Glyph::GlyphPtr thirdChar = secondRow->GetFirstGlyph();
+    EXPECT_EQ(thirdChar, c3Ptr);
+
+    // check first character params
+    EXPECT_EQ(firstChar->GetPosition().x, 95);
+    EXPECT_EQ(firstChar->GetPosition().y, 10);
+    EXPECT_EQ(firstChar->GetWidth(), 150);
+    EXPECT_EQ(firstChar->GetHeight(), 1000);
+
+    // check second character params
+    EXPECT_EQ(secondChar->GetPosition().x, 245);
+    EXPECT_EQ(secondChar->GetPosition().y, 10);
+    EXPECT_EQ(secondChar->GetWidth(), 150);
+    EXPECT_EQ(secondChar->GetHeight(), 1000);
+
+    // check third character params
+    EXPECT_EQ(thirdChar->GetPosition().x, 170);
+    EXPECT_EQ(thirdChar->GetPosition().y,
+              10);  // top of second page
+    EXPECT_EQ(thirdChar->GetWidth(), 150);
+    EXPECT_EQ(thirdChar->GetHeight(), 5);
+}
+
+TEST(Document_Insert12,
      DocumentInsertDueToWrongPosition_WhenCalled_AssertFailed) {
     Document document;
     document.SetCompositor(std::make_shared<SimpleCompositor>(
@@ -1597,6 +1654,54 @@ TEST(Document_Remove5, DocumentRemove_WhenCalled_RemoveFromEmptyDocument) {
     Glyph::GlyphPtr c1Ptr = std::make_shared<Character>(c1);
 
     ASSERT_DEATH(document.Remove(c1Ptr), "No suitable character for removing");
+}
+
+TEST(Document_Remove6,
+     DocumentRemove_WhenCalled_RemovesCharacterAndComposePages) {
+    Document document;
+    document.SetCompositor(std::make_shared<SimpleCompositor>(
+        10, 20, 30, 40, Compositor::CENTER, 100));
+
+    Character c1 = Character(100, 10, 150, 1000, 'A');
+    Glyph::GlyphPtr c1Ptr = std::make_shared<Character>(c1);
+    Character c2 = Character(320, 10, 150, 1000, 'A');
+    Glyph::GlyphPtr c2Ptr = std::make_shared<Character>(c2);
+    Character c3 = Character(395, 10, 150, 5, 'A');
+    Glyph::GlyphPtr c3Ptr = std::make_shared<Character>(c3);
+    document.Insert(c1Ptr);
+    document.Insert(c2Ptr);
+    document.Insert(c3Ptr);
+
+    document.Remove(c1Ptr);
+
+    Glyph::GlyphPtr firstRow =
+        document.GetFirstPage()->GetFirstGlyph()->GetFirstGlyph();
+
+    Glyph::GlyphPtr firstChar = firstRow->GetFirstGlyph();
+    EXPECT_EQ(firstChar, c2Ptr);
+    Glyph::GlyphPtr secondChar = firstRow->GetNextGlyph(firstChar);
+    EXPECT_EQ(secondChar, c3Ptr);
+    Glyph::GlyphPtr movedChar = firstRow->GetNextGlyph(secondChar);
+    EXPECT_EQ(movedChar, nullptr);
+
+    // only one row is on the first page
+    EXPECT_EQ(document.GetFirstPage()->GetFirstGlyph()->GetNextGlyph(firstRow),
+              nullptr);
+
+    // empty second page was removed
+    EXPECT_EQ(document.GetNextPage(document.GetFirstPage()), nullptr);
+
+    // check first character params
+    EXPECT_EQ(firstChar->GetPosition().x, 95);
+    EXPECT_EQ(firstChar->GetPosition().y, 10);
+    EXPECT_EQ(firstChar->GetWidth(), 150);
+    EXPECT_EQ(firstChar->GetHeight(), 1000);
+
+    // check second character params
+    EXPECT_EQ(secondChar->GetPosition().x, 245);
+    EXPECT_EQ(secondChar->GetPosition().y, 10);
+    EXPECT_EQ(secondChar->GetWidth(), 150);
+    EXPECT_EQ(secondChar->GetHeight(), 5);
 }
 
 TEST(Document_SelectGlyphs,

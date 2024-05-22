@@ -10,8 +10,15 @@ void SimpleCompositor::Compose() {
 
     Page::PagePtr page = document->GetFirstPage();
     while (page != nullptr) {
-        ComposePage(page, list);
-        page = document->GetNextPage(page);
+        if (list.empty() && page != document->GetFirstPage()) {
+            Glyph::GlyphPtr pagePtr = std::static_pointer_cast<Glyph>(page);
+            Page::PagePtr nextPage = document->GetNextPage(page);
+            document->Remove(pagePtr);
+            page = nextPage;
+        } else {
+            ComposePage(page, list);
+            page = document->GetNextPage(page);
+        }
     }
 
     while (!list.empty()) {
@@ -58,10 +65,16 @@ void SimpleCompositor::ComposePage(Page::PagePtr& page,
     Glyph::GlyphPtr column = page->GetFirstGlyph();
     int currentX = leftIndent;
     while (column != nullptr) {
-        ComposeColumn(column, currentX, topIndent, columnWidth,
-                      page->GetHeight() - topIndent - bottomIndent, list);
-        currentX += columnWidth;
-        column = page->GetNextGlyph(column);
+        if (list.empty() && column != page->GetFirstGlyph()) {
+            Glyph::GlyphPtr nextColumn = page->GetNextGlyph(column);
+            page->Remove(column);
+            column = nextColumn;
+        } else {
+            ComposeColumn(column, currentX, topIndent, columnWidth,
+                          page->GetHeight() - topIndent - bottomIndent, list);
+            currentX += columnWidth;
+            column = page->GetNextGlyph(column);
+        }
     }
 }
 
@@ -77,9 +90,15 @@ void SimpleCompositor::ComposeColumn(Glyph::GlyphPtr& column, int x, int y,
     Glyph::GlyphPtr row = column->GetFirstGlyph();
     int currentY = topIndent;
     while (row != nullptr) {
-        ComposeRow(row, x, currentY, width, list);
-        currentY += row->GetHeight() + lineSpacing;
-        row = column->GetNextGlyph(row);
+        if (list.empty() && row != column->GetFirstGlyph()) {
+            Glyph::GlyphPtr nextRow = column->GetNextGlyph(row);
+            column->Remove(row);
+            row = nextRow;
+        } else {
+            ComposeRow(row, x, currentY, width, list);
+            currentY += row->GetHeight() + lineSpacing;
+            row = column->GetNextGlyph(row);
+        }
     }
 
     while (!list.empty()) {
