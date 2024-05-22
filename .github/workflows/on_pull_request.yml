@@ -22,12 +22,13 @@ jobs:
   test:
     needs: [build]
     runs-on: ubuntu-latest
-    
+
     steps:
       - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
         with:
           name: build-artifacts
           path: build
-      - run: chmod +x build/test/model/model_test
+      - run: chmod +x build/test/model/*
+      - run: chmod +x build/test/controller/*
       - run: GTEST_COLOR=1 ctest -V --test-dir build/

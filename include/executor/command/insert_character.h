@@ -7,7 +7,7 @@
 
 class InsertCharacter : public ReversibleCommand {
    public:
-    InsertCharacter(Document& doc, int x, int y, int wight, int height,
+    explicit InsertCharacter(IDocument& doc, int x, int y, int wight, int height,
                     char symbol);
 
     InsertCharacter(InsertCharacter&&) = default;
@@ -21,7 +21,7 @@ class InsertCharacter : public ReversibleCommand {
     ~InsertCharacter() override;
 
    private:
-    Document& doc;
+    IDocument& doc;
     Glyph::GlyphPtr character;
 };
 

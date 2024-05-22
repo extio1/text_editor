@@ -2,7 +2,7 @@
 
 #include "document/glyphs/character.h"
 
-RemoveCharacter::RemoveCharacter(Document& doc, int x, int y)
+RemoveCharacter::RemoveCharacter(IDocument& doc, int x, int y)
     : doc(doc),
       character(std::make_shared<Character>(x, y, 0, 0, 0))  // Constuctor OK?
 {}
