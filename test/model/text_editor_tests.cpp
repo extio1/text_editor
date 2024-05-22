@@ -521,6 +521,34 @@ TEST(Row_Insert3, RowInsertTheSameGlyph_WhenCalled_InsertGlyphBeforeExisting) {
 }
 
 // add test for wrong position glyph insert
+TEST(Row_Insert4, RowInsertDueToWrongPosition_WhenCalled_AssertFailed) {
+    Row r = Row(1, 2, 5, 1);
+
+    Character c1 = Character(1, 2, 1, 1, 'A');
+    Glyph::GlyphPtr c1Ptr = std::make_shared<Character>(c1);
+    r.Insert(c1Ptr);
+
+    Character c2 = Character(4, 2, 1, 1, 'A');
+    Glyph::GlyphPtr c2Ptr = std::make_shared<Character>(c2);
+    ASSERT_DEATH(r.Insert(c2Ptr),
+                 "No suitable character for inserting next to");
+
+    ASSERT_EQ(r.GetPosition().x, 1);
+    ASSERT_EQ(r.GetPosition().y, 2);
+    ASSERT_EQ(r.GetWidth(), 5);
+    ASSERT_EQ(r.GetHeight(), 1);
+    ASSERT_EQ(r.GetGlyphByIndex(0), c1Ptr);
+    ASSERT_EQ(r.GetGlyphIndex(c1Ptr), 0);
+    ASSERT_EQ(r.GetGlyphByIndex(0)->GetPosition().x, 1);
+    ASSERT_EQ(r.GetGlyphByIndex(0)->GetPosition().y, 2);
+    ASSERT_EQ(r.GetGlyphByIndex(0)->GetWidth(), 1);
+    ASSERT_EQ(r.GetGlyphByIndex(0)->GetHeight(), 1);
+
+    ASSERT_EQ(r.GetUsedSpace(), 1);
+    ASSERT_EQ(r.GetFreeSpace(), 4);
+    ASSERT_FALSE(r.IsEmpty());
+    ASSERT_FALSE(r.IsFull());
+}
 
 TEST(Row_Remove1, RowRemoveTheOnlyGlyph_WhenCalled_RowBecomesEmpty) {
     Character c1 = Character(1, 2, 1, 1, 'A');
@@ -1367,6 +1395,22 @@ TEST(
               115);  // topIndent=10 + thirdChar.height=5 + lineSpacing=100
     EXPECT_EQ(thirdChar->GetWidth(), 150);
     EXPECT_EQ(thirdChar->GetHeight(), 5);
+}
+
+TEST(Document_Insert11,
+     DocumentInsertDueToWrongPosition_WhenCalled_AssertFailed) {
+    Document document;
+    document.SetCompositor(std::make_shared<SimpleCompositor>(
+        10, 20, 30, 40, Compositor::LEFT, 100));
+
+    Character c1 = Character(100, 10, 150, 5, 'A');
+    Glyph::GlyphPtr c1Ptr = std::make_shared<Character>(c1);
+    Character c2 = Character(181, 10, 150, 5,
+                             'A');  // x = leftIndent=30 + charWidth=150 + 1
+    Glyph::GlyphPtr c2Ptr = std::make_shared<Character>(c2);
+    document.Insert(c1Ptr);
+    ASSERT_DEATH(document.Insert(c2Ptr),
+                 "No suitable character for inserting next to");
 }
 
 TEST(
