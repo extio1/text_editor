@@ -8,7 +8,7 @@
 
 class LoadDocument : public Command {
 public:
-    explicit LoadDocument(std::shared_ptr<IDocument>& doc, std::string path);
+    explicit LoadDocument(std::shared_ptr<IDocument>* doc, std::string path);
 
     LoadDocument(LoadDocument&&) = default;
     LoadDocument& operator=(LoadDocument&&) = default;
@@ -20,7 +20,7 @@ public:
     ~LoadDocument() override;
 
 private:
-    std::shared_ptr<IDocument> doc;
+    std::shared_ptr<IDocument>* doc;
     std::string path;
 };
 
