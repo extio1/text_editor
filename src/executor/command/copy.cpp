@@ -1,8 +1,9 @@
 #include "executor/command/copy.h"
 
-//Copy::Copy(Document& doc, Point& from, Point& to)
-//    : doc(doc), glyphs(std::list<Glyph::GlyphPtr>()) {}
-//
-//void Copy::Execute() { doc->SelectGlyphs(); }
-//
-//~Copy() override;
+Copy::Copy(std::shared_ptr<IDocument> doc, Point& from, Point& to){}
+
+void Copy::Execute(){
+
+}
+
+Copy::~Copy() {}
