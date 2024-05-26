@@ -584,7 +584,9 @@ TEST(Row_Remove2, RowRemoveGlyphFromTheEnd_WhenCalled_RemovesGlyphFromRow) {
     r.Insert(c1Ptr);
     r.Insert(c2Ptr);
 
+    std::cout << "1" << std::endl;
     r.Remove(c1Ptr);
+    std::cout << "2" << std::endl;
 
     ASSERT_EQ(r.GetPosition().x, 1);
     ASSERT_EQ(r.GetPosition().y, 2);
@@ -1937,4 +1939,30 @@ TEST(Document_SelectPasteGlyphs,
     std::shared_ptr<Character> fifthChar =
         std::static_pointer_cast<Character>(fifth);
     EXPECT_EQ(fifthChar->GetChar(), 'A');
+}
+
+TEST(Tmp_test, Tmp_test) {
+    auto d = std::make_shared<Document>();
+    d->SetCompositor(std::make_shared<SimpleCompositor>());
+    ;
+
+    Character c1 = Character(0, 0, 10, 10, 'A');
+    Glyph::GlyphPtr c1Ptr = std::make_shared<Character>(c1);
+    Character c2 = Character(10, 0, 10, 10, 'B');
+    Glyph::GlyphPtr c2Ptr = std::make_shared<Character>(c2);
+    Character c3 = Character(20, 0, 10, 10, 'C');
+    Glyph::GlyphPtr c3Ptr = std::make_shared<Character>(c3);
+    Character c4 = Character(30, 0, 10, 10, 'D');
+    Glyph::GlyphPtr c4Ptr = std::make_shared<Character>(c4);
+    d->Insert(c1Ptr);
+    d->Insert(c2Ptr);
+    d->Insert(c3Ptr);
+    d->Insert(c4Ptr);
+
+    d->Remove(c4Ptr);
+    d->Insert(c4Ptr);
+
+    Character c = Character(3, 5, 0, 0, 0);
+    Glyph::GlyphPtr cPtr = std::make_shared<Character>(c);
+    d->Remove(cPtr);
 }
