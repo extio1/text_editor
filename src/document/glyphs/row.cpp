@@ -61,13 +61,6 @@ void Row::Remove(const GlyphPtr& ptr) {
     assert(ptr != nullptr && "Cannot remove glyph by nullptr");
     auto it = std::find(components.begin(), components.end(), ptr);
 
-    if (it == components.end()) {
-        it = find_if(
-            components.begin(), components.end(), [&](const auto& component) {
-                return ((component->GetPosition().x == ptr->GetPosition().x) &&
-                        (component->GetPosition().y == ptr->GetPosition().y));
-            });
-    }
     assert(it != components.end() && "No suitable character for removing");
 
     usedWidth -= (*it)->GetWidth();
