@@ -41,23 +41,23 @@ using ::testing::AtLeast;
 using ::testing::Eq;
 TEST(InsertCommand, WhenCalled_DoUndoRedo_Correct){
     auto e = Executor(3);
-    DocumentMock d_mock;
+    auto d_mock = std::make_shared<DocumentMock>();
 
     auto c1 = std::make_shared<InsertCharacter>(d_mock, 0, 0, 10, 20, 'A');
     auto c2 = std::make_shared<InsertCharacter>(d_mock, 10, 0, 10, 20, 'B');
     auto c3 = std::make_shared<InsertCharacter>(d_mock, 20, 0, 10, 20, 'C');
     auto c4 = std::make_shared<InsertCharacter>(d_mock, 30, 0, 10, 20, 'D');
 
-    EXPECT_CALL(d_mock, Insert(Eq(c1->character))).Times(1);
+    EXPECT_CALL(*d_mock.get(), Insert(Eq(c1->character))).Times(1);
     e.Do(std::move(c1));
 
-    EXPECT_CALL(d_mock, Insert(Eq(c2->character))).Times(1);
+    EXPECT_CALL(*d_mock.get(), Insert(Eq(c2->character))).Times(1);
     e.Do(std::move(c2));
 
-    EXPECT_CALL(d_mock, Insert(Eq(c3->character))).Times(1);
+    EXPECT_CALL(*d_mock.get(), Insert(Eq(c3->character))).Times(1);
     e.Do(std::move(c3));
 
-    EXPECT_CALL(d_mock, Insert(Eq(c4->character))).Times(1);
+    EXPECT_CALL(*d_mock.get(), Insert(Eq(c4->character))).Times(1);
     e.Do(std::move(c4));
 
 //    EXPECT_CALL(d_mock, Remove(Eq(c4->character))).Times(1);

@@ -17,15 +17,15 @@ int main() {
 
     auto controller = std::make_unique<Executor>(2);
 
-    controller->Do(std::make_shared<InsertCharacter>(*document, 0, 0, 10, 10, 'A'));
-    controller->Do(std::make_shared<InsertCharacter>(*document, 10, 0, 10, 10, 'B'));
-    controller->Do(std::make_shared<InsertCharacter>(*document, 20, 0, 10, 10, 'C'));
-    controller->Do(std::make_shared<InsertCharacter>(*document, 30, 0, 10, 10, 'D'));
+    controller->Do(std::make_shared<InsertCharacter>(document, 0, 0, 10, 10, 'A'));
+    controller->Do(std::make_shared<InsertCharacter>(document, 10, 0, 10, 10, 'B'));
+    controller->Do(std::make_shared<InsertCharacter>(document, 20, 0, 10, 10, 'C'));
+    controller->Do(std::make_shared<InsertCharacter>(document, 30, 0, 10, 10, 'D'));
 
     controller->Undo();
     controller->Redo();
 
-    controller->Do(std::make_shared<SaveDocument>(*document, "doc_save.file"));
+    controller->Do(std::make_shared<SaveDocument>(document, "doc_save.file"));
 
     return 0;
 }

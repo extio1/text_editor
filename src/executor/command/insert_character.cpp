@@ -1,15 +1,17 @@
 #include "executor/command/insert_character.h"
 
+#include <utility>
+
 #include "document/glyphs/character.h"
 
-InsertCharacter::InsertCharacter(IDocument& doc, int x, int y, int width,
+InsertCharacter::InsertCharacter(std::shared_ptr<IDocument> doc, int x, int y, int width,
                                  int height, char symbol)
-    : doc(doc),
+    : doc(std::move(doc)),
       character(std::make_shared<Character>(x, y, width, height, symbol))
 {}
 
-void InsertCharacter::Execute() { doc.Insert(character); }
+void InsertCharacter::Execute() { doc->Insert(character); }
 
-void InsertCharacter::Unexecute() { doc.Remove(character); }
+void InsertCharacter::Unexecute() { doc->Remove(character); }
 
 InsertCharacter::~InsertCharacter() {}

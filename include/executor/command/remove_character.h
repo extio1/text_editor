@@ -7,7 +7,7 @@
 
 class RemoveCharacter : public ReversibleCommand {
    public:
-    explicit RemoveCharacter(IDocument& doc, int x, int y);
+    explicit RemoveCharacter(std::shared_ptr<IDocument> doc, int x, int y);
 
     RemoveCharacter(RemoveCharacter&&) = default;
     RemoveCharacter& operator=(RemoveCharacter&&) = default;
@@ -20,7 +20,7 @@ class RemoveCharacter : public ReversibleCommand {
     ~RemoveCharacter() override;
 
    private:
-    IDocument& doc;
+    std::shared_ptr<IDocument> doc;
     Glyph::GlyphPtr character;
 };
 
