@@ -1,10 +1,14 @@
+#include <boost/archive/text_iarchive.hpp>
+#include <boost/archive/text_oarchive.hpp>
 #include "document/glyphs/page.h"
+BOOST_CLASS_EXPORT_IMPLEMENT(Page)
 
 #include <algorithm>
 #include <cassert>
 
 #include "document/document.h"
 #include "utils/find_all_if.h"
+#include "document/glyphs/column.h"
 
 Page::Page(const int x, const int y, const int width, const int height)
     : GlyphContainer(x, y, width, height) {

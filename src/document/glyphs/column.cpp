@@ -1,9 +1,10 @@
+#include <boost/archive/text_iarchive.hpp>
+#include <boost/archive/text_oarchive.hpp>
 #include "document/glyphs/column.h"
+BOOST_CLASS_EXPORT_IMPLEMENT(Column)
 
 #include <algorithm>
 #include <cassert>
-#include <numeric>
-#include <optional>
 
 #include "document/glyphs/row.h"
 #include "utils/find_all_if.h"

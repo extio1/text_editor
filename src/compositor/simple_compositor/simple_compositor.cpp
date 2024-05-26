@@ -2,6 +2,8 @@
 
 #include <cmath>
 
+#include "document/glyphs/row.h"
+
 int charHeight = 1;
 
 void SimpleCompositor::Compose() {

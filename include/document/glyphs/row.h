@@ -1,8 +1,10 @@
 #ifndef TEXT_EDITOR_ROW_H_
 #define TEXT_EDITOR_ROW_H_
 
-#include <list>
-#include <memory>
+#include <boost/serialization/export.hpp>
+#include <boost/serialization/base_object.hpp>
+#include <boost/serialization/list.hpp>
+#include <boost/serialization/shared_ptr.hpp>
 
 #include "glyph_container.h"
 
@@ -12,7 +14,6 @@
 class Row : public GlyphContainer {
    public:
     using RowPtr = std::shared_ptr<Row>;
-
     /**
      * @brief           Creates a row with the specified parameters.
      * @param x         Horizontal coordinate.
@@ -53,6 +54,18 @@ class Row : public GlyphContainer {
 
    private:
     int usedWidth = 0;
+
+    friend class boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive &ar, const unsigned int version)
+    {
+        std::cout << "0 Row\n";
+        ar & boost::serialization::base_object<GlyphContainer>(*this);
+        ar & usedWidth;
+        std::cout << "1 Row\n";
+    }
+    explicit Row(){}
 };
+BOOST_CLASS_EXPORT_KEY(Row)
 
 #endif  // TEXT_EDITOR_ROW_H_

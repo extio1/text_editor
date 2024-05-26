@@ -1,10 +1,10 @@
 #ifndef TEXT_EDITOR_PAGE_H_
 #define TEXT_EDITOR_PAGE_H_
 
-#include "column.h"
-#include "glyph.h"
+#include <boost/serialization/export.hpp>
+#include <boost/serialization/base_object.hpp>
+
 #include "glyph_container.h"
-#include "row.h"
 
 class Page : public GlyphContainer {
    public:
@@ -23,6 +23,18 @@ class Page : public GlyphContainer {
     std::shared_ptr<Glyph> Clone() const override;
 
     size_t GetColumnsCount();
+
+private:
+    friend class boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive &ar, const unsigned int version)
+    {
+        std::cout << "0 Page\n";
+        ar & boost::serialization::base_object<GlyphContainer>(*this);
+        std::cout << "1 Page\n";
+    }
+    explicit Page() {}
 };
+BOOST_CLASS_EXPORT_KEY(Page)
 
 #endif  // TEXT_EDITOR_PAGE_H_
