@@ -18,6 +18,7 @@ class Document {
     explicit Document(std::shared_ptr<Compositor> compositor);
 
     void SetCompositor(std::shared_ptr<Compositor> compositor);
+    std::shared_ptr<Compositor> GetCompositor();
 
     /**
      * @brief           Inserts glyph into the document due to its position.

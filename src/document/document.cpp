@@ -22,6 +22,10 @@ void Document::SetCompositor(std::shared_ptr<Compositor> compositor) {
     compositor->Compose();
 }
 
+std::shared_ptr<Compositor> Document::GetCompositor() {
+    return this->compositor;
+}
+
 void Document::Insert(Glyph::GlyphPtr& glyph) {
     currentPage->Insert(glyph);
     compositor->Compose();
