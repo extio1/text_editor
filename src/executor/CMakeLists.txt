@@ -5,6 +5,7 @@ set(sources
     "command/insert_character.cpp"
     "command/remove_character.cpp"
     "command/save_document.cpp"
+    "command/load_document.cpp"
 )
 
 add_library(${target} SHARED ${sources})
