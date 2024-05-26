@@ -34,9 +34,9 @@ int main() {
     std::cout << "Saved: " << document << "\n";
 
     controller->Do(std::make_shared<RemoveCharacter>(document, 3, 5));
-    controller->Do(std::make_shared<RemoveCharacter>(document, 13, 5));
-    controller->Do(std::make_shared<RemoveCharacter>(document, 23, 5));
-    controller->Do(std::make_shared<RemoveCharacter>(document, 33, 5));
+    controller->Do(std::make_shared<RemoveCharacter>(document, 3, 5));
+    controller->Do(std::make_shared<RemoveCharacter>(document, 3, 5));
+    controller->Do(std::make_shared<RemoveCharacter>(document, 3, 5));
 
     controller->Do(std::make_shared<LoadDocument>(&document, "doc_save.file"));
     std::cout << "Loaded: " << document << "\n";
