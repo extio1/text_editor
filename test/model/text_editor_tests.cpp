@@ -683,8 +683,7 @@ TEST(Row_Remove4, RowRemoveNullPtr_WhenCalled_RemovesNothing) {
 
 TEST(SimpleCompositor_Compose1,
      SimpleCompositorCompose_WhenCalled_ComposeAllGlyphInDocumentByDefault) {
-    Document document;
-    document.SetCompositor(std::make_shared<SimpleCompositor>());
+    Document document(std::make_shared<SimpleCompositor>());
 
     EXPECT_EQ(document.GetPagesCount(), 1);
 
@@ -733,8 +732,7 @@ TEST(SimpleCompositor_Compose1,
 TEST(
     SimpleCompositor_Compose2,
     SimpleCompositorCompose_WhenCalled_ComposeAllGlyphInDocumentBySpecifiedParams) {
-    Document document;
-    document.SetCompositor(std::make_shared<SimpleCompositor>(
+    Document document(std::make_shared<SimpleCompositor>(
         10, 20, 30, 40, Compositor::CENTER, 100));
 
     EXPECT_EQ(document.GetPagesCount(), 1);
@@ -783,8 +781,7 @@ TEST(
 
 TEST(Document_Insert,
      DocumentInsert_WhenCalled_InsertGlyphByItsPositionAndComposeItself) {
-    Document document;
-    document.SetCompositor(std::make_shared<SimpleCompositor>(
+    Document document(std::make_shared<SimpleCompositor>(
         10, 20, 30, 40, Compositor::LEFT, 100));
 
     Character c = Character(30, 10, 1, 1, 'A');
@@ -861,8 +858,7 @@ TEST(Document_Insert,
 
 TEST(Document_Insert2,
      DocumentInsert_WhenCalled_InsertGlyphByItsPositionAndComposeItself) {
-    Document document;
-    document.SetCompositor(std::make_shared<SimpleCompositor>(
+    Document document(std::make_shared<SimpleCompositor>(
         10, 20, 30, 40, Compositor::LEFT, 100));
 
     Character c = Character(40, 10, 5, 5, 'A');
@@ -940,8 +936,7 @@ TEST(Document_Insert2,
 TEST(
     Document_Insert3,
     DocumentInsert_WhenCalled_InsertGlyphDueToCenterAlignmentAndComposeItself) {
-    Document document;
-    document.SetCompositor(std::make_shared<SimpleCompositor>(
+    Document document(std::make_shared<SimpleCompositor>(
         10, 20, 30, 40, Compositor::CENTER, 100));
 
     Character c = Character(35, 10, 5, 5, 'A');
@@ -1010,8 +1005,7 @@ TEST(
 
 TEST(Document_Insert4,
      DocumentInsert_WhenCalled_InsertGlyphDueToRightAlignmentAndComposeItself) {
-    Document document;
-    document.SetCompositor(std::make_shared<SimpleCompositor>(
+    Document document(std::make_shared<SimpleCompositor>(
         10, 20, 30, 40, Compositor::RIGHT, 100));
 
     Character c = Character(35, 10, 5, 5, 'A');
@@ -1081,8 +1075,7 @@ TEST(Document_Insert4,
 TEST(
     Document_Insert5,
     DocumentInsert_WhenCalled_InsertGlyphDueToJustifiedAlignmentAndComposeItself) {
-    Document document;
-    document.SetCompositor(std::make_shared<SimpleCompositor>(
+    Document document(std::make_shared<SimpleCompositor>(
         10, 20, 30, 40, Compositor::JUSTIFIED, 100));
 
     Character c = Character(35, 10, 5, 5, 'A');
@@ -1152,8 +1145,7 @@ TEST(
 TEST(
     Document_Insert6,
     DocumentInsert_WhenCalled_InsertSeveralCharactersDueToLeftAlignmentAndComposeItself) {
-    Document document;
-    document.SetCompositor(std::make_shared<SimpleCompositor>(
+    Document document(std::make_shared<SimpleCompositor>(
         10, 20, 30, 40, Compositor::LEFT, 100));
 
     Character c1 = Character(100, 10, 5, 5, 'A');
@@ -1201,8 +1193,7 @@ TEST(
 TEST(
     Document_Insert7,
     DocumentInsert_WhenCalled_InsertSeveralCharactersDueToCenterAlignmentAndComposeItself) {
-    Document document;
-    document.SetCompositor(std::make_shared<SimpleCompositor>(
+    Document document(std::make_shared<SimpleCompositor>(
         10, 20, 30, 40, Compositor::CENTER, 100));
 
     Character c1 = Character(100, 10, 5, 5, 'A');
@@ -1250,8 +1241,7 @@ TEST(
 TEST(
     Document_Insert8,
     DocumentInsert_WhenCalled_InsertSeveralCharactersDueToRightAlignmentAndComposeItself) {
-    Document document;
-    document.SetCompositor(std::make_shared<SimpleCompositor>(
+    Document document(std::make_shared<SimpleCompositor>(
         10, 20, 30, 40, Compositor::RIGHT, 100));
 
     Character c1 = Character(100, 10, 5, 5, 'A');
@@ -1299,8 +1289,7 @@ TEST(
 TEST(
     Document_Insert9,
     DocumentInsert_WhenCalled_InsertWideCharactersDueToLeftAlignmentAndComposeItself) {
-    Document document;
-    document.SetCompositor(std::make_shared<SimpleCompositor>(
+    Document document(std::make_shared<SimpleCompositor>(
         10, 20, 30, 40, Compositor::LEFT, 100));
 
     Character c1 = Character(100, 10, 150, 5, 'A');
@@ -1351,8 +1340,7 @@ TEST(
 TEST(
     Document_Insert10,
     DocumentInsert_WhenCalled_InsertWideCharactersDueToCenterAlignmentAndComposeItself) {
-    Document document;
-    document.SetCompositor(std::make_shared<SimpleCompositor>(
+    Document document(std::make_shared<SimpleCompositor>(
         10, 20, 30, 40, Compositor::CENTER, 100));
 
     Character c1 = Character(100, 10, 150, 5, 'A');
@@ -1402,8 +1390,7 @@ TEST(
 
 TEST(Document_Insert11,
      DocumentInsert_WhenCalled_InsertCharactersIntoSeveralPages) {
-    Document document;
-    document.SetCompositor(std::make_shared<SimpleCompositor>(
+    Document document(std::make_shared<SimpleCompositor>(
         10, 20, 30, 40, Compositor::CENTER, 100));
 
     Character c1 = Character(100, 10, 150, 1000, 'A');
@@ -1459,8 +1446,7 @@ TEST(Document_Insert11,
 
 TEST(Document_Insert12,
      DocumentInsertDueToWrongPosition_WhenCalled_AssertFailed) {
-    Document document;
-    document.SetCompositor(std::make_shared<SimpleCompositor>(
+    Document document(std::make_shared<SimpleCompositor>(
         10, 20, 30, 40, Compositor::LEFT, 100));
 
     Character c1 = Character(100, 10, 150, 5, 'A');
@@ -1476,8 +1462,7 @@ TEST(Document_Insert12,
 TEST(
     Document_Remove1,
     DocumentRemove_WhenCalled_RemoveCharactersWithLeftAlignmentAndComposeItself) {
-    Document document;
-    document.SetCompositor(std::make_shared<SimpleCompositor>(
+    Document document(std::make_shared<SimpleCompositor>(
         10, 20, 30, 40, Compositor::LEFT, 100));
 
     Character c1 = Character(100, 10, 5, 5, 'A');
@@ -1528,8 +1513,7 @@ TEST(
 TEST(
     Document_Remove2,
     DocumentRemove_WhenCalled_RemoveCharactersWithCenterAlignmentAndComposeItself) {
-    Document document;
-    document.SetCompositor(std::make_shared<SimpleCompositor>(
+    Document document(std::make_shared<SimpleCompositor>(
         10, 20, 30, 40, Compositor::CENTER, 100));
 
     Character c1 = Character(100, 10, 5, 5, 'A');
@@ -1573,8 +1557,7 @@ TEST(
 TEST(
     Document_Remove3,
     DocumentRemove_WhenCalled_RemoveCharactersWithRightAlignmentAndComposeItself) {
-    Document document;
-    document.SetCompositor(std::make_shared<SimpleCompositor>(
+    Document document(std::make_shared<SimpleCompositor>(
         10, 20, 30, 40, Compositor::RIGHT, 100));
 
     Character c1 = Character(100, 10, 5, 5, 'A');
@@ -1625,8 +1608,7 @@ TEST(
 }
 
 TEST(Document_Remove4, DocumentRemove_WhenCalled_RemoveNothingByNullptr) {
-    Document document;
-    document.SetCompositor(std::make_shared<SimpleCompositor>(
+    Document document(std::make_shared<SimpleCompositor>(
         10, 20, 30, 40, Compositor::RIGHT, 100));
 
     Character c1 = Character(100, 10, 5, 5, 'A');
@@ -1648,8 +1630,7 @@ TEST(Document_Remove4, DocumentRemove_WhenCalled_RemoveNothingByNullptr) {
 }
 
 TEST(Document_Remove5, DocumentRemove_WhenCalled_RemoveFromEmptyDocument) {
-    Document document;
-    document.SetCompositor(std::make_shared<SimpleCompositor>(
+    Document document(std::make_shared<SimpleCompositor>(
         10, 20, 30, 40, Compositor::RIGHT, 100));
 
     Character c1 = Character(100, 10, 5, 5, 'A');
@@ -1660,8 +1641,7 @@ TEST(Document_Remove5, DocumentRemove_WhenCalled_RemoveFromEmptyDocument) {
 
 TEST(Document_Remove6,
      DocumentRemove_WhenCalled_RemovesCharacterAndComposePages) {
-    Document document;
-    document.SetCompositor(std::make_shared<SimpleCompositor>(
+    Document document(std::make_shared<SimpleCompositor>(
         10, 20, 30, 40, Compositor::CENTER, 100));
 
     Character c1 = Character(100, 10, 150, 1000, 'A');
@@ -1708,8 +1688,7 @@ TEST(Document_Remove6,
 
 TEST(Document_SelectGlyphs,
      DocumentSelectGlyphs_WhenCalled_SaveGlyphsInSelectedGlyphsList) {
-    Document document;
-    document.SetCompositor(std::make_shared<SimpleCompositor>(
+    Document document(std::make_shared<SimpleCompositor>(
         10, 20, 30, 40, Compositor::LEFT, 100));
 
     Character c1 = Character(100, 10, 5, 5, 'A');
@@ -1759,8 +1738,7 @@ TEST(Document_SelectGlyphs,
 
 TEST(Document_CutGlyphs,
      DocumentCutGlyphs_WhenCalled_RemoveGlyphsAndSaveThemInSelectedGlyphsList) {
-    Document document;
-    document.SetCompositor(std::make_shared<SimpleCompositor>(
+    Document document(std::make_shared<SimpleCompositor>(
         10, 20, 30, 40, Compositor::LEFT, 100));
 
     Character c1 = Character(100, 10, 5, 5, 'A');
@@ -1794,8 +1772,7 @@ TEST(Document_CutGlyphs,
 
 TEST(Document_CutPasteGlyphs,
      DocumentCutPasteGlyphs_WhenCalled_PasteCutGlyphsDueToPosition) {
-    Document document;
-    document.SetCompositor(std::make_shared<SimpleCompositor>(
+    Document document(std::make_shared<SimpleCompositor>(
         10, 20, 30, 40, Compositor::LEFT, 100));
 
     Character c1 = Character(100, 10, 5, 5, 'A');
@@ -1851,8 +1828,7 @@ TEST(Document_CutPasteGlyphs,
 
 TEST(Document_SelectPasteGlyphs,
      DocumentSelectPasteGlyphs_WhenCalled_PasteSelectedGlyphsDueToPosition) {
-    Document document;
-    document.SetCompositor(std::make_shared<SimpleCompositor>(
+    Document document(std::make_shared<SimpleCompositor>(
         10, 20, 30, 40, Compositor::LEFT, 100));
 
     Character c1 = Character(100, 10, 5, 5, 'A');
@@ -1942,9 +1918,7 @@ TEST(Document_SelectPasteGlyphs,
 }
 
 TEST(Tmp_test, Tmp_test) {
-    auto d = std::make_shared<Document>();
-    d->SetCompositor(std::make_shared<SimpleCompositor>());
-    ;
+    auto d = std::make_shared<Document>(std::make_shared<SimpleCompositor>());
 
     Character c1 = Character(0, 0, 10, 10, 'A');
     Glyph::GlyphPtr c1Ptr = std::make_shared<Character>(c1);

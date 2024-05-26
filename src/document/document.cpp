@@ -8,16 +8,19 @@
 #include "document/glyphs/glyph.h"
 #include "document/glyphs/page.h"
 
-Document::Document() {
+Document::Document(std::shared_ptr<Compositor> compositor) {
     currentPage = std::make_shared<Page>(0, 0, pageWidth, pageHeight);
     AddPage(currentPage);
-}
-
-void Document::SetCompositor(std::shared_ptr<Compositor> compositor) {
     this->compositor = compositor;
     compositor->SetDocument(this);
     compositor->Compose();
 }
+
+// void Document::SetCompositor(std::shared_ptr<Compositor> compositor) {
+//     this->compositor = compositor;
+//     compositor->SetDocument(this);
+//     compositor->Compose();
+// }
 
 void Document::Insert(Glyph::GlyphPtr& glyph) {
     currentPage->Insert(glyph);

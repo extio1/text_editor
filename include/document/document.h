@@ -15,9 +15,9 @@ class Document {
    public:
     using PageList = std::list<Page::PagePtr>;
 
-    explicit Document();
+    explicit Document(std::shared_ptr<Compositor> compositor);
 
-    void SetCompositor(std::shared_ptr<Compositor> compositor);
+    // void SetCompositor(std::shared_ptr<Compositor> compositor);
 
     /**
      * @brief           Inserts glyph into the document due to its position.
