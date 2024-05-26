@@ -16,6 +16,12 @@ Document::Document(std::shared_ptr<Compositor> compositor) {
     compositor->Compose();
 }
 
+void Document::SetCompositor(std::shared_ptr<Compositor> compositor) {
+    this->compositor = compositor;
+    compositor->SetDocument(this);
+    compositor->Compose();
+}
+
 void Document::Insert(Glyph::GlyphPtr& glyph) {
     currentPage->Insert(glyph);
     compositor->Compose();
