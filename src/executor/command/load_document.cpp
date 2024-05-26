@@ -1,8 +1,17 @@
-//
-// Created by extio1 on 26/05/24.
-//
+#include "executor/command/load_document.h"
 
-#ifndef TEXT_EDITOR_PROJECT_LOAD_DOCUMENT_H
-#define TEXT_EDITOR_PROJECT_LOAD_DOCUMENT_H
+#include <fstream>
+#include <boost/archive/text_iarchive.hpp>
+#include <boost/archive/text_oarchive.hpp>
 
-#endif  // TEXT_EDITOR_PROJECT_LOAD_DOCUMENT_H
+LoadDocument::LoadDocument(std::shared_ptr<IDocument>& doc, std::string path):
+        doc(doc), path(std::move(path)) {}
+
+void LoadDocument::Execute()
+{
+    std::ifstream ofs(path);
+    boost::archive::text_iarchive ia(ofs);
+//    ia >> doc.get();
+}
+
+LoadDocument::~LoadDocument() = default;

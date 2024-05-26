@@ -4,14 +4,14 @@
 #include <boost/archive/text_iarchive.hpp>
 #include <boost/archive/text_oarchive.hpp>
 
-SaveDocument::SaveDocument(IDocument& doc, std::string path):
-doc(doc), path(std::move(path)){}
+SaveDocument::SaveDocument(const std::shared_ptr<IDocument> doc, std::string path):
+    doc(doc), path(std::move(path)) {}
 
 void SaveDocument::Execute()
 {
     std::ofstream ofs(path);
     boost::archive::text_oarchive oa(ofs);
-    oa << &doc;
+    oa << doc.get();
 }
 
 SaveDocument::~SaveDocument() = default;
