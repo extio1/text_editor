@@ -1,12 +1,14 @@
 #ifndef TEXT_EDITOR_PROJECT_SAVE_DOCUMENT_H
 #define TEXT_EDITOR_PROJECT_SAVE_DOCUMENT_H
 
+#include <memory>
+
 #include "document/document.h"
 #include "executor/command.h"
 
 class SaveDocument : public Command {
    public:
-    explicit SaveDocument(IDocument& doc, std::string path);
+    explicit SaveDocument(const std::shared_ptr<IDocument> doc, std::string path);
 
     SaveDocument(SaveDocument&&) = default;
     SaveDocument& operator=(SaveDocument&&) = default;
@@ -18,7 +20,7 @@ class SaveDocument : public Command {
     ~SaveDocument() override;
 
    private:
-    IDocument& doc;
+    std::shared_ptr<IDocument> doc;
     std::string path;
 };
 

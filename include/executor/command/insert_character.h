@@ -7,7 +7,7 @@
 
 class InsertCharacter : public ReversibleCommand {
    public:
-    explicit InsertCharacter(IDocument& doc, int x, int y, int wight, int height,
+    explicit InsertCharacter(std::shared_ptr<IDocument> doc, int x, int y, int wight, int height,
                     char symbol);
 
     InsertCharacter(InsertCharacter&&) = default;
@@ -21,7 +21,7 @@ class InsertCharacter : public ReversibleCommand {
     ~InsertCharacter() override;
 
    private:
-    IDocument& doc;
+    std::shared_ptr<IDocument> doc;
     Glyph::GlyphPtr character;
 };
 
