@@ -38,6 +38,17 @@ class Character : public Glyph {
 
    private:
     char symbol;
+    friend class boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive &ar, const unsigned int version)
+    {
+        std::cout << "0 Character\n";
+        ar & boost::serialization::base_object<Glyph>(*this);
+        ar & symbol;
+        std::cout << "1 Character\n";
+    }
+    explicit Character(){}
 };
+BOOST_CLASS_EXPORT_KEY(Character)
 
 #endif  // TEXT_EDITOR_CHARACTER_H_

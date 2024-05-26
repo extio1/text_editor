@@ -2,8 +2,9 @@
 #define TEXT_EDITOR_GLYPH_H_
 
 #include <iostream>
-#include <list>
-#include <memory>
+#include <boost/serialization/export.hpp>
+#include <boost/serialization/assume_abstract.hpp>
+#include <boost/serialization/shared_ptr.hpp>
 
 #include "utils/point.h"
 
@@ -131,6 +132,19 @@ class Glyph {
     int y = 0;
     int width = 0;
     int height = 0;
+
+    explicit Glyph() {}
+
+private:
+    friend class boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive &ar, const unsigned int version)
+    {
+        std::cout << "0 Glyph\n";
+        ar & x & y & width & height;
+        std::cout << "1 Glyph\n";
+    }
 };
+BOOST_SERIALIZATION_ASSUME_ABSTRACT(Glyph)
 
 #endif  // TEXT_EDITOR_GLYPH_H_
