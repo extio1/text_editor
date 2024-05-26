@@ -21,6 +21,7 @@ int main() {
     controller->Do(std::make_shared<InsertCharacter>(*document, 10, 0, 10, 10, 'B'));
     controller->Do(std::make_shared<InsertCharacter>(*document, 20, 0, 10, 10, 'C'));
     controller->Do(std::make_shared<InsertCharacter>(*document, 30, 0, 10, 10, 'D'));
+
     controller->Undo();
     controller->Redo();
 

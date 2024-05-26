@@ -1,8 +1,8 @@
 #ifndef TEXT_EDITOR_COLUMN_H_
 #define TEXT_EDITOR_COLUMN_H_
 
-#include <list>
-#include <memory>
+#include <boost/serialization/list.hpp>
+#include <boost/serialization/shared_ptr.hpp>
 #include <optional>
 
 #include "glyph_container.h"
@@ -50,6 +50,18 @@ class Column : public GlyphContainer {
 
    private:
     int usedHeight = 0;
+
+    friend class boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive &ar, const unsigned int version)
+    {
+        std::cout << "0 Column\n";
+        ar & boost::serialization::base_object<GlyphContainer>(*this);
+        ar & usedHeight;
+        std::cout << "1 Column\n";
+    }
+    explicit Column() {}
 };
+BOOST_CLASS_EXPORT_KEY(Column)
 
 #endif  // TEXT_EDITOR_COLUMN_H_

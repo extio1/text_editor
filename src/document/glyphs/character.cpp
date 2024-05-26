@@ -1,4 +1,7 @@
+#include <boost/archive/text_iarchive.hpp>
+#include <boost/archive/text_oarchive.hpp>
 #include "document/glyphs/character.h"
+BOOST_CLASS_EXPORT_IMPLEMENT(Character)
 
 Character::Character(const int x, const int y, const int width,
                      const int height, char c)
