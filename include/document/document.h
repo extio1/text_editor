@@ -17,8 +17,6 @@ class Document {
 
     explicit Document(std::shared_ptr<Compositor> compositor);
 
-    // void SetCompositor(std::shared_ptr<Compositor> compositor);
-
     /**
      * @brief           Inserts glyph into the document due to its position.
      * @param glyph     Pointer to the glyph.
@@ -40,13 +38,12 @@ class Document {
     void SelectGlyphs(const Point& start, const Point& end);
 
     /**
-     * @brief           Inserts glyphs from the buffer of selected glyphs into
-     * the document by the position.
-     * @param x         Horizontal coordinate.
-     * @param y         Vertical coordinate.
-     * @return          List of created and inserted in document glyphs.
+     * @brief              Inserts glyphs from the buffer of selected glyphs
+     * into the document by the position.
+     * @param to_point     The point where the glyphs will be inserted.
+     * @return             List of created and inserted in document glyphs.
      */
-    Glyph::GlyphList PasteGlyphs(int x, int y);
+    Glyph::GlyphList PasteGlyphs(const Point& to_point);
 
     /**
      * @brief           Removes selected glyphs from the document and leaves

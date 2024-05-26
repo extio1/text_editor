@@ -16,12 +16,6 @@ Document::Document(std::shared_ptr<Compositor> compositor) {
     compositor->Compose();
 }
 
-// void Document::SetCompositor(std::shared_ptr<Compositor> compositor) {
-//     this->compositor = compositor;
-//     compositor->SetDocument(this);
-//     compositor->Compose();
-// }
-
 void Document::Insert(Glyph::GlyphPtr& glyph) {
     currentPage->Insert(glyph);
     compositor->Compose();
@@ -95,9 +89,9 @@ void Document::SelectGlyphs(const Point& start, const Point& end) {
     }
 }
 
-Glyph::GlyphList Document::PasteGlyphs(int x, int y) {
-    int currentX = x;
-    int currentY = y;
+Glyph::GlyphList Document::PasteGlyphs(const Point& to_point) {
+    int currentX = to_point.x;
+    int currentY = to_point.y;
     Glyph::GlyphPtr glyph;
     Glyph::GlyphList copiesList;
     for (auto& glyph : selectedGlyphs) {

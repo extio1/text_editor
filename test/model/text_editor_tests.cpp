@@ -1787,7 +1787,7 @@ TEST(Document_CutPasteGlyphs,
 
     document.CutGlyphs(Point(30, 10), Point(40, 10));
 
-    document.PasteGlyphs(30, 10);
+    document.PasteGlyphs(Point(30, 10));
 
     Glyph::GlyphPtr first = document.GetFirstPage()
                                 ->GetFirstGlyph()
@@ -1843,7 +1843,7 @@ TEST(Document_SelectPasteGlyphs,
 
     document.SelectGlyphs(Point(30, 10), Point(40, 10));
 
-    document.PasteGlyphs(30, 10);
+    document.PasteGlyphs(Point(30, 10));
 
     Glyph::GlyphPtr first = document.GetFirstPage()
                                 ->GetFirstGlyph()
