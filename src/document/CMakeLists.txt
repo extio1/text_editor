@@ -12,5 +12,6 @@ set(sources
     "glyphs/row.cpp"
 )
 
-add_library(document SHARED ${sources})
-target_include_directories(document PUBLIC ${include_dir})
+add_library(${target} SHARED ${sources})
+target_link_libraries(${target} PUBLIC ${Boost_LIBRARIES})
+target_include_directories(${target} PUBLIC ${include_dir})
