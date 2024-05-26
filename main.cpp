@@ -1,21 +1,15 @@
 #include <iostream>
 #include <memory>
+#include <string>
 
 #include "document/document.h"
-#include "document/glyphs/button.h"
-#include "document/glyphs/character.h"
-#include "document/glyphs/column.h"
-#include "document/glyphs/glyph.h"
-#include "document/glyphs/glyph_container.h"
-#include "document/glyphs/monoglyph.h"
-#include "document/glyphs/page.h"
-#include "document/glyphs/row.h"
+
+#include "compositor/simple_compositor/simple_compositor.h"
 
 #include "executor/executor.h"
 #include "executor/command/insert_character.h"
 #include "executor/command/remove_character.h"
-
-#include "compositor/simple_compositor/simple_compositor.h"
+#include "executor/command/save_document.h"
 
 int main() {
     auto document = std::make_shared<Document>();
@@ -29,6 +23,8 @@ int main() {
     controller->Do(std::make_shared<InsertCharacter>(*document, 30, 0, 10, 10, 'D'));
     controller->Undo();
     controller->Redo();
+
+    controller->Do(std::make_shared<SaveDocument>(*document, "doc_save.file"));
 
     return 0;
 }

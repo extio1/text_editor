@@ -2,6 +2,10 @@
 #define TEXT_EDITOR_DOCUMENT_H_
 
 #include <functional>
+#include <boost/serialization/export.hpp>
+#include <boost/serialization/access.hpp>
+#include <boost/serialization/base_object.hpp>
+#include <boost/serialization/assume_abstract.hpp>
 
 #include "glyphs/glyph.h"
 #include "glyphs/page.h"
@@ -20,7 +24,13 @@ class IDocument {
     virtual void SelectGlyphs(GlyphContainer::GlyphList& glyphs) = 0;
     virtual void PasteGlyphs(int x, int y) = 0;
     virtual void CutGlyphs(GlyphContainer::GlyphList& glyphs) = 0;
+    virtual ~IDocument() = default;
+private:
+    friend class boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive &ar, const unsigned int version){ std::cout << "IDocument\n";}
 };
+BOOST_SERIALIZATION_ASSUME_ABSTRACT(IDocument)
 
 class Compositor;
 
@@ -87,7 +97,18 @@ class Document : public IDocument {
     PageList pages;
 
     GlyphContainer::GlyphList selectedGlyphs;
+
+    friend class boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive &ar, const unsigned int version)
+    {
+        std::cout << "0 Document\n";
+        ar & boost::serialization::base_object<IDocument>(*this);
+//        ar & pages;
+        std::cout << "1 Document\n";
+    }
 };
+BOOST_CLASS_EXPORT_KEY(Document)
 
 
 #endif  // TEXT_EDITOR_DOCUMENT_H_

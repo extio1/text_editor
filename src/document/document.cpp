@@ -1,4 +1,7 @@
+#include <boost/archive/text_iarchive.hpp>
+#include <boost/archive/text_oarchive.hpp>
 #include "document/document.h"
+BOOST_CLASS_EXPORT_IMPLEMENT(Document)
 
 #include <algorithm>
 #include <cassert>
