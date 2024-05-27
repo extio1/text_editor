@@ -22,9 +22,7 @@ class Executor {
     void Redo();
 
    private:
-    CircularBuffer<std::shared_ptr<Command>> command_history;
-    std::size_t n_executed;
-    std::size_t n_unexecuted;
+    CircularBuffer<Command> command_history;
 };
 
 #endif  // TEXTEDITOR_INCLUDEEXECUTOR_EXECUTOR_H_
