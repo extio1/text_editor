@@ -21,9 +21,9 @@ class IDocument {
    public:
     virtual void Insert(Glyph::GlyphPtr& glyph) = 0;
     virtual void Remove(Glyph::GlyphPtr& glyph) = 0;
-    virtual void SelectGlyphs(GlyphContainer::GlyphList& glyphs) = 0;
-    virtual void PasteGlyphs(int x, int y) = 0;
-    virtual void CutGlyphs(GlyphContainer::GlyphList& glyphs) = 0;
+    virtual void SelectGlyphs(const Point& start, const Point& end) = 0;
+    virtual Glyph::GlyphList PasteGlyphs(const Point& to_point) = 0;
+    virtual void CutGlyphs(const Point& start, const Point& end) = 0;
     virtual ~IDocument() = default;
 private:
     friend class boost::serialization::access;
@@ -98,6 +98,7 @@ class Document : public IDocument {
 
     GlyphContainer::GlyphList selectedGlyphs;
 
+    explicit Document(){}
     friend class boost::serialization::access;
     template<class Archive>
     void serialize(Archive &ar, const unsigned int version)
