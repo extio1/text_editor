@@ -1,4 +1,5 @@
 #include "window.h"
+#include <iostream>
 
 #include <QApplication>
 
@@ -6,8 +7,9 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     Window *w = new Window();
-    w->DrawLine(1, 1, 2, 1);
     w->show();
+
+    w->DrawText(3, 0, "hello");
 
     return a.exec();
 }

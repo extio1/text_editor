@@ -12,7 +12,6 @@ void Menu::createMenus()
 {
     mnFile = new QMenu("File");
     mnEdit = new QMenu("Edit");
-    mnInsert = new QMenu("Insert");
     mnFormat = new QMenu("Format");
     mnFormatText = new QMenu("Text");
     mnFormatAlignment = new QMenu("Alingment");
@@ -30,9 +29,6 @@ void Menu::createMenus()
     mnEdit->addAction(actEditCancel);
     mnEdit->addAction(actEditRepeat);
 
-    mnInsert->addAction(actInsertTable);
-    mnInsert->addAction(actInsertImage);
-
     mnFormat->addMenu(mnFormatText);
     mnFormat->addMenu(mnFormatAlignment);
     mnFormat->addMenu(mnFormatLineSpacing);
@@ -48,7 +44,6 @@ void Menu::createMenus()
 
     menuBar()->addMenu(mnFile);
     menuBar()->addMenu(mnEdit);
-    menuBar()->addMenu(mnInsert);
     menuBar()->addMenu(mnFormat);
     parent->setMenuBar(this->menuBar());
 }
@@ -66,9 +61,6 @@ void Menu::createActions()
     actEditPaste = new QAction("Paste");
     actEditCancel = new QAction("Cancel");
     actEditRepeat = new QAction("Repeat");
-
-    actInsertTable = new QAction("Table");
-    actInsertImage = new QAction("Image");
 
     actFormatTextBold = new QAction("Bold");
     actFormatTextItalics = new QAction("Italics");

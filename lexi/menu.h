@@ -22,7 +22,6 @@ private:
     Window *parent;
     QMenu *mnFile;
     QMenu *mnEdit;
-    QMenu *mnInsert;
     QMenu *mnFormat;
     QMenu *mnFormatText;
     QMenu *mnFormatAlignment;
@@ -38,8 +37,6 @@ private:
     QAction *actEditCopy;
     QAction *actEditCancel;
     QAction *actEditRepeat;
-    QAction *actInsertTable;
-    QAction *actInsertImage;
     QAction *actFormatTextBold;
     QAction *actFormatTextItalics;
     QAction *actFormatTextUnderlined;
