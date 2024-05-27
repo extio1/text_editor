@@ -96,20 +96,24 @@ TEST(CircularBufferConstruct, WhenCalled_WithProperArguments_Correct) {
 TEST(CircularBufferPush, WhenCalled_Wraparound_Correct) {
     auto cb = CircularBuffer<int>(5);
 
+    // push full buffer 0 1 2 3 4
     for (int i = 0; i < 5; i++){
-        cb.push(std::move(i));
+        cb.push(std::make_shared<int>(i));
     }
 
+    // check that buffer is 0 1 2 3 4
     for (int i = 0; i < 5; i++){
-        cb.buffer[i] = i;
+        ASSERT_EQ(*cb.buffer[i], i);
     }
 
+    // push 5 6 7 8 9 to buffer
     for (int i = 5; i < 10; i++){
-        cb.push(std::move(i));
+        cb.push(std::make_shared<int>(i));
     }
 
+    // check that buffer is 5 6 7 8 9 now
     for (int i = 5; i < 10; i++){
-        cb.buffer[i] = i;
+        ASSERT_EQ(*cb.buffer[i-5], i);
     }
 }
 
@@ -117,15 +121,18 @@ TEST(CircularBufferGetPrev, WhenCalled_Wraparound_Correct) {
     auto cb = CircularBuffer<int>(5);
 
     for (int i = 0; i < 5; i++){
-        cb.push(std::move(i));
+        cb.push(std::make_shared<int>(i));
     }
+    // buffer is 0 1 2 3 4
 
     for (int i = 4; i >= 0; --i){
-        ASSERT_EQ(cb.pop(), i);
+        ASSERT_EQ(*cb.pop(), i);
     }
 
+    ASSERT_TRUE(cb.empty());
+
     for (int i = 4; i >= 0; --i){
-        ASSERT_EQ(cb.pop(), i);
+        ASSERT_EQ(cb.pop(), nullptr);
     }
 
     ASSERT_TRUE(cb.empty());
@@ -134,16 +141,23 @@ TEST(CircularBufferGetPrev, WhenCalled_Wraparound_Correct) {
 TEST(CircularBufferGetNext, WhenCalled_Wraparound_Correct) {
     auto cb = CircularBuffer<int>(5);
 
-    for (int i = 0; i < 5; ++i){
-        cb.push(std::move(i));
+    for (int i = 0; i < 5; i++){
+        cb.push(std::make_shared<int>(i));
     }
+    // 0 1 2 3 4
 
-    for (int i = 0; i < 5; ++i){
-        ASSERT_EQ(cb.get_next(), i);
-    }
+    ASSERT_EQ(*cb.pop(), 4);
+    // 0 1 2 3
 
-    for (int i = 0; i < 5; ++i){
-        ASSERT_EQ(cb.get_next(), i);
+    ASSERT_EQ(*cb.pop(), 3);
+    // 0 1 2
+
+    ASSERT_EQ(*cb.get_next(), 3);
+
+    ASSERT_EQ(*cb.get_next(), 4);
+
+    for (int i = 0; i < 4; ++i){
+        ASSERT_EQ(cb.get_next(), nullptr);
     }
 
     ASSERT_TRUE(!cb.empty());
