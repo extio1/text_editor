@@ -19,16 +19,23 @@ class Button : public Glyph {
     explicit Button(const int x, const int y, const int width, const int height,
                     const std::string& name);
 
+    Glyph::GlyphList Select(const Glyph::GlyphPtr& area) override {}
+
     void Draw() override;
 
+    void Insert(GlyphPtr& glyph) override {}
+    void Remove(const GlyphPtr& glyph) override {}
     void Add(GlyphPtr) override {}
 
-    void Insert(GlyphPtr, int) {}
+    GlyphPtr GetFirstGlyph() override;
+    GlyphPtr GetNextGlyph(GlyphPtr& glyph) override;
 
     /**
      * @brief           Returns whether the button is pressed.
      */
     bool IsPressed() const;
+
+    std::shared_ptr<Glyph> Clone() const override;
 
    private:
     std::string name;

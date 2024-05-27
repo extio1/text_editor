@@ -22,19 +22,17 @@ class Row : public GlyphContainer {
      */
     explicit Row(const int x, const int y, const int width, const int height);
 
+    Glyph::GlyphList Select(const Glyph::GlyphPtr& area) override;
+
     /**
      * @brief           Inserts a glyph into the string at the position closest
      * to the specified one.
      * @param glyph     Pointer to the glyph.
-     * @return          A list of glyphs that do not fit into a string and have
-     * been removed from it.
      */
-    GlyphContainer::GlyphList Insert(GlyphPtr& glyph);
-    void Insert(RowPtr& row);
-    void InsertBack(GlyphList&& glyphs);
-    void Insert(int insertPosition, GlyphList&& itemsToInsert);
+    void Insert(GlyphPtr& glyph);
+    void Remove(const GlyphPtr& glyph) override;
 
-    void Remove(const GlyphPtr& ptr) override;
+    std::shared_ptr<Glyph> Clone() const override;
 
     bool IsEmpty() const;
     bool IsFull() const;
@@ -53,14 +51,8 @@ class Row : public GlyphContainer {
      */
     int GetUsedSpace() const;
 
-    GlyphPtr GetFirstGlyph() const;
-    GlyphPtr GetLastGlyph() const;
-
    private:
     int usedWidth = 0;
-
-    void Remove(GlyphList::iterator& it);
-    void UpdateRestGlyphs(GlyphList::iterator& it, const int updateValue);
 };
 
 #endif  // TEXT_EDITOR_ROW_H_

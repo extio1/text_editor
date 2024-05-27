@@ -24,11 +24,12 @@ class Column : public GlyphContainer {
     explicit Column(const int x, const int y, const int width,
                     const int height);
 
-    void Remove(const GlyphPtr& ptr) override;
+    Glyph::GlyphList Select(const Glyph::GlyphPtr& area) override;
 
-    void Insert(ColumnPtr& column);
-    void InsertBack(std::list<GlyphPtr>&& glyphs);
-    void Insert(int insertPosition, std::list<GlyphPtr>&& itemsToInsert);
+    void Insert(GlyphPtr& glyph) override;
+    void Remove(const GlyphPtr& glyph) override;
+
+    std::shared_ptr<Glyph> Clone() const override;
 
     bool IsEmpty() const;
     bool IsFull() const;
@@ -47,16 +48,8 @@ class Column : public GlyphContainer {
      */
     int GetUsedSpace() const;
 
-    GlyphPtr GetFirstGlyph() const;
-    GlyphPtr GetLastGlyph() const;
-
-    void MoveUpRows(int height);
-
    private:
     int usedHeight = 0;
-
-    void Remove(GlyphList::iterator& it);
-    void UpdateRestElements(GlyphList::iterator& it, const int updateValue);
 };
 
 #endif  // TEXT_EDITOR_COLUMN_H_

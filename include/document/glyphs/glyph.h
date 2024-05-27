@@ -2,6 +2,7 @@
 #define TEXT_EDITOR_GLYPH_H_
 
 #include <iostream>
+#include <list>
 #include <memory>
 
 #include "utils/point.h"
@@ -12,6 +13,7 @@
 class Glyph {
    public:
     using GlyphPtr = std::shared_ptr<Glyph>;
+    using GlyphList = std::list<Glyph::GlyphPtr>;
 
     /**
      * @brief           Creates glyph with specified position and size.
@@ -55,17 +57,24 @@ class Glyph {
      */
     bool Intersects(const GlyphPtr& glyph) const;
 
+    virtual GlyphList Select(const Glyph::GlyphPtr& area) = 0;
+
     /**
      * @brief           Inserts by index another glyph into the glyph passed by
-     * the pointer. Defined only for container glyphs.
+     * the pointer.
      * @param glyph     Pointer to the glyph.
-     * @param index     The ordinal index of the glyph in the container.
      */
-    virtual void Insert(GlyphPtr, int index) = 0;
+    virtual void Insert(GlyphPtr& glyph) = 0;
+
+    /**
+     * @brief           Removes the glyph passed by the pointer from the
+     * document.
+     * @param glyph     Pointer to the glyph.
+     */
+    virtual void Remove(const GlyphPtr& glyph) = 0;
 
     /**
      * @brief           Adds the glyph passed by the pointer to the end.
-     *                  Defined only for container glyphs.
      * @param glyph     Pointer to the glyph.
      */
     virtual void Add(GlyphPtr glyph) = 0;
@@ -77,6 +86,16 @@ class Glyph {
      * @param y         Vertical offset.
      */
     virtual void MoveGlyph(int x, int y);
+
+    virtual GlyphPtr GetFirstGlyph() = 0;
+    virtual GlyphPtr GetNextGlyph(GlyphPtr& glyph) = 0;
+
+    /**
+     * @brief           Creates a copy of the glyph and wraps it in a smart
+     * pointer.
+     * @return          Shared pointer to the copy of glyph.
+     */
+    virtual std::shared_ptr<Glyph> Clone() const = 0;
 
     void SetPosition(const Point& p);
     void SetPosition(int x, int y);

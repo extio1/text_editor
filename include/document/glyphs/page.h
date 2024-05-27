@@ -10,46 +10,19 @@ class Page : public GlyphContainer {
    public:
     using PagePtr = std::shared_ptr<Page>;
 
+    // x and y can be used for saving position in document or can be ignored
     explicit Page(const int x, const int y, const int width, const int height);
 
     void Draw() override;
 
-    bool IsBottomRow(const GlyphPtr&) const;
-    bool IsRightColumn(const GlyphPtr&) const;
+    Glyph::GlyphList Select(const Glyph::GlyphPtr& area) override;
 
-    Row::RowPtr GetFirstRow();
-    Column::ColumnPtr GetFirstColumn();
-    void SetCurrentRow(Row::RowPtr row);
-    void SetCurrentColumn(Column::ColumnPtr column);
+    void Insert(GlyphPtr& glyph) override;
+    void Remove(const GlyphPtr& glyph) override;
 
-    bool IsEmpty() const;
-    bool IsFull() const;
+    std::shared_ptr<Glyph> Clone() const override;
 
-    bool RowCanBeAdded(int height) const;
-    bool ColumnCanBeAdded(int width) const;
-    Row::RowPtr RemoveFirstRow();
-    Column::ColumnPtr RemoveFirstColumn();
-
-    void Insert(GlyphPtr glyph, int position) override;
-    void Remove(const GlyphPtr& ptr) override;
-
-   private:
-    static int topIndent;
-    static int botIndent;
-    static int leftIndent;
-    static int rightIndent;
-    static const int charHeight;  // replace
-    static const int charWidth;   // replace
-    Column::ColumnPtr currentColumn;
-    Row::RowPtr currentRow;
-
-    void Remove(GlyphList::iterator& it);
-    void MoveLeftColumns(GlyphList::iterator colIt);
-    Column::ColumnPtr GetPreviousColumn();
-    Column::ColumnPtr GetPreviousColumn(Glyph::GlyphPtr& column);
-    Column::ColumnPtr GetNextColumn();
-    Column::ColumnPtr GetNextColumn(Glyph::GlyphPtr& column);
-    Column::ColumnPtr GetLastColumn();
+    size_t GetColumnsCount();
 };
 
 #endif  // TEXT_EDITOR_PAGE_H_

@@ -15,13 +15,20 @@ class MonoGlyph : public Glyph {
      * itself.
      * @param glyph     A two-dimensional point.
      */
-    explicit MonoGlyph(GlyphPtr glyph);
-    ~MonoGlyph() override = default;
+    explicit MonoGlyph(GlyphPtr& glyph);
 
     void Draw();
 
+    Glyph::GlyphList Select(const Glyph::GlyphPtr& area) override;
+
+    void Insert(GlyphPtr& glyph) override;
+    void Remove(const GlyphPtr& glyph) override;
     void Add(GlyphPtr glyph) override;
-    void Insert(GlyphPtr glyph, int pos) override;
+
+    GlyphPtr GetFirstGlyph() override;
+    GlyphPtr GetNextGlyph(GlyphPtr& glyph) override;
+
+    std::shared_ptr<Glyph> Clone() const override;
 
    protected:
     GlyphPtr component;

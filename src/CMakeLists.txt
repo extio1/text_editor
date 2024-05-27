@@ -1,2 +1,3 @@
 add_subdirectory(document)
 add_subdirectory(utils)
+add_subdirectory(compositor)

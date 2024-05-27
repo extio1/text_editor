@@ -1,128 +1,70 @@
 #include "document/glyphs/column.h"
 
 #include <algorithm>
+#include <cassert>
 #include <numeric>
 #include <optional>
 
+#include "document/glyphs/row.h"
+#include "utils/find_all_if.h"
+
+int charHeight = 1;  // temporary!!!
+
 Column::Column(const int x, const int y, const int width, const int height)
-    : GlyphContainer(x, y, width, height) {}
+    : GlyphContainer(x, y, width, height) {
+    Glyph::GlyphPtr firstRowPtr =
+        std::make_shared<Row>(Row(x, y, width, charHeight));
+    this->Add(firstRowPtr);
+}
 
-void Column::Remove(const GlyphPtr& ptr) {
-    auto it = std::find(components.begin(), components.end(), ptr);
+Glyph::GlyphList Column::Select(const Glyph::GlyphPtr& area) {
+    auto intersectedRows = find_all_if(
+        components.begin(), components.end(),
+        [&](const auto& component) { return component->Intersects(area); });
+
+    Glyph::GlyphList list;
+
+    for (auto row : intersectedRows) {
+        Glyph::GlyphList glyphsFromCurrentRow = (*row)->Select(area);
+        list.insert(list.end(), glyphsFromCurrentRow.begin(),
+                    glyphsFromCurrentRow.end());
+    }
+    return list;
+}
+
+void Column::Insert(GlyphPtr& glyph) {
+    auto intersectedGlyphIt = std::find_if(
+        components.begin(), components.end(),
+        [&](const auto& component) { return component->Intersects(glyph); });
+    assert(intersectedGlyphIt != components.end() &&
+           "No suitable row for inserting");
+
+    (*intersectedGlyphIt)->Insert(glyph);
+}
+
+void Column::Remove(const GlyphPtr& glyph) {
+    assert(glyph != nullptr && "Cannot remove glyph by nullptr");
+    auto it = std::find(components.begin(), components.end(), glyph);
     if (it != components.end()) {
-        Remove(it);
-    }
-}
-
-void Column::Remove(GlyphContainer::GlyphList::iterator& it) {
-    auto rowHeight = (*it)->GetHeight();
-    it = components.erase(it);
-    for (; it != components.end(); ++it) {
-        auto& nextRow = (*it);
-        nextRow->SetPosition({nextRow->GetPosition().x, y - rowHeight});
-    }
-    usedHeight -= rowHeight;
-    ReDraw();
-}
-
-void Column::Insert(ColumnPtr& column) {
-    auto insertPosition =
-        components.empty() ? y : components.back()->GetBottomBorder();
-    auto list = column->components;
-    return Insert(insertPosition, std::move(list));
-}
-
-void Column::InsertBack(std::list<GlyphPtr>&& list) {
-    auto insertPosition = x;
-    if (!components.empty()) {
-        insertPosition = components.back()->GetBottomBorder();
-    }
-    return Insert(insertPosition, std::move(list));
-}
-
-void Column::Insert(int insertPosition, std::list<GlyphPtr>&& itemsToInsert) {
-    auto updateElements = [&](int offset) {
-        for (auto& it : itemsToInsert) {
-            it->SetPosition(offset, y);
-            offset += it->GetHeight() + 1;
-        }
-    };
-
-    int itemsToInsertHeight =
-        std::accumulate(itemsToInsert.begin(), itemsToInsert.end(), 0,
-                        [](auto& init, const auto& item) {
-                            init += item->GetHeight();
-                            return init;
-                        });
-
-    if (components.empty()) {
-        updateElements(x);
-        std::swap(components, itemsToInsert);
-        usedHeight += itemsToInsertHeight;
-        ReDraw();
+        if (it != components.begin()) components.erase(it);
         return;
     }
 
-    auto insertionElement = std::find_if(
-        components.begin(), components.end(), [&](const auto& glyph) {
-            return glyph->Intersects(Point(x, insertPosition));
-        });
+    auto intersectedGlyphIt = std::find_if(
+        components.begin(), components.end(),
+        [&](const auto& component) { return component->Intersects(glyph); });
+    assert(intersectedGlyphIt != components.end() &&
+           "No suitable row for removing");
 
-    if ((*insertionElement)->GetBottomBorder() == insertPosition) {
-        insertionElement++;
-    }
-
-    int offset = (*std::prev(insertionElement))->GetBottomBorder() + 1;
-    updateElements(offset);
-
-    components.insert(insertionElement, itemsToInsert.begin(),
-                      itemsToInsert.end());
-
-    // update rest of elements
-    UpdateRestElements(insertionElement, itemsToInsertHeight);
-
-    usedHeight += itemsToInsertHeight;
-    if (usedHeight > height) {
-        auto lastElement = std::find_if(
-            components.begin(), components.end(), [&](const auto& element) {
-                return element->GetBottomBorder() > GetBottomBorder();
-            });
-
-        GlyphContainer::GlyphList list;
-        list.splice(list.begin(), components, lastElement);
-    }
-    ReDraw();
-    return;
-}
-
-void Column::UpdateRestElements(GlyphList::iterator& it,
-                                const int updateValue) {
-    for (; it != components.end(); ++it) {
-        const auto& currentPos = (*it)->GetPosition();
-        (*it)->SetPosition(currentPos.x, currentPos.y + updateValue);
-    }
+    (*intersectedGlyphIt)->Remove(glyph);
 }
 
 bool Column::IsEmpty() const { return components.empty(); }
-bool Column::IsFull() const {
-    return usedHeight + 1 >= height;  // replace 1 with charHeight
-}
+bool Column::IsFull() const { return usedHeight >= height; }
 int Column::GetFreeSpace() const { return height - usedHeight; }
 int Column::GetUsedSpace() const { return usedHeight; }
 
-Glyph::GlyphPtr Column::GetFirstGlyph() const {
-    return components.empty() ? nullptr : components.front();
-}
-
-Glyph::GlyphPtr Column::GetLastGlyph() const {
-    return components.empty() ? nullptr : components.back();
-}
-
-void Column::MoveUpRows(int height) {
-    for (auto rowIt = components.begin(); rowIt != components.end(); ++rowIt) {
-        auto& row = *rowIt;
-        row->ClearGlyph();
-        row->MoveGlyph(0, -height);
-        row->Draw();
-    }
+std::shared_ptr<Glyph> Column::Clone() const {
+    Column* copy = new Column(this->x, this->y, this->width, this->height);
+    return std::make_shared<Column>(*copy);
 }

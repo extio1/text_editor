@@ -22,11 +22,19 @@ class Character : public Glyph {
     ~Character() {}
     void Draw() override;
 
-    void Insert(GlyphPtr, int) {}
-    void Add(GlyphPtr) {}
+    Glyph::GlyphList Select(const Glyph::GlyphPtr& area) override {}
+
+    void Insert(GlyphPtr& glyph) override {}
+    void Remove(const GlyphPtr& glyph) override {}
+    void Add(GlyphPtr) override {}
 
     void SetChar(char c);
     char GetChar() const;
+
+    GlyphPtr GetFirstGlyph() override;
+    GlyphPtr GetNextGlyph(GlyphPtr& glyph) override;
+
+    std::shared_ptr<Glyph> Clone() const override;
 
    private:
     char symbol;
