@@ -60,18 +60,30 @@ TEST(ExecutorDoUndoRedo, WhenCalled_DoUndoRedo_Correct){
 
     EXPECT_CALL(*d_mock.get(), Insert(Eq(c4->character))).Times(1);
     e.Do(std::move(c4));
-    // c2 - c3 - c4
+    // c4 - c2 - c3
 
     EXPECT_CALL(*d_mock.get(), Remove(_)).Times(1);
     e.Undo();
-    // c2 - c3
+    // .c4 - c2 - c3
+
+    EXPECT_CALL(*d_mock.get(), Remove(_)).Times(1);
+    e.Undo();
+    // .c4 - .c2 - c3
 
     EXPECT_CALL(*d_mock.get(), Insert(_)).Times(1);
     e.Redo();
-    // c2 - c3 - c4
+    // .c4 - c2 - c3
+
+    EXPECT_CALL(*d_mock.get(), Insert(_)).Times(1);
+    e.Redo();
+    // c4 - c2 - c3
+
+    EXPECT_CALL(*d_mock.get(), Insert(_)).Times(0);
+    e.Redo();
+    // c4 - c2 - c3
 }
 
-TEST(ExecutorDoUndoRedo, WhenCalled_WraparoundUndoRedo_Correct){
+TEST(ExecutorDoUndoRedo, WhenCalled_WraparoundUndo_Correct){
     auto e = Executor(3);
     auto d_mock = std::make_shared<DocumentMock>();
 
@@ -94,23 +106,66 @@ TEST(ExecutorDoUndoRedo, WhenCalled_WraparoundUndoRedo_Correct){
 
     EXPECT_CALL(*d_mock.get(), Insert(Eq(c4->character))).Times(1);
     e.Do(std::move(c4));
-    // c2 - c3 - c4
+    // c4 - c2 - c3
 
     EXPECT_CALL(*d_mock.get(), Remove(_)).Times(1);
     e.Undo();
-    // c2 - c3
+    // c4 - c2 - .c3
 
     EXPECT_CALL(*d_mock.get(), Remove(_)).Times(1);
     e.Undo();
-    // c2
+    // c4 - .c2 - .c3
 
     EXPECT_CALL(*d_mock.get(), Remove(_)).Times(1);
     e.Undo();
-    //
+    // .c4 - .c2 - .c3
 
     EXPECT_CALL(*d_mock.get(), Remove(_)).Times(0);
     e.Undo();
-    //
+    // .c4 - .c2 - .c3
+}
 
-    
+TEST(ExecutorDoUndoRedo, WhenCalled_DoDoDoUndoUndoDoRedo_RedoDoNothing){
+    auto e = Executor(3);
+    auto d_mock = std::make_shared<DocumentMock>();
+
+    auto c1 = std::make_shared<InsertCharacter>(d_mock, 10, 0, 10, 20, 'A');
+    auto c2 = std::make_shared<InsertCharacter>(d_mock, 20, 0, 10, 20, 'B');
+    auto c3 = std::make_shared<InsertCharacter>(d_mock, 30, 0, 10, 20, 'C');
+    auto c4 = std::make_shared<InsertCharacter>(d_mock, 40, 0, 10, 20, 'D');
+
+    EXPECT_CALL(*d_mock.get(), Insert(Eq(c1->character))).Times(1);
+    e.Do(std::move(c1));
+    // c1
+
+    EXPECT_CALL(*d_mock.get(), Insert(Eq(c2->character))).Times(1);
+    e.Do(std::move(c2));
+    // c1 - c2
+
+    EXPECT_CALL(*d_mock.get(), Insert(Eq(c3->character))).Times(1);
+    e.Do(std::move(c3));
+    // c1 - c2 - c3
+
+    EXPECT_CALL(*d_mock.get(), Insert(Eq(c4->character))).Times(1);
+    e.Do(std::move(c4));
+    // c4 - c2 - c3
+
+    EXPECT_CALL(*d_mock.get(), Remove(_)).Times(1);
+    e.Undo();
+    // .c4 - c2 - c3
+
+    EXPECT_CALL(*d_mock.get(), Remove(_)).Times(1);
+    e.Undo();
+    // .c4 - c2 - .c3
+
+    auto c5 = std::make_shared<InsertCharacter>(d_mock, 50, 0, 10, 20, 'F');
+    EXPECT_CALL(*d_mock.get(), Insert(Eq(c5->character))).Times(1);
+    e.Do(std::move(c5));
+    // .c4 - c2 - c5
+
+    // after new command inserted future history is not valid anymore
+    // future before Redo is c4 - this mustn't be executed
+    EXPECT_CALL(*d_mock.get(), Insert(_)).Times(0);
+    e.Redo();
+    // .c4 - c2 - c5
 }
