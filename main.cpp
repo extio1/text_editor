@@ -15,8 +15,7 @@
 #include "executor/command/load_document.h"
 
 int main() {
-    auto d = std::make_shared<Document>();
-    d->SetCompositor(std::make_shared<SimpleCompositor>());
+    auto d = std::make_shared<Document>(std::make_shared<SimpleCompositor>());
 
     auto document = std::dynamic_pointer_cast<IDocument>(d);
     auto controller = std::make_unique<Executor>(2);
