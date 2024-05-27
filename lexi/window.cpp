@@ -8,13 +8,19 @@ Window::Window(QWidget *parent)
 {
     ui->setupUi(this);
     new Menu(this);
+<<<<<<< HEAD
     addScrollArea();
+=======
+    scrollArea = new QScrollArea();
+    //scrollArea->setWidget(this);
+>>>>>>> 697245140ce93735d2a1a1dd81f47811422ab71d
 }
 
 Window::~Window()
 {
     delete ui;
 }
+<<<<<<< HEAD
 
 void Window::addScrollArea() {
     widget = new QWidget();
@@ -47,3 +53,5 @@ void Window::DrawText(int x, int y, std::string text){
 void Window::ClearGlyph(int x, int y, int width, int height){
 
 }
+=======
+>>>>>>> 697245140ce93735d2a1a1dd81f47811422ab71d

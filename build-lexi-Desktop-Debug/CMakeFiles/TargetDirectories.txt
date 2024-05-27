@@ -1,4 +1,0 @@
-/home/alexa/upprpo_project/build-lexi-Desktop-Debug/CMakeFiles/lexi.dir
-/home/alexa/upprpo_project/build-lexi-Desktop-Debug/CMakeFiles/edit_cache.dir
-/home/alexa/upprpo_project/build-lexi-Desktop-Debug/CMakeFiles/rebuild_cache.dir
-/home/alexa/upprpo_project/build-lexi-Desktop-Debug/CMakeFiles/lexi_autogen.dir

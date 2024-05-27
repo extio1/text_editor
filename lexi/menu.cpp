@@ -12,6 +12,7 @@ void Menu::createMenus()
 {
     mnFile = new QMenu("File");
     mnEdit = new QMenu("Edit");
+
     mnFormat = new QMenu("Format");
     mnFormatText = new QMenu("Text");
     mnFormatAlignment = new QMenu("Alingment");

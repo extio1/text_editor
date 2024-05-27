@@ -1,5 +1,4 @@
 #include "window.h"
-#include <iostream>
 
 #include <QApplication>
 
@@ -10,6 +9,5 @@ int main(int argc, char *argv[])
     w->show();
 
     w->DrawText(3, 0, "hello");
-
     return a.exec();
 }
