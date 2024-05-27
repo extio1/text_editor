@@ -9,21 +9,30 @@ template <typename T>
 class CircularBuffer {
    public:
     explicit CircularBuffer(size_t capacity)
-        : buffer(std::vector<T>(capacity)),
+        : buffer(std::vector<std::shared_ptr<T>>(capacity)),
+          max_capacity(capacity),
           capacity(capacity),
           next_index(capacity) {}
 
     bool empty() { return capacity == 0; }
 
-    void push(T&& obj) {
+    void push(std::shared_ptr<T>&& obj) {
         buffer[next_index++] = std::move(obj);
         ++capacity;
     }
 
-    const T& get_next() { return buffer[next_index++]; }
+    std::shared_ptr<T> get_next() {
+        if (capacity == max_capacity)
+            return nullptr;
 
-    const T& pop() {
-        auto& v = buffer[--next_index];
+        return buffer[next_index++];
+    }
+
+    std::shared_ptr<T> pop() {
+        if (capacity == 0)
+            return nullptr;
+
+        auto v = buffer[--next_index];
         --capacity;
         return v;
     }
@@ -99,7 +108,9 @@ class CircularBuffer {
         std::size_t max_value;
     };
 
-    std::vector<T> buffer;
+    std::vector<std::shared_ptr<T>> buffer;
+    std::size_t max_capacity;
+    std::size_t current_end;
     CircularValue next_index;  // Index there to push new element
     LimitedValue capacity;    // Current number of elements in circular buffer
 };
