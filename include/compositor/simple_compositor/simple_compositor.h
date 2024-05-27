@@ -2,15 +2,22 @@
 #define TEXT_EDITOR_SIMPLECOMPOSITOR_H_
 
 #include <iostream>
+#include <boost/serialization/export.hpp>
+#include <boost/serialization/access.hpp>
+#include <boost/serialization/base_object.hpp>
 
 #include "compositor/compositor.h"
 #include "document/document.h"
 
 class SimpleCompositor : public Compositor {
    public:
-    explicit SimpleCompositor(int topIndent = 5, int bottomIndent = 10,
-                              int leftIndent = 3, int rightIndent = 6,
-                              Alignment alignment = LEFT, int lineSpacing = 5)
+    explicit SimpleCompositor()
+        : Compositor(5, 10, 3, 6,
+                     LEFT, 5) {}
+
+    explicit SimpleCompositor(int topIndent, int bottomIndent,
+                              int leftIndent, int rightIndent,
+                              Alignment alignment, int lineSpacing)
         : Compositor(topIndent, bottomIndent, leftIndent, rightIndent,
                      alignment, lineSpacing) {}
 
@@ -31,6 +38,16 @@ class SimpleCompositor : public Compositor {
     int GetNestedGlyphsHeight(Glyph::GlyphPtr& glyph);
 
     GlyphContainer::GlyphList CutAllCharacters();
+
+    friend class boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive &ar, const unsigned int version)
+    {
+        std::cout << "0 SimpleCompositor\n";
+        ar & boost::serialization::base_object<Compositor>(*this);
+        std::cout << "1 SimpleCompositor\n";
+    }
 };
+BOOST_CLASS_EXPORT_KEY(SimpleCompositor)
 
 #endif  // TEXT_EDITOR_SIMPLECOMPOSITOR_H_

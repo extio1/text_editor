@@ -8,7 +8,7 @@
 
 class Paste : public ReversibleCommand {
 public:
-    explicit Paste(std::shared_ptr<IDocument> doc, Point& begin_with);
+    explicit Paste(std::shared_ptr<IDocument> doc, const Point& begin_with);
 
     Paste(Paste&&) = default;
     Paste& operator=(Paste&&) = default;
@@ -22,7 +22,8 @@ public:
 
 private:
     std::shared_ptr<IDocument> doc;
-    GlyphContainer::GlyphList pasted_glyphs;
+    Point begin_with;
+    Glyph::GlyphList pasted_glyphs;
 };
 
 

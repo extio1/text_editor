@@ -105,7 +105,7 @@ class Document : public IDocument {
     {
         std::cout << "0 Document\n";
         ar & boost::serialization::base_object<IDocument>(*this);
-        ar & pages;
+        ar & pages & currentPage & compositor;
         std::cout << "1 Document\n";
     }
 };
