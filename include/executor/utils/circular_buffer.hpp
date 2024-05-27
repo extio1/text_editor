@@ -25,6 +25,7 @@ class CircularBuffer {
         if (capacity == max_capacity)
             return nullptr;
 
+        ++capacity;
         return buffer[next_index++];
     }
 

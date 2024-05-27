@@ -117,23 +117,26 @@ TEST(CircularBufferPush, WhenCalled_Wraparound_Correct) {
     }
 }
 
-TEST(CircularBufferGetPrev, WhenCalled_Wraparound_Correct) {
+TEST(CircularBufferPop, WhenCalled_Wraparound_Correct) {
     auto cb = CircularBuffer<int>(5);
 
-    for (int i = 0; i < 5; i++){
+    for (int i = 0; i < 8; ++i){
         cb.push(std::make_shared<int>(i));
     }
-    // buffer is 0 1 2 3 4
+    // 5 6 7 3 4
 
-    for (int i = 4; i >= 0; --i){
-        ASSERT_EQ(*cb.pop(), i);
-    }
+    ASSERT_EQ(*cb.pop(), 7);
+    ASSERT_EQ(*cb.pop(), 6);
+    ASSERT_EQ(*cb.pop(), 5);
+    ASSERT_EQ(*cb.pop(), 4);
+    ASSERT_EQ(*cb.pop(), 3);
 
-    ASSERT_TRUE(cb.empty());
-
-    for (int i = 4; i >= 0; --i){
-        ASSERT_EQ(cb.pop(), nullptr);
-    }
+    ASSERT_EQ(cb.pop(), nullptr);
+    ASSERT_EQ(cb.pop(), nullptr);
+    ASSERT_EQ(cb.pop(), nullptr);
+    ASSERT_EQ(cb.pop(), nullptr);
+    ASSERT_EQ(cb.pop(), nullptr);
+    ASSERT_EQ(cb.pop(), nullptr);
 
     ASSERT_TRUE(cb.empty());
 }
@@ -141,24 +144,27 @@ TEST(CircularBufferGetPrev, WhenCalled_Wraparound_Correct) {
 TEST(CircularBufferGetNext, WhenCalled_Wraparound_Correct) {
     auto cb = CircularBuffer<int>(5);
 
-    for (int i = 0; i < 5; i++){
+    ASSERT_TRUE(cb.empty());
+
+    for (int i = 0; i < 8; ++i){
         cb.push(std::make_shared<int>(i));
     }
-    // 0 1 2 3 4
+    // 5 6 7 3 4
 
-    ASSERT_EQ(*cb.pop(), 4);
-    // 0 1 2 3
+    ASSERT_EQ(cb.get_next(), nullptr);
 
-    ASSERT_EQ(*cb.pop(), 3);
-    // 0 1 2
+    ASSERT_EQ(*cb.pop(), 7);
+    // 5 6 .7 3 4
 
-    ASSERT_EQ(*cb.get_next(), 3);
+    ASSERT_EQ(*cb.get_next(), 7);
+    // 5 6 7 3 4
 
-    ASSERT_EQ(*cb.get_next(), 4);
-
-    for (int i = 0; i < 4; ++i){
-        ASSERT_EQ(cb.get_next(), nullptr);
-    }
+    ASSERT_EQ(cb.get_next(), nullptr);
+    ASSERT_EQ(cb.get_next(), nullptr);
+    ASSERT_EQ(cb.get_next(), nullptr);
+    ASSERT_EQ(cb.get_next(), nullptr);
+    ASSERT_EQ(cb.get_next(), nullptr);
+    ASSERT_EQ(cb.get_next(), nullptr);
 
     ASSERT_TRUE(!cb.empty());
 }
