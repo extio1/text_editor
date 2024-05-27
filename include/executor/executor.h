@@ -23,6 +23,12 @@ class Executor {
 
    private:
     CircularBuffer<Command> command_history;
+    /*
+     * this flag is set true after Do and set false after Undo
+     * because after Do "future" - commands that have been unexecuted(), are not
+     * valid
+     */
+    bool future_impossible;
 };
 
 #endif  // TEXTEDITOR_INCLUDEEXECUTOR_EXECUTOR_H_

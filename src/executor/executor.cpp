@@ -8,13 +8,15 @@ Executor::Executor(const std::size_t command_queue_length)
 void Executor::Do(std::shared_ptr<Command>&& command) {
     command->Execute();
     command_history.push(std::move(command));
+    future_impossible = true;
 }
 
 void Executor::Redo() {
-    auto c = command_history.get_next();
+    if(!future_impossible) {
+        auto c = command_history.get_next();
 
-    if(c)
-        c->Execute();
+        if (c) c->Execute();
+    }
 }
 
 void Executor::Undo() {
@@ -25,5 +27,6 @@ void Executor::Undo() {
         if (rc) {
             rc->Unexecute();
         }
+        future_impossible = false;
     }
 }
