@@ -7,9 +7,9 @@ BOOST_CLASS_EXPORT_IMPLEMENT(Document)
 #include <cassert>
 
 #include "compositor/compositor.h"
-#include "compositor/simple_compositor/simple_compositor.h"
 #include "document/glyphs/glyph.h"
 #include "document/glyphs/page.h"
+#include "document/glyphs/column.h"
 
 Document::Document(std::shared_ptr<Compositor> compositor) {
     currentPage = std::make_shared<Page>(0, 0, pageWidth, pageHeight);
