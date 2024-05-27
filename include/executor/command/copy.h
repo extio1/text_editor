@@ -8,7 +8,7 @@
 
 class Copy : public Command {
 public:
-    explicit Copy(std::shared_ptr<IDocument> doc, Point& from, Point& to);
+    explicit Copy(std::shared_ptr<IDocument> doc, const Point& from, const Point& to);
 
     Copy(Copy&&) = default;
     Copy& operator=(Copy&&) = default;
@@ -21,6 +21,8 @@ public:
 
 private:
     std::shared_ptr<IDocument> doc;
+    Point from;
+    Point to;
 };
 
 
