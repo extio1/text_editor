@@ -1936,7 +1936,13 @@ TEST(Tmp_test, Tmp_test) {
     d->Remove(c4Ptr);
     d->Insert(c4Ptr);
 
-    Character c = Character(3, 5, 0, 0, 0);
-    Glyph::GlyphPtr cPtr = std::make_shared<Character>(c);
-    d->Remove(cPtr);
+    // Character c = Character(3, 5, 0, 0, 0);
+    // Glyph::GlyphPtr cPtr = std::make_shared<Character>(c);
+    // d->Remove(cPtr);
+
+    d->SelectGlyphs(Point(3, 5), Point(43, 5));
+    std::list<Glyph::GlyphPtr> pasted = d->PasteGlyphs(Point(43, 5));
+    std::cout << pasted.size() << std::endl;
+    std::cout << *pasted.front() << std::endl;
+    std::cout << *pasted.back() << std::endl;
 }

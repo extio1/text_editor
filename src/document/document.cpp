@@ -85,7 +85,9 @@ Page::PagePtr Document::GetNextPage(const Page::PagePtr& pagePtr) {
 
 void Document::SelectGlyphs(const Point& start, const Point& end) {
     Glyph::GlyphPtr area = std::make_shared<Column>(
-        Column(start.x, start.y, end.x - start.x - 1, end.y - start.y - 1));
+        Column(start.x, start.y,
+               (end.x > start.x ? end.x - start.x - 1 : end.x - start.x),
+               (end.y > start.y ? end.y - start.y - 1 : end.y - start.y)));
     GlyphContainer::GlyphList list;
     Glyph::GlyphList glyphs = currentPage->Select(area);
     std::cout << "Selected glyphs:" << std::endl;
