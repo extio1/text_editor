@@ -61,6 +61,9 @@ void Document::updateCursor() {
 void Document::Insert(Glyph::GlyphPtr& glyph) {
     currentPage->Insert(glyph);
     compositor->Compose();
+
+    selectedGlyph = glyph;
+    this->updateCursor();
     // glyph->Draw();
 }
 

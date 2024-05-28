@@ -2067,7 +2067,25 @@ TEST(Document_Cursor1,
     auto d = std::make_shared<Document>(std::make_shared<SimpleCompositor>());
 
     Glyph::GlyphPtr selectedGlyph = d->GetSelectedGlyph();
-    std::cout << *selectedGlyph << std::endl;
     Row::RowPtr selectedRow = std::dynamic_pointer_cast<Row>(selectedGlyph);
     EXPECT_TRUE(selectedRow != nullptr);
+    EXPECT_TRUE(selectedRow ==
+                d->GetFirstPage()->GetFirstGlyph()->GetFirstGlyph());
+    std::cout << *selectedRow << std::endl;
+}
+
+TEST(Document_Cursor2,
+     DocumentCursorAfterInsertedChar_WhenCalles_ReturnGlyphNextToCursor) {
+    auto d = std::make_shared<Document>(std::make_shared<SimpleCompositor>());
+
+    Character c1 = Character(0, 0, 10, 10, 'A');
+    Glyph::GlyphPtr c1Ptr = std::make_shared<Character>(c1);
+    d->Insert(c1Ptr);
+
+    Glyph::GlyphPtr selectedGlyph = d->GetSelectedGlyph();
+    Character::CharPtr selectedChar =
+        std::dynamic_pointer_cast<Character>(selectedGlyph);
+    EXPECT_TRUE(selectedChar != nullptr);
+    EXPECT_TRUE(selectedChar == c1Ptr);
+    std::cout << *selectedChar << std::endl;
 }
