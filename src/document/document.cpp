@@ -1,19 +1,26 @@
+#include "document/document.h"
+
 #include <boost/archive/text_iarchive.hpp>
 #include <boost/archive/text_oarchive.hpp>
-#include "document/document.h"
 BOOST_CLASS_EXPORT_IMPLEMENT(Document)
 
 #include <algorithm>
 #include <cassert>
 
 #include "compositor/compositor.h"
+#include "document/glyphs/character.h"
+#include "document/glyphs/column.h"
 #include "document/glyphs/glyph.h"
 #include "document/glyphs/page.h"
-#include "document/glyphs/column.h"
+#include "document/glyphs/row.h"
 
 Document::Document(std::shared_ptr<Compositor> compositor) {
     currentPage = std::make_shared<Page>(0, 0, pageWidth, pageHeight);
     AddPage(currentPage);
+    // set cursor on the first row on page
+    selectedGlyph = this->GetFirstPage()->GetFirstGlyph()->GetFirstGlyph();
+    this->updateCursor();
+
     this->compositor = compositor;
     compositor->SetDocument(this);
     compositor->Compose();
@@ -27,6 +34,28 @@ void Document::SetCompositor(std::shared_ptr<Compositor> compositor) {
 
 std::shared_ptr<Compositor> Document::GetCompositor() {
     return this->compositor;
+}
+
+Glyph::GlyphPtr Document::GetSelectedGlyph() { return selectedGlyph; }
+
+void Document::updateCursor() {
+    // check if selectedGlyph is a row or a character
+
+    Row::RowPtr selectedRow = std::dynamic_pointer_cast<Row>(selectedGlyph);
+    if (selectedRow != nullptr) {
+        // set cursor in the beginning of this row
+        Point cursorPoint =
+            Point(selectedRow->GetPosition().x, selectedRow->GetPosition().y);
+        // window->SetCursor(cursorPoint);
+    } else {
+        Character::CharPtr selectedChar =
+            std::dynamic_pointer_cast<Character>(selectedGlyph);
+        assert(selectedChar != nullptr && "Selected glyph has invalid type");
+        Point cursorPoint =
+            Point(selectedChar->GetPosition().x + selectedChar->GetWidth(),
+                  selectedChar->GetPosition().y);
+        // window->SetCursor(cursorPoint);
+    }
 }
 
 void Document::Insert(Glyph::GlyphPtr& glyph) {
@@ -45,7 +74,6 @@ void Document::Remove(Glyph::GlyphPtr& glyph) {
 
     // what if this glyph is not from current page ???? glyph won't be found and
     // assertion will failed
-    std::cout << "Document::Remove()" << std::endl;
     assert(glyph != nullptr && "Cannot remove glyph by nullptr");
     currentPage->Remove(glyph);
     compositor->Compose();

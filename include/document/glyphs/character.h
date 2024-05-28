@@ -8,6 +8,7 @@
  */
 class Character : public Glyph {
    public:
+    using CharPtr = std::shared_ptr<Character>;
     /**
      * @brief           Creates a character with the specified parameters and
      * symbol.
@@ -39,15 +40,14 @@ class Character : public Glyph {
    private:
     char symbol;
     friend class boost::serialization::access;
-    template<class Archive>
-    void serialize(Archive &ar, const unsigned int version)
-    {
+    template <class Archive>
+    void serialize(Archive& ar, const unsigned int version) {
         std::cout << "0 Character\n";
-        ar & boost::serialization::base_object<Glyph>(*this);
+        ar& boost::serialization::base_object<Glyph>(*this);
         ar & symbol;
         std::cout << "1 Character\n";
     }
-    explicit Character(){}
+    explicit Character() {}
 };
 BOOST_CLASS_EXPORT_KEY(Character)
 

@@ -1,11 +1,11 @@
 #ifndef TEXT_EDITOR_DOCUMENT_H_
 #define TEXT_EDITOR_DOCUMENT_H_
 
-#include <functional>
-#include <boost/serialization/export.hpp>
 #include <boost/serialization/access.hpp>
-#include <boost/serialization/base_object.hpp>
 #include <boost/serialization/assume_abstract.hpp>
+#include <boost/serialization/base_object.hpp>
+#include <boost/serialization/export.hpp>
+#include <functional>
 
 #include "glyphs/glyph.h"
 #include "glyphs/page.h"
@@ -25,10 +25,13 @@ class IDocument {
     virtual Glyph::GlyphList PasteGlyphs(const Point& to_point) = 0;
     virtual void CutGlyphs(const Point& start, const Point& end) = 0;
     virtual ~IDocument() = default;
-private:
+
+   private:
     friend class boost::serialization::access;
-    template<class Archive>
-    void serialize(Archive &ar, const unsigned int version){ std::cout << "IDocument\n";}
+    template <class Archive>
+    void serialize(Archive& ar, const unsigned int version) {
+        std::cout << "IDocument\n";
+    }
 };
 BOOST_SERIALIZATION_ASSUME_ABSTRACT(IDocument)
 
@@ -82,6 +85,8 @@ class Document : public IDocument {
     void SetCurrentPage(Page::PagePtr page);
     Page::PagePtr GetCurrentPage();
 
+    Glyph::GlyphPtr GetSelectedGlyph();  // will be deleted
+
     size_t GetPagesCount() const;
     size_t GetPageWidth() const;
     size_t GetPageHeight() const;
@@ -95,14 +100,15 @@ class Document : public IDocument {
     std::shared_ptr<Compositor> compositor;
     Page::PagePtr currentPage;
     PageList pages;
+    Glyph::GlyphPtr selectedGlyph;
 
     GlyphContainer::GlyphList selectedGlyphs;
 
-    explicit Document(){}
+    explicit Document() {}
+    void updateCursor();
     friend class boost::serialization::access;
-    template<class Archive>
-    void serialize(Archive &ar, const unsigned int version)
-    {
+    template <class Archive>
+    void serialize(Archive& ar, const unsigned int version) {
         std::cout << "0 Document\n";
         ar & boost::serialization::base_object<IDocument>(*this);
         ar & pages & currentPage & compositor;
