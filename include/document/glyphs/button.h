@@ -28,7 +28,9 @@ class Button : public Glyph {
     void Add(GlyphPtr) override {}
 
     GlyphPtr GetFirstGlyph() override;
+    GlyphPtr GetLastGlyph() override;
     GlyphPtr GetNextGlyph(GlyphPtr& glyph) override;
+    GlyphPtr GetPreviousGlyph(GlyphPtr& glyph) override;
 
     /**
      * @brief           Returns whether the button is pressed.

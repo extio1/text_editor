@@ -1,10 +1,10 @@
 #ifndef TEXT_EDITOR_GLYPH_H_
 #define TEXT_EDITOR_GLYPH_H_
 
-#include <iostream>
-#include <boost/serialization/export.hpp>
 #include <boost/serialization/assume_abstract.hpp>
+#include <boost/serialization/export.hpp>
 #include <boost/serialization/shared_ptr.hpp>
+#include <iostream>
 
 #include "utils/point.h"
 
@@ -89,7 +89,9 @@ class Glyph {
     virtual void MoveGlyph(int x, int y);
 
     virtual GlyphPtr GetFirstGlyph() = 0;
+    virtual Glyph::GlyphPtr GetLastGlyph() = 0;
     virtual GlyphPtr GetNextGlyph(GlyphPtr& glyph) = 0;
+    virtual GlyphPtr GetPreviousGlyph(GlyphPtr& glyph) = 0;
 
     /**
      * @brief           Creates a copy of the glyph and wraps it in a smart
@@ -135,11 +137,10 @@ class Glyph {
 
     explicit Glyph() {}
 
-private:
+   private:
     friend class boost::serialization::access;
-    template<class Archive>
-    void serialize(Archive &ar, const unsigned int version)
-    {
+    template <class Archive>
+    void serialize(Archive& ar, const unsigned int version) {
         std::cout << "0 Glyph\n";
         ar & x & y & width & height;
         std::cout << "1 Glyph\n";

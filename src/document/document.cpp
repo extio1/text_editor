@@ -82,9 +82,7 @@ void Document::Remove(Glyph::GlyphPtr& glyph) {
     compositor->Compose();
 }
 
-void Document::SetCurrentPage(Page::PagePtr page) {
-    currentPage = std::move(page);
-}
+void Document::SetCurrentPage(Page::PagePtr page) { currentPage = page; }
 
 Page::PagePtr Document::GetCurrentPage() { return currentPage; }
 

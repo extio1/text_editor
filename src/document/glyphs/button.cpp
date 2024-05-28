@@ -14,8 +14,10 @@ void Button::Draw() {
 }
 
 Glyph::GlyphPtr Button::GetFirstGlyph() { return nullptr; }
+Glyph::GlyphPtr Button::GetLastGlyph() { return nullptr; }
 
 Glyph::GlyphPtr Button::GetNextGlyph(GlyphPtr& glyph) { return nullptr; }
+Glyph::GlyphPtr Button::GetPreviousGlyph(GlyphPtr& glyph) { return nullptr; }
 
 std::shared_ptr<Glyph> Button::Clone() const {
     Button* copy =
