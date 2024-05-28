@@ -23,12 +23,18 @@ Glyph::GlyphList Column::Select(const Glyph::GlyphPtr& area) {
         [&](const auto& component) { return component->Intersects(area); });
 
     Glyph::GlyphList list;
+    auto lastRow = intersectedRows.back();
+    intersectedRows.pop_back();
 
     for (auto row : intersectedRows) {
-        Glyph::GlyphList glyphsFromCurrentRow = (*row)->Select(area);
+        Glyph::GlyphList glyphsFromCurrentRow = (*row)->Select(*row);
         list.insert(list.end(), glyphsFromCurrentRow.begin(),
                     glyphsFromCurrentRow.end());
     }
+
+    Glyph::GlyphList glyphsFromLastRow = (*lastRow)->Select(area);
+    list.insert(list.end(), glyphsFromLastRow.begin(), glyphsFromLastRow.end());
+
     return list;
 }
 
