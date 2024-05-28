@@ -2061,3 +2061,13 @@ TEST(Tmp_test, Tmp_test) {
     std::cout << *pasted.front() << std::endl;
     std::cout << *pasted.back() << std::endl;
 }
+
+TEST(Document_Cursor1,
+     DocumentCursorInTheFirstEmptyRow_WhenCalles_ReturnGlyphNextToCursor) {
+    auto d = std::make_shared<Document>(std::make_shared<SimpleCompositor>());
+
+    Glyph::GlyphPtr selectedGlyph = d->GetSelectedGlyph();
+    std::cout << *selectedGlyph << std::endl;
+    Row::RowPtr selectedRow = std::dynamic_pointer_cast<Row>(selectedGlyph);
+    EXPECT_TRUE(selectedRow != nullptr);
+}
