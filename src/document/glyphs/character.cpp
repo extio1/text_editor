@@ -1,0 +1,26 @@
+#include <boost/archive/text_iarchive.hpp>
+#include <boost/archive/text_oarchive.hpp>
+#include "document/glyphs/character.h"
+BOOST_CLASS_EXPORT_IMPLEMENT(Character)
+
+Character::Character(const int x, const int y, const int width,
+                     const int height, char c)
+    : Glyph(x, y, width, height), symbol(c) {}
+
+void Character::Draw() {
+    std::cout << "Character::Draw() " << symbol << std::endl;
+    // TO DO
+}
+
+void Character::SetChar(char c) { symbol = c; }
+char Character::GetChar() const { return symbol; }
+
+Glyph::GlyphPtr Character::GetFirstGlyph() { return nullptr; }
+
+Glyph::GlyphPtr Character::GetNextGlyph(GlyphPtr& glyph) { return nullptr; }
+
+std::shared_ptr<Glyph> Character::Clone() const {
+    Character* copy = new Character(this->x, this->y, this->width, this->height,
+                                    this->symbol);
+    return std::make_shared<Character>(*copy);
+}

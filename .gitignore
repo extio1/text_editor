@@ -1,3 +1,7 @@
+#vscode config
+.vscode/*
+.vscode/settings.json
+
 # Prerequisites
 *.d
 
@@ -32,7 +36,8 @@
 *.app
 
 # Build
-build*/*
+build/*
+cmake-build-debug/*
 
-# vscode
-.vscode/*
+# idea configs
+.idea/*

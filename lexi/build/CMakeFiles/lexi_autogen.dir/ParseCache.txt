@@ -2,7 +2,6 @@
 /home/alexa/upprpo_project/lexi/window.cpp
  uic:./ui_window.h
 /home/alexa/upprpo_project/lexi/menu.cpp
- uic:./ui_window.h
 /home/alexa/upprpo_project/lexi/main.cpp
 /home/alexa/upprpo_project/lexi/window.h
  mmc:Q_OBJECT
