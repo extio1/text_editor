@@ -10,13 +10,13 @@ Row::Row(const int x, const int y, const int width, const int height)
     : GlyphContainer(x, y, width, height) {}
 
 Glyph::GlyphList Row::Select(const Glyph::GlyphPtr& area) {
-    auto intersectedcharacters = find_all_if(
+    auto intersectedCharacters = find_all_if(
         components.begin(), components.end(),
         [&](const auto& component) { return component->Intersects(area); });
 
     Glyph::GlyphList list;
 
-    for (auto character : intersectedcharacters) {
+    for (auto character : intersectedCharacters) {
         list.push_back(*character);
     }
     return list;

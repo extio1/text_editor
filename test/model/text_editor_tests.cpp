@@ -1826,7 +1826,7 @@ TEST(Document_CutPasteGlyphs,
     EXPECT_EQ(third->GetHeight(), 5);
 }
 
-TEST(Document_SelectPasteGlyphs,
+TEST(Document_SelectPasteGlyphs1,
      DocumentSelectPasteGlyphs_WhenCalled_PasteSelectedGlyphsDueToPosition) {
     Document document(std::make_shared<SimpleCompositor>(
         10, 20, 30, 40, Compositor::LEFT, 100));
@@ -1915,6 +1915,121 @@ TEST(Document_SelectPasteGlyphs,
     std::shared_ptr<Character> fifthChar =
         std::static_pointer_cast<Character>(fifth);
     EXPECT_EQ(fifthChar->GetChar(), 'A');
+}
+
+TEST(Document_SelectPasteGlyphs2,
+     DocumentSelectPasteGlyphs_WhenCalled_PasteSelectedGlyphsDueToPosition) {
+    Document document(std::make_shared<SimpleCompositor>(10, 20, 40, 40,
+                                                         Compositor::LEFT, 0));
+
+    Character c1 = Character(40, 10, 210, 10, 'A');
+    Glyph::GlyphPtr c1Ptr = std::make_shared<Character>(c1);
+    Character c2 = Character(250, 10, 210, 10, 'B');
+    Glyph::GlyphPtr c2Ptr = std::make_shared<Character>(c2);
+    Character c3 = Character(460, 10, 210, 10, 'C');
+    Glyph::GlyphPtr c3Ptr = std::make_shared<Character>(c3);
+    Character c4 = Character(250, 21, 210, 10, 'D');
+    Glyph::GlyphPtr c4Ptr = std::make_shared<Character>(c4);
+    document.Insert(c1Ptr);
+    document.Insert(c2Ptr);
+    document.Insert(c3Ptr);
+    document.Insert(c4Ptr);
+
+    document.SelectGlyphs(Point(40, 10), Point(250, 30));
+
+    std::list<Glyph::GlyphPtr> pasted = document.PasteGlyphs(Point(250, 21));
+
+    std::cout << "Pasted: " << pasted.size() << std::endl;
+    for (auto pastedGlyph : pasted) {
+        std::cout << *pastedGlyph << std::endl;
+    }
+
+    Glyph::GlyphPtr firstRow =
+        document.GetFirstPage()->GetFirstGlyph()->GetFirstGlyph();
+    Glyph::GlyphPtr secondRow =
+        document.GetFirstPage()->GetFirstGlyph()->GetNextGlyph(firstRow);
+    Glyph::GlyphPtr thirdRow =
+        document.GetFirstPage()->GetFirstGlyph()->GetNextGlyph(secondRow);
+    Glyph::GlyphPtr fourthRow =
+        document.GetFirstPage()->GetFirstGlyph()->GetNextGlyph(thirdRow);
+
+    Glyph::GlyphPtr first = firstRow->GetFirstGlyph();
+    EXPECT_EQ(first, c1Ptr);
+    Glyph::GlyphPtr second = firstRow->GetNextGlyph(first);
+    EXPECT_EQ(second, c2Ptr);
+    Glyph::GlyphPtr third = secondRow->GetFirstGlyph();
+    EXPECT_EQ(third, c3Ptr);
+    Glyph::GlyphPtr fourth = secondRow->GetNextGlyph(third);
+    EXPECT_TRUE(fourth != c1Ptr);
+    Glyph::GlyphPtr fifth = thirdRow->GetFirstGlyph();
+    EXPECT_TRUE(fifth != c2Ptr);
+    Glyph::GlyphPtr sixth = thirdRow->GetNextGlyph(fifth);
+    EXPECT_TRUE(sixth != c3Ptr);
+    Glyph::GlyphPtr seventh = fourthRow->GetFirstGlyph();
+    EXPECT_EQ(seventh, c4Ptr);
+
+    // check first character params
+    EXPECT_EQ(first->GetPosition().x, 40);
+    EXPECT_EQ(first->GetPosition().y, 10);
+    EXPECT_EQ(first->GetWidth(), 210);
+    EXPECT_EQ(first->GetHeight(), 10);
+    std::shared_ptr<Character> firstChar =
+        std::static_pointer_cast<Character>(first);
+    EXPECT_EQ(firstChar->GetChar(), 'A');
+
+    // check second character params
+    EXPECT_EQ(second->GetPosition().x, 250);
+    EXPECT_EQ(second->GetPosition().y, 10);
+    EXPECT_EQ(second->GetWidth(), 210);
+    EXPECT_EQ(second->GetHeight(), 10);
+    std::shared_ptr<Character> secondChar =
+        std::static_pointer_cast<Character>(second);
+    EXPECT_EQ(secondChar->GetChar(), 'B');
+
+    // check third character params
+    EXPECT_EQ(third->GetPosition().x, 40);
+    EXPECT_EQ(third->GetPosition().y, 20);
+    EXPECT_EQ(third->GetWidth(), 210);
+    EXPECT_EQ(third->GetHeight(), 10);
+    std::shared_ptr<Character> thirdChar =
+        std::static_pointer_cast<Character>(third);
+    EXPECT_EQ(thirdChar->GetChar(), 'C');
+
+    // check fourth character params
+    EXPECT_EQ(fourth->GetPosition().x, 250);
+    EXPECT_EQ(fourth->GetPosition().y, 20);
+    EXPECT_EQ(fourth->GetWidth(), 210);
+    EXPECT_EQ(fourth->GetHeight(), 10);
+    std::shared_ptr<Character> fourthChar =
+        std::static_pointer_cast<Character>(fourth);
+    EXPECT_EQ(fourthChar->GetChar(), 'A');
+
+    // check fifth character params
+    EXPECT_EQ(fifth->GetPosition().x, 40);
+    EXPECT_EQ(fifth->GetPosition().y, 30);
+    EXPECT_EQ(fifth->GetWidth(), 210);
+    EXPECT_EQ(fifth->GetHeight(), 10);
+    std::shared_ptr<Character> fifthChar =
+        std::static_pointer_cast<Character>(fifth);
+    EXPECT_EQ(fifthChar->GetChar(), 'B');
+
+    // check sixth character params
+    EXPECT_EQ(sixth->GetPosition().x, 250);
+    EXPECT_EQ(sixth->GetPosition().y, 30);
+    EXPECT_EQ(sixth->GetWidth(), 210);
+    EXPECT_EQ(sixth->GetHeight(), 10);
+    std::shared_ptr<Character> sixthChar =
+        std::static_pointer_cast<Character>(sixth);
+    EXPECT_EQ(sixthChar->GetChar(), 'C');
+
+    // check seventh character params
+    EXPECT_EQ(seventh->GetPosition().x, 40);
+    EXPECT_EQ(seventh->GetPosition().y, 40);
+    EXPECT_EQ(seventh->GetWidth(), 210);
+    EXPECT_EQ(seventh->GetHeight(), 10);
+    std::shared_ptr<Character> seventhChar =
+        std::static_pointer_cast<Character>(seventh);
+    EXPECT_EQ(seventhChar->GetChar(), 'D');
 }
 
 TEST(Tmp_test, Tmp_test) {

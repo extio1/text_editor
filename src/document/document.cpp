@@ -112,8 +112,9 @@ Glyph::GlyphList Document::PasteGlyphs(const Point& to_point) {
         this->Insert(copy);
         copiesList.push_back(copy);
         currentX = copy->GetPosition().x +
-                   copy->GetWidth();       // insert next glyph after this
-        currentY = copy->GetPosition().y;  // insert next glyph to the same row
+                   copy->GetWidth();  // insert next glyph after this
+        currentY =
+            copy->GetPosition().y + 1;  // insert next glyph to the same row
     }
     // selected glyphs is not removed from selectedGlyphs, they can be pasted or
     // cut one more time
