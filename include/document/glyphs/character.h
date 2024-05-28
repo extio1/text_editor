@@ -33,7 +33,9 @@ class Character : public Glyph {
     char GetChar() const;
 
     GlyphPtr GetFirstGlyph() override;
+    GlyphPtr GetLastGlyph() override;
     GlyphPtr GetNextGlyph(GlyphPtr& glyph) override;
+    GlyphPtr GetPreviousGlyph(GlyphPtr& glyph) override;
 
     std::shared_ptr<Glyph> Clone() const override;
 
