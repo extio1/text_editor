@@ -1,8 +1,8 @@
+#include "compositor/simple_compositor/simple_compositor.h"
+
 #include <boost/archive/text_iarchive.hpp>
 #include <boost/archive/text_oarchive.hpp>
-#include "compositor/simple_compositor/simple_compositor.h"
 BOOST_CLASS_EXPORT_IMPLEMENT(SimpleCompositor)
-
 
 #include <cmath>
 
@@ -36,7 +36,7 @@ void SimpleCompositor::Compose() {
 }
 
 GlyphContainer::GlyphList SimpleCompositor::CutAllCharacters() {
-    GlyphContainer::GlyphList charactersList;
+    Glyph::GlyphList charactersList;
 
     for (Page::PagePtr page = document->GetFirstPage(); page != nullptr;
          page = document->GetNextPage(page)) {

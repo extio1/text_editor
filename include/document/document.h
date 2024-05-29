@@ -106,6 +106,11 @@ class Document : public IDocument {
 
     explicit Document() {}
     void updateCursor();
+
+    GlyphContainer::GlyphList GetCharactersList();
+    Glyph::GlyphPtr GetNextCharInDocument(Glyph::GlyphPtr& glyph);
+    Glyph::GlyphPtr GetPreviousCharInDocument(Glyph::GlyphPtr& glyph);
+
     friend class boost::serialization::access;
     template <class Archive>
     void serialize(Archive& ar, const unsigned int version) {
