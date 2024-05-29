@@ -46,7 +46,13 @@ class Document : public IDocument {
     void SetCompositor(std::shared_ptr<Compositor> compositor);
     std::shared_ptr<Compositor> GetCompositor();
 
+    /**
+     * @brief           Moves the cursor one character to the right.
+     */
     void MoveCursorLeft();
+    /**
+     * @brief           Moves the cursor one character to the left.
+     */
     void MoveCursorRight();
 
     /**
@@ -54,7 +60,7 @@ class Document : public IDocument {
      * the cursor.
      * @param symbol    Symbol.
      */
-    void Insert(char symbol);
+    void InsertChar(char symbol);
 
     /**
      * @brief           Inserts glyph into the document due to its position.
@@ -65,7 +71,7 @@ class Document : public IDocument {
     /**
      * @brief           Remove glyph next to the cursor.
      */
-    void Remove();
+    void RemoveChar();
 
     /**
      * @brief           Remove glyph from the document by pointer.

@@ -2142,11 +2142,42 @@ TEST(Document_MoveCursor1, DocumentMoveCursor_WhenCalles_ChangeSelectedGlyph) {
     EXPECT_EQ(selectedChar, c2Ptr);
 }
 
+TEST(Document_MoveCursor2,
+     DocumentMoveCursorInTheBeginning_WhenCalles_ChangeSelectedGlyph) {
+    auto d = std::make_shared<Document>(std::make_shared<SimpleCompositor>());
+
+    Character c1 = Character(0, 0, 10, 10, 'A');
+    Glyph::GlyphPtr c1Ptr = std::make_shared<Character>(c1);
+    Character c2 = Character(13, 5, 10, 10, 'B');
+    Glyph::GlyphPtr c2Ptr = std::make_shared<Character>(c2);
+    d->Insert(c1Ptr);
+    d->Insert(c2Ptr);
+
+    d->MoveCursorLeft();
+
+    Glyph::GlyphPtr selectedGlyph = d->GetSelectedGlyph();
+    Character::CharPtr selectedChar =
+        std::dynamic_pointer_cast<Character>(selectedGlyph);
+    EXPECT_EQ(selectedChar, c1Ptr);
+
+    d->MoveCursorLeft();
+
+    selectedGlyph = d->GetSelectedGlyph();
+    Row::RowPtr selectedRow = std::dynamic_pointer_cast<Row>(selectedGlyph);
+    EXPECT_EQ(selectedRow, d->GetFirstPage()->GetFirstGlyph()->GetFirstGlyph());
+
+    d->MoveCursorRight();
+
+    selectedGlyph = d->GetSelectedGlyph();
+    selectedChar = std::dynamic_pointer_cast<Character>(selectedGlyph);
+    EXPECT_EQ(selectedChar, c1Ptr);
+}
+
 TEST(Document_InsertCharacter1,
      InsertCharacter_WhenCalles_InsertCharacterNextToCursor) {
     auto d = std::make_shared<Document>(std::make_shared<SimpleCompositor>());
 
-    d->Insert('A');
+    d->InsertChar('A');
 
     Glyph::GlyphPtr selectedGlyph = d->GetSelectedGlyph();
     Character::CharPtr selectedChar =
@@ -2162,8 +2193,8 @@ TEST(Document_InsertCharacter2,
      InsertTwoCharacter_WhenCalles_InsertTwoCharacterNextToCursor) {
     auto d = std::make_shared<Document>(std::make_shared<SimpleCompositor>());
 
-    d->Insert('A');
-    d->Insert('B');
+    d->InsertChar('A');
+    d->InsertChar('B');
 
     Glyph::GlyphPtr selectedGlyph = d->GetSelectedGlyph();
     Character::CharPtr selectedChar =
