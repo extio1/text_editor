@@ -1,9 +1,14 @@
 #include "menu.h"
 
-Menu::Menu(Window *parent)
+Menu::Menu(Window *parent, std::unique_ptr<Executor> controller, std::shared_ptr<IDocument> document, QTextEdit *textEdit)
 {
     this->parent = parent;
+    this->document = document;
+    this->controller = std::move(controller);
+    this->textEdit = textEdit;
+
     createActions();
+    connectActions();
     createMenus();
 }
 
@@ -71,3 +76,16 @@ void Menu::createActions()
     actFormatAlingmentRight = new QAction("Right");
     actFormatAlingmentWidth = new QAction("Width");
 }
+
+
+void Menu::connectActions()
+{
+    connect(actFileOpen, SIGNAL(triggered()), this, SLOT(onActFileOpenTriggered()));
+    connect(actFileSave, SIGNAL(triggered()), this, SLOT(onActFileSaveTriggered()));
+    connect(actEditCopy, SIGNAL(triggered()), this, SLOT(onActEditCopyTriggered()));
+    connect(actEditPaste, SIGNAL(triggered()), this, SLOT(onActEditPasteTriggered()));
+    connect(actEditCancel, SIGNAL(triggered()), this, SLOT(onActEditCancelTriggered()));
+    connect(actEditRepeat, SIGNAL(triggered()), this, SLOT(onActEditRepeatTriggered()));
+}
+
+

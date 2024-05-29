@@ -17,21 +17,17 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+
     auto d = std::make_shared<Document>(std::make_shared<SimpleCompositor>());
+    auto document = std::dynamic_pointer_cast<IDocument>(d);
+    auto controller = std::make_unique<Executor>(2);
 
 
-//    auto simp = new SimpleCompositor();
-//    auto d = new Document(simpleCompositor);
-    Window *w = new Window();
+    Window *w = new Window(nullptr, std::move(controller), document);
 
     w->show();
 
-    w->DrawText(3, 0, "hello");
+    w->DrawText(0, 0, "hello");
 
-
-//    auto doc = new Document(simpleCompositor);
-
-//    delete d;
-//    delete simp;
     return a.exec();
 }

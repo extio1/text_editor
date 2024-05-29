@@ -13,11 +13,25 @@ class Menu : public QMainWindow
 {
 Q_OBJECT
 public:
-    Menu(Window *parent);
+    Menu(Window *parent, std::unique_ptr<Executor> controller = nullptr, std::shared_ptr<IDocument> document = nullptr, QTextEdit *textEdit = nullptr);
+
+private slots:
+    void onActFileOpenTriggered();
+    void onActFileSaveTriggered();
+    void onActEditCopyTriggered();
+    void onActEditPasteTriggered();
+    void onActEditCancelTriggered();   
+    void onActEditRepeatTriggered();
 
 private:
     void createMenus();
     void createActions();
+    void connectActions();
+
+    std::unique_ptr<Executor> controller;
+    std::shared_ptr<IDocument> document;
+
+    QTextEdit *textEdit;
 
     Window *parent;
     QMenu *mnFile;
