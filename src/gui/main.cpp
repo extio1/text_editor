@@ -28,6 +28,16 @@ int main(int argc, char *argv[])
     w->show();
 
     w->DrawChar('A', 0, 0, 12);
+    w->DrawChar('B', 500, 0, 12);
+    w->DrawChar('C', 0, 1000, 12);
+    w->DrawCursor(0, 0);
+    w->DrawCursor(500, 0);
+    w->DrawPage(520, 1020);
+    w->DrawChar('A', 0, 0, 12);
+    w->DrawChar('B', 500, 0, 12);
+    w->DrawChar('C', 0, 1000, 12);
+    w->DrawCursor(0, 0);
+    w->DrawCursor(500, 0);
 
     return a.exec();
 }

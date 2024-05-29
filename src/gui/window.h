@@ -13,6 +13,8 @@
 #include <string>
 #include <QGraphicsView>
 #include <QString>
+#include <QGraphicsTextItem>
+#include <QColor>
 
 #include "document/document.h"
 
@@ -40,7 +42,7 @@ public:
     ~Window();
 
     void DrawChar(char symbol, int x, int y, int size); // координата y вверху страницы равна 0, вниз увеличивается, x как обычно
-    void DrawCursor(int x, int y, int height); // x, y - координаты верхней точки курсора
+    void DrawCursor(int x, int y); // x, y - координаты верхней точки курсора
     void Clear(); // очистить все
     void DrawPage(int width, int height);
     
@@ -56,6 +58,8 @@ public:
     QPainter *painter;
     QGraphicsView *graphicsView;
     QGraphicsScene *scene;
+    QGraphicsTextItem *cursor;
+    QColor def;
     char *path;
 };
 #endif // WINDOW_H_

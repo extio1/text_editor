@@ -9,8 +9,9 @@ Window::Window(QWidget *parent, std::unique_ptr<Executor> controller, std::share
 {
     this->document = document;
     this->controller = std::move(controller);
+    cursor = nullptr;
 
-    this->setFixedSize(500, 1000);
+    this->setFixedSize(550, 1050);
     ui->setupUi(this);
     
     addScrollArea();
@@ -22,73 +23,101 @@ Window::~Window()
 }
 
 void Window::addScrollArea() {
-    widget = new QWidget();
     scrollArea = new QScrollArea(this);
-    vboxlayuot = new QVBoxLayout();
+    
     graphicsView = new QGraphicsView();
-    painter = new QPainter(graphicsView);
-
-    vboxlayuot->addWidget(graphicsView);
-    widget->setLayout(vboxlayuot);
-    scrollArea->setWidgetResizable(true);
-    scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
-    scrollArea->setWidget(widget);
-    setCentralWidget(scrollArea);
-
+    graphicsView->setFixedSize(520,1020);
     scene = new QGraphicsScene(this);
     graphicsView->setScene(scene);
 
+    // vboxlayuot = new QVBoxLayout(graphicsView);
+    // vboxlayuot->setSizeConstraint(vboxlayuot->SetNoConstraint);
+
+    QWidget* techArea = new QWidget;
+    widget = techArea;
+    techArea->setObjectName("techarea");
+    // techArea->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
+    techArea->setLayout(new QVBoxLayout(techArea));
+
+    scrollArea->setWidgetResizable(true);
+    scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+    // scrollArea->setWidget(graphicsView);
+    scrollArea->setWidget(techArea);
+    techArea->layout()->addWidget(graphicsView);
+
+    setCentralWidget(scrollArea);    
+    scene->setSceneRect(520, 1020, -520, -1020);
+    
     new Menu(this, std::move(controller), document, graphicsView);
 }
 
-//void Window::DrawChar(int x, int y, std::string text){
-    /*textEdit->setFocus();
-    QTextCursor cursor = textEdit->textCursor();
-    cursor.setPosition(x);
-    cursor.setVerticalMovementX(y);
-    textEdit->setTextCursor(cursor);
-    //auto font = textEdit->currentFont();
-    //font.setPointSize(50);
-    //textEdit->setFont(font);
-    cursor.insertText(QString::fromStdString(text));*/
-//}
-
 // координата y вверху страницы равна 0, вниз увеличивается, x как обычно
-void Window::DrawChar(char symbol, int x, int y, int size)
-{ 
-    QGraphicsTextItem *text;
-    //text = scene->addText(QString (qlatin1string (symbol)), QFont("Arial", size) );
-    // movable text
-    //text->setFlag(QGraphicsItem::ItemIsMovable);
+void Window::DrawChar(char symbol, int x_, int y_, int size)
+{     
+    QString str = QString(symbol);
+    QGraphicsTextItem *text = new QGraphicsTextItem(str);
+    qreal x = x_;  // replace with your desired x position
+    qreal y = y_;   // replace with your desired y position
+    text->setPos(x, y);
+    text->setFont(QFont("Arial", size));
+    scene->addItem(text);
 } 
 
 // x, y - координаты верхней точки курсора
-void Window::DrawCursor(int x, int y, int height)
+void Window::DrawCursor(int x, int y)
 {
+    if (cursor == nullptr) 
+    {
+        auto item = scene->views().first()->itemAt(QPoint(qreal(x), qreal(y)));
+        auto text = static_cast<QGraphicsTextItem*>(item);
+        cursor = text;
+        def = text->defaultTextColor();
+        text->setDefaultTextColor(QColor(255,0,0));
+        std::cout << text->toPlainText().toStdString();
+    }
+    else 
+    {
+        cursor->setDefaultTextColor(def);
+        auto item = scene->views().first()->itemAt(QPoint(qreal(x), qreal(y)));
+        auto text = static_cast<QGraphicsTextItem*>(item);
+        cursor = text;
+        text->setDefaultTextColor(QColor(255,0,0));
+        std::cout << text->toPlainText().toStdString();
+    }
 
 } 
 
 // очистить все
 void Window::Clear()
 {
+    QWidget* techArea = new QWidget;
+    widget = techArea;
+    techArea->setObjectName("techarea");
+    // techArea->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
+    techArea->setLayout(new QVBoxLayout(techArea));
 
+    scrollArea->setWidgetResizable(true);
+    scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+    // scrollArea->setWidget(graphicsView);
+    scrollArea->setWidget(techArea);
+    graphicsView = new QGraphicsView();
+    graphicsView->setFixedSize(520,1020);
+    scene = new QGraphicsScene(this);
+    graphicsView->setScene(scene);
+    techArea->layout()->addWidget(graphicsView);
 }
 
 // создается пустая страница где-то ниже, теперь уже ее верхний левый угол - начало координат
 void Window::DrawPage(int width, int height)
 {
-
+    auto test = new QGraphicsView();
+    auto scene2 = new QGraphicsScene(this);
+    test->setScene(scene2);
+    test->setFixedSize(width,height);
+    widget->layout()->addWidget(test);
+    scene = scene2;
+    scene->setSceneRect(520, 1020, -520, -1020);
 }
-
-
-
-/*void Window::DrawLine(int x1, int y1, int x2, int y2){
-
-}*/
-
-/*void Window::ClearGlyph(int x, int y, int width, int height){
-
-}*/
 
 void Menu::onActFileOpenTriggered()
 {
