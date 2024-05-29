@@ -4,14 +4,13 @@
 
 #include "document/glyphs/character.h"
 
-InsertCharacter::InsertCharacter(std::shared_ptr<IDocument> doc, int x, int y, int width,
-                                 int height, char symbol)
+InsertCharacter::InsertCharacter(std::shared_ptr<IDocument> doc, char symbol)
     : doc(std::move(doc)),
-      character(std::make_shared<Character>(x, y, width, height, symbol))
+      character(symbol)
 {}
 
-void InsertCharacter::Execute() { doc->Insert(character); }
+void InsertCharacter::Execute() { doc->InsertChar(character); }
 
-void InsertCharacter::Unexecute() { doc->Remove(character); }
+void InsertCharacter::Unexecute() { (void) doc->RemoveChar(); }
 
 InsertCharacter::~InsertCharacter() {}

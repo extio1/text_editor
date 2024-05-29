@@ -4,13 +4,12 @@
 
 #include "document/glyphs/character.h"
 
-RemoveCharacter::RemoveCharacter(std::shared_ptr<IDocument> doc, int x, int y)
-    : doc(std::move(doc)),
-      character(std::make_shared<Character>(x, y, 0, 0, 0))  // Constuctor OK?
+RemoveCharacter::RemoveCharacter(std::shared_ptr<IDocument> doc)
+    : doc(std::move(doc))
 {}
 
-void RemoveCharacter::Execute() { doc->Remove(character); }
+void RemoveCharacter::Execute() { character = doc->RemoveChar(); }
 
-void RemoveCharacter::Unexecute() { doc->Insert(character); }
+void RemoveCharacter::Unexecute() { doc->InsertChar(character); }
 
 RemoveCharacter::~RemoveCharacter() {}

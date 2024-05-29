@@ -22,7 +22,7 @@ class Character : public Glyph {
               char c);
     ~Character() {}
 
-    Glyph::GlyphList Select(const Glyph::GlyphPtr& area) override {}
+    Glyph::GlyphList Select(const Glyph::GlyphPtr& area) override { return Glyph::GlyphList(); }
 
     void Insert(GlyphPtr& glyph) override {}
     void Remove(const GlyphPtr& glyph) override {}
