@@ -46,6 +46,9 @@ class Document : public IDocument {
     void SetCompositor(std::shared_ptr<Compositor> compositor);
     std::shared_ptr<Compositor> GetCompositor();
 
+    void MoveCursorLeft();
+    void MoveCursorRight();
+
     /**
      * @brief           Inserts glyph into the document due to its position.
      * @param glyph     Pointer to the glyph.

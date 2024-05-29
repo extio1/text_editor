@@ -36,6 +36,21 @@ std::shared_ptr<Compositor> Document::GetCompositor() {
     return this->compositor;
 }
 
+void Document::MoveCursorLeft() {
+    Glyph::GlyphPtr leftGlyph = GetPreviousCharInDocument(selectedGlyph);
+    // if cursor is in the beginning then don't move cursor
+    if (leftGlyph != nullptr) {
+        selectedGlyph = leftGlyph;
+    }
+}
+void Document::MoveCursorRight() {
+    Glyph::GlyphPtr rightGlyph = GetNextCharInDocument(selectedGlyph);
+    // if cursor is in the end then don't move cursor
+    if (rightGlyph != nullptr) {
+        selectedGlyph = rightGlyph;
+    }
+}
+
 Glyph::GlyphPtr Document::GetSelectedGlyph() { return selectedGlyph; }
 
 void Document::updateCursor() {
