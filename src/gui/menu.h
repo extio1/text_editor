@@ -8,12 +8,13 @@
 #include <QMenu>
 #include <QMainWindow>
 #include <QAction>
+#include <QGraphicsView>
 
 class Menu : public QMainWindow
 {
 Q_OBJECT
 public:
-    Menu(Window *parent, std::unique_ptr<Executor> controller = nullptr, std::shared_ptr<IDocument> document = nullptr, QTextEdit *textEdit = nullptr);
+    Menu(Window *parent, std::unique_ptr<Executor> controller = nullptr, std::shared_ptr<IDocument> document = nullptr, QGraphicsView *graphicsView = nullptr);
 
 private slots:
     void onActFileOpenTriggered();
@@ -31,7 +32,7 @@ private:
     std::unique_ptr<Executor> controller;
     std::shared_ptr<IDocument> document;
 
-    QTextEdit *textEdit;
+    QGraphicsView *graphicsView;
 
     Window *parent;
     QMenu *mnFile;

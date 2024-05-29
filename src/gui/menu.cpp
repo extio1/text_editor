@@ -1,11 +1,11 @@
 #include "menu.h"
 
-Menu::Menu(Window *parent, std::unique_ptr<Executor> controller, std::shared_ptr<IDocument> document, QTextEdit *textEdit)
+Menu::Menu(Window *parent, std::unique_ptr<Executor> controller, std::shared_ptr<IDocument> document, QGraphicsView *graphicsView)
 {
     this->parent = parent;
     this->document = document;
     this->controller = std::move(controller);
-    this->textEdit = textEdit;
+    this->graphicsView = graphicsView;
 
     createActions();
     connectActions();

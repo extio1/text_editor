@@ -11,6 +11,8 @@
 #include <QPainter>
 #include <iostream>
 #include <string>
+#include <QGraphicsView>
+#include <QString>
 
 #include "document/document.h"
 
@@ -37,10 +39,11 @@ public:
     Window(QWidget *parent = nullptr, std::unique_ptr<Executor> controller = nullptr, std::shared_ptr<IDocument> document = nullptr);
     ~Window();
 
-    void DrawText(int x, int y, std::string text);
-    void Redraw();
-    //void DrawLine(int x1, int y1, int x2, int y2);
-    void ClearGlyph(int x, int y, int width, int height);
+    void DrawChar(char symbol, int x, int y, int size); // координата y вверху страницы равна 0, вниз увеличивается, x как обычно
+    void DrawCursor(int x, int y, int height); // x, y - координаты верхней точки курсора
+    void Clear(); // очистить все
+    void DrawPage(int width, int height);
+    
 
     void addScrollArea();
 
@@ -51,6 +54,8 @@ public:
     std::shared_ptr<IDocument> document;
     QWidget *widget;
     QPainter *painter;
+    QGraphicsView *graphicsView;
+    QGraphicsScene *scene;
     char *path;
 };
 #endif // WINDOW_H_

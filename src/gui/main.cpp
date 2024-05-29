@@ -27,7 +27,7 @@ int main(int argc, char *argv[])
 
     w->show();
 
-    w->DrawText(0, 0, "hello");
+    w->DrawChar('A', 0, 0, 12);
 
     return a.exec();
 }
