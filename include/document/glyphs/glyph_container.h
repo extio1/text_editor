@@ -18,8 +18,6 @@ class GlyphContainer : public Glyph {
                             const int height);
     ~GlyphContainer() override = default;
 
-    void Draw() override;
-
     virtual void Insert(GlyphPtr& glyph) = 0;
     virtual void Remove(const GlyphPtr& glyph) = 0;
     void Add(GlyphPtr glyph) override;

@@ -7,16 +7,6 @@
 Glyph::Glyph(const int x, const int y, const int width, const int height)
     : x(x), y(y), width(width), height(height) {}
 
-void Glyph::ReDraw() {
-    ClearGlyph();
-    Draw();
-}
-
-void Glyph::ClearGlyph() {
-    std::cout << "Glyph::ClearGlyph()" << std::endl;
-    // TO DO
-}
-
 bool Glyph::Intersects(const Point& p) const noexcept {
     if (p.x >= this->x && p.x <= this->x + this->width) {
         if (p.y >= this->y && p.y <= this->y + this->height) {

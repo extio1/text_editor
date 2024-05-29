@@ -27,25 +27,6 @@ class Glyph {
     virtual ~Glyph() = default;
 
     /**
-     * @brief           Calls a method from the GUI to render itself.
-     * @param window    Window param will be added.
-     */
-    virtual void Draw() = 0;
-
-    /**
-     * @brief           Redraws itself.
-     * @param window    Window param will be added.
-     */
-    virtual void ReDraw();
-
-    /**
-     * @brief           Calls a method from the GUI to clear the area occupied
-     * by the glyph.
-     * @param window    Window param will be added.
-     */
-    void ClearGlyph();
-
-    /**
      * @brief           Checks whether the point falls into the rectangle
      * occupied by the glyph.
      * @param p         A two-dimensional point.

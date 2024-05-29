@@ -17,8 +17,6 @@ class MonoGlyph : public Glyph {
      */
     explicit MonoGlyph(GlyphPtr& glyph);
 
-    void Draw();
-
     Glyph::GlyphList Select(const Glyph::GlyphPtr& area) override;
 
     void Insert(GlyphPtr& glyph) override;

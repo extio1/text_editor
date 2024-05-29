@@ -21,7 +21,6 @@ class Character : public Glyph {
     Character(const int x, const int y, const int width, const int height,
               char c);
     ~Character() {}
-    void Draw() override;
 
     Glyph::GlyphList Select(const Glyph::GlyphPtr& area) override {}
 
