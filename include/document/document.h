@@ -28,6 +28,8 @@ class IDocument {
     virtual char RemoveChar() = 0;
     virtual void DrawDocument() = 0;
     virtual ~IDocument() = default;
+    virtual void MoveCursorLeft() = 0;
+    virtual void MoveCursorRight() = 0;
 
    private:
     friend class boost::serialization::access;

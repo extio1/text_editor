@@ -16,6 +16,14 @@
 #include "executor/command/copy.h"
 #include "executor/command/paste.h"
 
+#include "executor/executor.h"
+#include "executor/command/insert_character.h"
+#include "executor/command/remove_character.h"
+#include "executor/command/move_cursor_left.h"
+#include "executor/command/move_cursor_right.h"
+
+#include "compositor/simple_compositor/simple_compositor.h"
+
 int main() {
     auto d = std::make_shared<Document>(std::make_shared<SimpleCompositor>());
 
@@ -56,6 +64,19 @@ int main() {
     controller->Undo();
     std::cout << "REDO PASTE\n";
     controller->Redo();
+
+    controller->Do(std::make_shared<MoveCursorLeft>(document));
+    std::cout << "MOVE CURSOR LEFT\n";
+    document->DrawDocument();
+    controller->Do(std::make_shared<InsertCharacter>(document, 'X'));
+
+    controller->Do(std::make_shared<MoveCursorRight>(document));
+    std::cout << "MOVE CURSOR RIGHT\n";
+    document->DrawDocument();
+
+    controller->Do(std::make_shared<MoveCursorRight>(document));
+    std::cout << "MOVE CURSOR RIGHT\n";
+    document->DrawDocument();
 
     return 0;
 }

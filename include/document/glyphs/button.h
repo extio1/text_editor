@@ -19,7 +19,7 @@ class Button : public Glyph {
     explicit Button(const int x, const int y, const int width, const int height,
                     const std::string& name);
 
-    Glyph::GlyphList Select(const Glyph::GlyphPtr& area) override {}
+    Glyph::GlyphList Select(const Glyph::GlyphPtr& area) override { return Glyph::GlyphList(); }
 
     void Insert(GlyphPtr& glyph) override {}
     void Remove(const GlyphPtr& glyph) override {}

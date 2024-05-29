@@ -18,6 +18,8 @@ public:
     MOCK_METHOD(void, InsertChar, (char symbol), (override));
     MOCK_METHOD(char, RemoveChar, (), (override));
     MOCK_METHOD(void, DrawDocument, (), (override));
+    MOCK_METHOD(void, MoveCursorLeft, (), (override));
+    MOCK_METHOD(void, MoveCursorRight, (), (override));
 };
 
 
