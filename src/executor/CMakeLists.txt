@@ -8,6 +8,8 @@ set(sources
     "command/load_document.cpp"
     "command/copy.cpp"
     "command/paste.cpp"
+    "command/move_cursor_left.cpp"
+    "command/move_cursor_right.cpp"
 )
 
 add_library(${target} SHARED ${sources})
