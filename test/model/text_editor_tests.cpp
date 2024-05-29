@@ -2141,3 +2141,46 @@ TEST(Document_MoveCursor1, DocumentMoveCursor_WhenCalles_ChangeSelectedGlyph) {
     selectedChar = std::dynamic_pointer_cast<Character>(selectedGlyph);
     EXPECT_EQ(selectedChar, c2Ptr);
 }
+
+TEST(Document_InsertCharacter1,
+     InsertCharacter_WhenCalles_InsertCharacterNextToCursor) {
+    auto d = std::make_shared<Document>(std::make_shared<SimpleCompositor>());
+
+    d->Insert('A');
+
+    Glyph::GlyphPtr selectedGlyph = d->GetSelectedGlyph();
+    Character::CharPtr selectedChar =
+        std::dynamic_pointer_cast<Character>(selectedGlyph);
+    EXPECT_EQ(selectedChar->GetChar(), 'A');
+    EXPECT_EQ(selectedChar->GetPosition().x, 3);
+    EXPECT_EQ(selectedChar->GetPosition().y, 5);
+    EXPECT_EQ(selectedChar->GetWidth(), 1);
+    EXPECT_EQ(selectedChar->GetHeight(), 1);
+}
+
+TEST(Document_InsertCharacter2,
+     InsertTwoCharacter_WhenCalles_InsertTwoCharacterNextToCursor) {
+    auto d = std::make_shared<Document>(std::make_shared<SimpleCompositor>());
+
+    d->Insert('A');
+    d->Insert('B');
+
+    Glyph::GlyphPtr selectedGlyph = d->GetSelectedGlyph();
+    Character::CharPtr selectedChar =
+        std::dynamic_pointer_cast<Character>(selectedGlyph);
+    EXPECT_EQ(selectedChar->GetChar(), 'B');
+    EXPECT_EQ(selectedChar->GetPosition().x, 4);
+    EXPECT_EQ(selectedChar->GetPosition().y, 5);
+    EXPECT_EQ(selectedChar->GetWidth(), 1);
+    EXPECT_EQ(selectedChar->GetHeight(), 1);
+
+    d->MoveCursorLeft();
+
+    selectedGlyph = d->GetSelectedGlyph();
+    selectedChar = std::dynamic_pointer_cast<Character>(selectedGlyph);
+    EXPECT_EQ(selectedChar->GetChar(), 'A');
+    EXPECT_EQ(selectedChar->GetPosition().x, 3);
+    EXPECT_EQ(selectedChar->GetPosition().y, 5);
+    EXPECT_EQ(selectedChar->GetWidth(), 1);
+    EXPECT_EQ(selectedChar->GetHeight(), 1);
+}
