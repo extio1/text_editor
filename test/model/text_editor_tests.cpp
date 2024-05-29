@@ -2215,3 +2215,36 @@ TEST(Document_InsertCharacter2,
     EXPECT_EQ(selectedChar->GetWidth(), 1);
     EXPECT_EQ(selectedChar->GetHeight(), 1);
 }
+
+TEST(Document_RemoveChar1, RemoveOneChar_WhenCalles_RemoveCharAndMoveCursor) {
+    auto d = std::make_shared<Document>(std::make_shared<SimpleCompositor>());
+
+    d->InsertChar('A');
+    d->InsertChar('B');
+
+    d->RemoveChar();
+
+    Glyph::GlyphPtr selectedGlyph = d->GetSelectedGlyph();
+    Character::CharPtr selectedChar =
+        std::dynamic_pointer_cast<Character>(selectedGlyph);
+    EXPECT_EQ(selectedChar->GetChar(), 'A');
+    EXPECT_EQ(selectedChar->GetPosition().x, 3);
+    EXPECT_EQ(selectedChar->GetPosition().y, 5);
+    EXPECT_EQ(selectedChar->GetWidth(), 1);
+    EXPECT_EQ(selectedChar->GetHeight(), 1);
+}
+
+TEST(Document_RemoveChar2,
+     DocumentRemoveBothCharacters_WhenCalles_RemoveCharactersAndMoveCursor) {
+    auto d = std::make_shared<Document>(std::make_shared<SimpleCompositor>());
+
+    d->InsertChar('A');
+    d->InsertChar('B');
+
+    d->RemoveChar();
+    d->RemoveChar();
+
+    Glyph::GlyphPtr selectedGlyph = d->GetSelectedGlyph();
+    Row::RowPtr selectedRow = std::dynamic_pointer_cast<Row>(selectedGlyph);
+    EXPECT_EQ(selectedRow, d->GetFirstPage()->GetFirstGlyph()->GetFirstGlyph());
+}

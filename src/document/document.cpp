@@ -285,19 +285,21 @@ void Document::DrawDocument() {
                      character = row->GetNextGlyph(character)) {
                     Character::CharPtr charPtr =
                         std::dynamic_pointer_cast<Character>(character);
-                    std::cout << "DrawChar(): " << *charPtr << std::endl;
+                    std::cout << "DrawChar(): " << *charPtr;
                     // window->DrawChar(charPtr->GetChar(),
                     // charPtr->GetPosition().x, charPtr->GetPosition().y,
                     // charPtr->GetHeight())
 
                     // draw cursor after selected character
                     if (character == selectedGlyph) {
-                        std::cout
-                            << "DrawCursor(): " << character->GetPosition().x
-                            << " " << character->GetPosition().y << " "
-                            << character->GetHeight() << std::endl;
-                        // window->DrawCursor(row->GetPosition().x,
-                        // row->GetPosition().y, row->GetHeight());
+                        std::cout << "DrawCursor(): "
+                                  << character->GetPosition().x +
+                                         character->GetWidth()
+                                  << " " << character->GetPosition().y << " "
+                                  << character->GetHeight() << std::endl;
+                        // window->DrawCursor(character->GetPosition().x +
+                        // character->GetWidth(), row->GetPosition().y,
+                        // row->GetHeight());
                     }
                 }
             }
