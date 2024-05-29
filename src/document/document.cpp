@@ -69,6 +69,17 @@ void Document::Insert(Glyph::GlyphPtr& glyph) {
 
 void Document::Remove(Glyph::GlyphPtr& glyph) {
     assert(glyph != nullptr && "Cannot remove glyph by nullptr");
+
+    if (glyph == selectedGlyph) {
+        selectedGlyph = GetPreviousCharInDocument(selectedGlyph);
+        if (selectedGlyph == nullptr) {
+            // if there is no character in document, set cursor into the first
+            // row
+            selectedGlyph =
+                this->GetFirstPage()->GetFirstGlyph()->GetFirstGlyph();
+        }
+    }
+
     auto it = std::find(pages.begin(), pages.end(), glyph);
     if (it != pages.end()) {
         if (it != pages.begin()) pages.erase(it);
@@ -157,5 +168,50 @@ void Document::CutGlyphs(const Point& start, const Point& end) {
     SelectGlyphs(start, end);
     for (auto& glyph : selectedGlyphs) {
         this->Remove(glyph);
+    }
+}
+
+GlyphContainer::GlyphList Document::GetCharactersList() {
+    Glyph::GlyphList charactersList;
+
+    for (Page::PagePtr page = this->GetFirstPage(); page != nullptr;
+         page = this->GetNextPage(page)) {
+        for (Glyph::GlyphPtr column = page->GetFirstGlyph(); column != nullptr;
+             column = page->GetNextGlyph(column)) {
+            for (Glyph::GlyphPtr row = column->GetFirstGlyph(); row != nullptr;
+                 row = column->GetNextGlyph(row)) {
+                for (Glyph::GlyphPtr character = row->GetFirstGlyph();
+                     character != nullptr;) {
+                    charactersList.push_back(character);
+                    character = row->GetNextGlyph(character);
+                }
+            }
+        }
+    }
+
+    return charactersList;
+}
+
+Glyph::GlyphPtr Document::GetNextCharInDocument(Glyph::GlyphPtr& glyph) {
+    Glyph::GlyphList charactersList = GetCharactersList();
+    auto it = std::find(charactersList.begin(), charactersList.end(), glyph);
+
+    it++;
+    if (it == charactersList.end()) {
+        return nullptr;
+    } else {
+        return *it;
+    }
+}
+
+Glyph::GlyphPtr Document::GetPreviousCharInDocument(Glyph::GlyphPtr& glyph) {
+    Glyph::GlyphList charactersList = GetCharactersList();
+    auto it = std::find(charactersList.begin(), charactersList.end(), glyph);
+
+    if (it == charactersList.begin()) {
+        return nullptr;
+    } else {
+        it--;
+        return *it;
     }
 }
