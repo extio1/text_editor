@@ -19,7 +19,6 @@ Document::Document(std::shared_ptr<Compositor> compositor) {
     AddPage(currentPage);
     // set cursor on the first row on page
     selectedGlyph = this->GetFirstPage()->GetFirstGlyph()->GetFirstGlyph();
-    this->updateCursor();
 
     this->compositor = compositor;
     compositor->SetDocument(this);
@@ -53,24 +52,33 @@ void Document::MoveCursorRight() {
 
 Glyph::GlyphPtr Document::GetSelectedGlyph() { return selectedGlyph; }
 
-void Document::updateCursor() {
+Point Document::GetCursorPosition() {
     // check if selectedGlyph is a row or a character
 
     Row::RowPtr selectedRow = std::dynamic_pointer_cast<Row>(selectedGlyph);
+    Point cursorPoint;
     if (selectedRow != nullptr) {
         // set cursor in the beginning of this row
-        Point cursorPoint =
+        cursorPoint =
             Point(selectedRow->GetPosition().x, selectedRow->GetPosition().y);
-        // window->SetCursor(cursorPoint);
     } else {
         Character::CharPtr selectedChar =
             std::dynamic_pointer_cast<Character>(selectedGlyph);
         assert(selectedChar != nullptr && "Selected glyph has invalid type");
-        Point cursorPoint =
+        cursorPoint =
             Point(selectedChar->GetPosition().x + selectedChar->GetWidth(),
                   selectedChar->GetPosition().y);
-        // window->SetCursor(cursorPoint);
     }
+    return cursorPoint;
+}
+
+void Document::InsertCharacter(char symbol) {
+    Point cursorPoint = GetCursorPosition();
+    Character newChar = Character(cursorPoint.x, cursorPoint.y + 1,
+                                  currentCharSize, currentCharSize, symbol);
+    Glyph::GlyphPtr ptr = std::make_shared<Character>(newChar);
+
+    this->Insert(ptr);
 }
 
 void Document::Insert(Glyph::GlyphPtr& glyph) {
@@ -78,19 +86,20 @@ void Document::Insert(Glyph::GlyphPtr& glyph) {
     compositor->Compose();
 
     selectedGlyph = glyph;
-    this->updateCursor();
-    // glyph->Draw();
 }
+
+void Document::RemoveCharacter() { this->Remove(selectedGlyph); }
 
 void Document::Remove(Glyph::GlyphPtr& glyph) {
     assert(glyph != nullptr && "Cannot remove glyph by nullptr");
 
+    Glyph::GlyphPtr newSelectedGlyph;
     if (glyph == selectedGlyph) {
-        selectedGlyph = GetPreviousCharInDocument(selectedGlyph);
-        if (selectedGlyph == nullptr) {
+        newSelectedGlyph = GetPreviousCharInDocument(selectedGlyph);
+        if (newSelectedGlyph == nullptr) {
             // if there is no character in document, set cursor into the first
             // row
-            selectedGlyph =
+            newSelectedGlyph =
                 this->GetFirstPage()->GetFirstGlyph()->GetFirstGlyph();
         }
     }
@@ -105,6 +114,10 @@ void Document::Remove(Glyph::GlyphPtr& glyph) {
     // assertion will failed
     assert(glyph != nullptr && "Cannot remove glyph by nullptr");
     currentPage->Remove(glyph);
+
+    if (glyph == selectedGlyph) {
+        selectedGlyph = newSelectedGlyph;
+    }
     compositor->Compose();
 }
 

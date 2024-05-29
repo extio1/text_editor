@@ -50,10 +50,22 @@ class Document : public IDocument {
     void MoveCursorRight();
 
     /**
+     * @brief           Creates and inserts character into the document next to
+     * the cursor.
+     * @param symbol    Symbol.
+     */
+    void InsertCharacter(char symbol);
+
+    /**
      * @brief           Inserts glyph into the document due to its position.
      * @param glyph     Pointer to the glyph.
      */
     void Insert(Glyph::GlyphPtr& glyph);
+
+    /**
+     * @brief           Remove glyph next to the cursor.
+     */
+    void RemoveCharacter();
 
     /**
      * @brief           Remove glyph from the document by pointer.
@@ -100,6 +112,7 @@ class Document : public IDocument {
     Page::PagePtr GetNextPage(const Page::PagePtr& pagePtr);
 
    private:
+    int currentCharSize = 1;
     std::shared_ptr<Compositor> compositor;
     Page::PagePtr currentPage;
     PageList pages;
@@ -108,7 +121,7 @@ class Document : public IDocument {
     GlyphContainer::GlyphList selectedGlyphs;
 
     explicit Document() {}
-    void updateCursor();
+    Point GetCursorPosition();
 
     GlyphContainer::GlyphList GetCharactersList();
     Glyph::GlyphPtr GetNextCharInDocument(Glyph::GlyphPtr& glyph);
