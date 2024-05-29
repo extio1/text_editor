@@ -30,13 +30,6 @@ Glyph::GlyphPtr GlyphContainer::GetGlyphByIndex(int index) {
     return nullptr;
 }
 
-void GlyphContainer::Draw() {
-    std::cout << "GlyphContainer::Draw()" << std::endl;
-    for (auto component : components) {
-        component->Draw();
-    }
-}
-
 void GlyphContainer::Add(GlyphPtr glyph) { components.push_back(glyph); }
 
 void GlyphContainer::MoveGlyph(int x, int y) {

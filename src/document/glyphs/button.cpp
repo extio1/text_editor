@@ -8,11 +8,6 @@ Button::Button(const int x, const int y, const int width, const int height,
 
 bool Button::IsPressed() const { return isPressed; }
 
-void Button::Draw() {
-    std::cout << "Button::Draw()" << std::endl;
-    // TO DO
-}
-
 Glyph::GlyphPtr Button::GetFirstGlyph() { return nullptr; }
 Glyph::GlyphPtr Button::GetLastGlyph() { return nullptr; }
 

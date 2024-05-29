@@ -11,11 +11,6 @@ Glyph::GlyphList MonoGlyph::Select(const Glyph::GlyphPtr& area) {
     return component->Select(area);
 }
 
-void MonoGlyph::Draw() {
-    std::cout << "Monoglyph::Draw()" << std::endl;
-    component->Draw();
-}
-
 void MonoGlyph::Add(GlyphPtr glyph) {
     std::cout << "Monoglyph::Add()" << std::endl;
     component->Add(glyph);

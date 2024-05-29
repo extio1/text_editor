@@ -1,25 +1,21 @@
+#include "document/glyphs/page.h"
+
 #include <boost/archive/text_iarchive.hpp>
 #include <boost/archive/text_oarchive.hpp>
-#include "document/glyphs/page.h"
 BOOST_CLASS_EXPORT_IMPLEMENT(Page)
 
 #include <algorithm>
 #include <cassert>
 
 #include "document/document.h"
-#include "utils/find_all_if.h"
 #include "document/glyphs/column.h"
+#include "utils/find_all_if.h"
 
 Page::Page(const int x, const int y, const int width, const int height)
     : GlyphContainer(x, y, width, height) {
     Glyph::GlyphPtr firstColumnPtr =
         std::make_shared<Column>(Column(x, y, width, height));
     Add(firstColumnPtr);
-}
-
-void Page::Draw() {
-    std::cout << "Page::Draw()" << std::endl;
-    GlyphContainer::Draw();
 }
 
 Glyph::GlyphList Page::Select(const Glyph::GlyphPtr& area) {
