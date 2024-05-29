@@ -39,6 +39,9 @@ class Character : public Glyph {
 
     std::shared_ptr<Glyph> Clone() const override;
 
+    friend std::ostream& operator<<(std::ostream& os,
+                                    const Character& character);
+
    private:
     char symbol;
     friend class boost::serialization::access;

@@ -54,7 +54,7 @@ class Document : public IDocument {
      * the cursor.
      * @param symbol    Symbol.
      */
-    void InsertCharacter(char symbol);
+    void Insert(char symbol);
 
     /**
      * @brief           Inserts glyph into the document due to its position.
@@ -65,7 +65,7 @@ class Document : public IDocument {
     /**
      * @brief           Remove glyph next to the cursor.
      */
-    void RemoveCharacter();
+    void Remove();
 
     /**
      * @brief           Remove glyph from the document by pointer.
@@ -123,6 +123,7 @@ class Document : public IDocument {
     explicit Document() {}
     Point GetCursorPosition();
 
+    void DrawDocument();
     GlyphContainer::GlyphList GetCharactersList();
     Glyph::GlyphPtr GetNextCharInDocument(Glyph::GlyphPtr& glyph);
     Glyph::GlyphPtr GetPreviousCharInDocument(Glyph::GlyphPtr& glyph);

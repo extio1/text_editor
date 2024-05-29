@@ -27,3 +27,10 @@ std::shared_ptr<Glyph> Character::Clone() const {
                                     this->symbol);
     return std::make_shared<Character>(*copy);
 }
+
+std::ostream& operator<<(std::ostream& os, const Character& character) {
+    os << "x: " << character.x << " y: " << character.y
+       << " width: " << character.width << " height: " << character.height
+       << " symbol: " << character.symbol << std::endl;
+    return os;
+}
