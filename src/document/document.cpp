@@ -4,7 +4,6 @@
 #include <boost/archive/text_oarchive.hpp>
 BOOST_CLASS_EXPORT_IMPLEMENT(Document)
 
-#include <algorithm>
 #include <cassert>
 
 #include "compositor/compositor.h"
@@ -103,7 +102,15 @@ void Document::Insert(Glyph::GlyphPtr& glyph) {
     this->DrawDocument();
 }
 
-void Document::RemoveChar() { this->Remove(selectedGlyph); }
+char Document::RemoveChar() {
+    char removed_char;
+    if(auto c = std::dynamic_pointer_cast<Character>(selectedGlyph))
+        removed_char = c->GetChar();
+
+    this->Remove(selectedGlyph);
+
+    return removed_char;
+}
 
 void Document::Remove(Glyph::GlyphPtr& glyph) {
     assert(glyph != nullptr && "Cannot remove glyph by nullptr");

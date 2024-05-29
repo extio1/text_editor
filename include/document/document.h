@@ -24,6 +24,9 @@ class IDocument {
     virtual void SelectGlyphs(const Point& start, const Point& end) = 0;
     virtual Glyph::GlyphList PasteGlyphs(const Point& to_point) = 0;
     virtual void CutGlyphs(const Point& start, const Point& end) = 0;
+    virtual void InsertChar(char symbol) = 0;
+    virtual char RemoveChar() = 0;
+    virtual void DrawDocument() = 0;
     virtual ~IDocument() = default;
 
    private:
@@ -71,7 +74,7 @@ class Document : public IDocument {
     /**
      * @brief           Remove glyph next to the cursor.
      */
-    void RemoveChar();
+    char RemoveChar();
 
     /**
      * @brief           Remove glyph from the document by pointer.
@@ -138,12 +141,11 @@ class Document : public IDocument {
     template <class Archive>
     void serialize(Archive& ar, const unsigned int version) {
         std::cout << "0 Document\n";
-        ar & boost::serialization::base_object<IDocument>(*this);
-        ar & pages & currentPage & compositor;
+        ar& boost::serialization::base_object<IDocument>(*this);
+        ar & pages & currentPage & compositor & selectedGlyph;
         std::cout << "1 Document\n";
     }
 };
 BOOST_CLASS_EXPORT_KEY(Document)
-
 
 #endif  // TEXT_EDITOR_DOCUMENT_H_

@@ -22,10 +22,11 @@ int main() {
     auto document = std::dynamic_pointer_cast<IDocument>(d);
     auto controller = std::make_unique<Executor>(2);
 
-    controller->Do(std::make_shared<InsertCharacter>(document, 0, 0, 10, 10, 'A'));
-    controller->Do(std::make_shared<InsertCharacter>(document, 10, 0, 10, 10, 'B'));
-    controller->Do(std::make_shared<InsertCharacter>(document, 20, 0, 10, 10, 'C'));
-    controller->Do(std::make_shared<InsertCharacter>(document, 30, 0, 10, 10, 'D'));
+    controller->Do(std::make_shared<InsertCharacter>(document, 'H'));
+    controller->Do(std::make_shared<InsertCharacter>(document, 'E'));
+    controller->Do(std::make_shared<InsertCharacter>(document, 'L'));
+    controller->Do(std::make_shared<InsertCharacter>(document, 'L'));
+    controller->Do(std::make_shared<InsertCharacter>(document, '0'));
 
     controller->Undo();
     controller->Redo();
@@ -34,16 +35,27 @@ int main() {
     controller->Do(std::make_shared<SaveDocument>(document, "doc_save.file"));
     std::cout << "Saved: " << document << "\n";
 
-    controller->Do(std::make_shared<RemoveCharacter>(document, 3, 5));
-    controller->Do(std::make_shared<RemoveCharacter>(document, 3, 5));
-    controller->Do(std::make_shared<RemoveCharacter>(document, 3, 5));
-    controller->Do(std::make_shared<RemoveCharacter>(document, 3, 5));
+    controller->Do(std::make_shared<RemoveCharacter>(document));
+    controller->Do(std::make_shared<RemoveCharacter>(document));
+    controller->Do(std::make_shared<RemoveCharacter>(document));
+    controller->Do(std::make_shared<RemoveCharacter>(document));
 
     controller->Do(std::make_shared<LoadDocument>(&document, "doc_save.file"));
     std::cout << "Loaded: " << document << "\n";
+    document->DrawDocument();
 
-    controller->Do(std::make_shared<Copy>(document, Point(3, 5), Point(43, 5)));
-    controller->Do(std::make_shared<Paste>(document, Point(43, 5)));
+    controller->Do(std::make_shared<InsertCharacter>(document, ' '));
+
+    controller->Do(std::make_shared<Copy>(document, Point(3, 5), Point(8, 5)));
+    controller->Do(std::make_shared<Paste>(document, Point(9, 5)));
+
+    controller->Do(std::make_shared<InsertCharacter>(document, '!'));
+    std::cout << "UNDO !\n";
+    controller->Undo();
+    std::cout << "UNDO PASTE\n";
+    controller->Undo();
+    std::cout << "REDO PASTE\n";
+    controller->Redo();
 
     return 0;
 }

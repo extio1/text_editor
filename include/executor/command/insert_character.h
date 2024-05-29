@@ -7,8 +7,7 @@
 
 class InsertCharacter : public ReversibleCommand {
    public:
-    explicit InsertCharacter(std::shared_ptr<IDocument> doc, int x, int y, int wight, int height,
-                    char symbol);
+    explicit InsertCharacter(std::shared_ptr<IDocument> doc, char symbol);
 
     InsertCharacter(InsertCharacter&&) = default;
     InsertCharacter& operator=(InsertCharacter&&) = default;
@@ -22,7 +21,7 @@ class InsertCharacter : public ReversibleCommand {
 
    private:
     std::shared_ptr<IDocument> doc;
-    Glyph::GlyphPtr character;
+    char character;
 };
 
 #endif  // TEXTEDITOR_INCLUDEEXECUTOR_COMMAND_INSERTCHARACTER_H_
