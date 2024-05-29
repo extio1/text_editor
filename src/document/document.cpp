@@ -40,15 +40,27 @@ std::shared_ptr<Compositor> Document::GetCompositor() {
 void Document::MoveCursorLeft() {
     Glyph::GlyphPtr leftGlyph = GetPreviousCharInDocument(selectedGlyph);
     // if cursor is in the beginning then don't move cursor
-    if (leftGlyph != nullptr) {
+    if (leftGlyph == nullptr) {
+        // set cursor in the first row of document
+        selectedGlyph = this->GetFirstPage()->GetFirstGlyph()->GetFirstGlyph();
+    } else {
         selectedGlyph = leftGlyph;
     }
 }
+
 void Document::MoveCursorRight() {
-    Glyph::GlyphPtr rightGlyph = GetNextCharInDocument(selectedGlyph);
-    // if cursor is in the end then don't move cursor
-    if (rightGlyph != nullptr) {
-        selectedGlyph = rightGlyph;
+    // if row is selected then set cursor after first char in it
+    Row::RowPtr selectedRow = std::dynamic_pointer_cast<Row>(selectedGlyph);
+    if (selectedRow != nullptr) {
+        if (selectedRow->GetFirstGlyph() != nullptr) {
+            selectedGlyph = selectedRow->GetFirstGlyph();
+        }
+    } else {
+        Glyph::GlyphPtr rightGlyph = GetNextCharInDocument(selectedGlyph);
+        // if cursor is in the end then don't move cursor
+        if (rightGlyph != nullptr) {
+            selectedGlyph = rightGlyph;
+        }
     }
 }
 
@@ -74,7 +86,7 @@ Point Document::GetCursorPosition() {
     return cursorPoint;
 }
 
-void Document::Insert(char symbol) {
+void Document::InsertChar(char symbol) {
     Point cursorPoint = GetCursorPosition();
     Character newChar = Character(cursorPoint.x, cursorPoint.y + 1,
                                   currentCharSize, currentCharSize, symbol);
@@ -91,7 +103,7 @@ void Document::Insert(Glyph::GlyphPtr& glyph) {
     this->DrawDocument();
 }
 
-void Document::Remove() { this->Remove(selectedGlyph); }
+void Document::RemoveChar() { this->Remove(selectedGlyph); }
 
 void Document::Remove(Glyph::GlyphPtr& glyph) {
     assert(glyph != nullptr && "Cannot remove glyph by nullptr");
