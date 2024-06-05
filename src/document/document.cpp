@@ -3,40 +3,138 @@
 #include "document/document.h"
 BOOST_CLASS_EXPORT_IMPLEMENT(Document)
 
-#include <algorithm>
+#include <boost/archive/text_iarchive.hpp>
+#include <boost/archive/text_oarchive.hpp>
+BOOST_CLASS_EXPORT_IMPLEMENT(Document)
+
 #include <cassert>
 
 #include "compositor/compositor.h"
+<<<<<<< HEAD
 #include "document/glyphs/glyph.h"
 #include "document/glyphs/page.h"
 #include "document/glyphs/column.h"
+=======
+#include "document/glyphs/character.h"
+#include "document/glyphs/column.h"
+#include "document/glyphs/glyph.h"
+#include "document/glyphs/page.h"
+#include "document/glyphs/row.h"
+>>>>>>> origin/up-30
 
 Document::Document(std::shared_ptr<Compositor> compositor) {
     currentPage = std::make_shared<Page>(0, 0, pageWidth, pageHeight);
     AddPage(currentPage);
+    // set cursor on the first row on page
+    selectedGlyph = this->GetFirstPage()->GetFirstGlyph()->GetFirstGlyph();
+
     this->compositor = compositor;
     compositor->SetDocument(this);
     compositor->Compose();
+    this->DrawDocument();
 }
 
 void Document::SetCompositor(std::shared_ptr<Compositor> compositor) {
     this->compositor = compositor;
     compositor->SetDocument(this);
     compositor->Compose();
+    this->DrawDocument();
 }
 
 std::shared_ptr<Compositor> Document::GetCompositor() {
     return this->compositor;
 }
 
+void Document::MoveCursorLeft() {
+    Glyph::GlyphPtr leftGlyph = GetPreviousCharInDocument(selectedGlyph);
+    // if cursor is in the beginning then don't move cursor
+    if (leftGlyph == nullptr) {
+        // set cursor in the first row of document
+        selectedGlyph = this->GetFirstPage()->GetFirstGlyph()->GetFirstGlyph();
+    } else {
+        selectedGlyph = leftGlyph;
+    }
+}
+
+void Document::MoveCursorRight() {
+    // if row is selected then set cursor after first char in it
+    Row::RowPtr selectedRow = std::dynamic_pointer_cast<Row>(selectedGlyph);
+    if (selectedRow != nullptr) {
+        if (selectedRow->GetFirstGlyph() != nullptr) {
+            selectedGlyph = selectedRow->GetFirstGlyph();
+        }
+    } else {
+        Glyph::GlyphPtr rightGlyph = GetNextCharInDocument(selectedGlyph);
+        // if cursor is in the end then don't move cursor
+        if (rightGlyph != nullptr) {
+            selectedGlyph = rightGlyph;
+        }
+    }
+}
+
+Glyph::GlyphPtr Document::GetSelectedGlyph() { return selectedGlyph; }
+
+Point Document::GetCursorPosition() {
+    // check if selectedGlyph is a row or a character
+
+    Row::RowPtr selectedRow = std::dynamic_pointer_cast<Row>(selectedGlyph);
+    Point cursorPoint;
+    if (selectedRow != nullptr) {
+        // set cursor in the beginning of this row
+        cursorPoint =
+            Point(selectedRow->GetPosition().x, selectedRow->GetPosition().y);
+    } else {
+        Character::CharPtr selectedChar =
+            std::dynamic_pointer_cast<Character>(selectedGlyph);
+        assert(selectedChar != nullptr && "Selected glyph has invalid type");
+        cursorPoint =
+            Point(selectedChar->GetPosition().x + selectedChar->GetWidth(),
+                  selectedChar->GetPosition().y);
+    }
+    return cursorPoint;
+}
+
+void Document::InsertChar(char symbol) {
+    Point cursorPoint = GetCursorPosition();
+    Character newChar = Character(cursorPoint.x, cursorPoint.y + 1,
+                                  currentCharSize, currentCharSize, symbol);
+    Glyph::GlyphPtr ptr = std::make_shared<Character>(newChar);
+
+    this->Insert(ptr);
+}
+
 void Document::Insert(Glyph::GlyphPtr& glyph) {
     currentPage->Insert(glyph);
+
+    selectedGlyph = glyph;
     compositor->Compose();
-    // glyph->Draw();
+    this->DrawDocument();
+}
+
+char Document::RemoveChar() {
+    char removed_char;
+    if(auto c = std::dynamic_pointer_cast<Character>(selectedGlyph))
+        removed_char = c->GetChar();
+
+    this->Remove(selectedGlyph);
+
+    return removed_char;
 }
 
 void Document::Remove(Glyph::GlyphPtr& glyph) {
     assert(glyph != nullptr && "Cannot remove glyph by nullptr");
+
+    Glyph::GlyphPtr newSelectedGlyph;
+    if (glyph == selectedGlyph) {
+        newSelectedGlyph = GetPreviousCharInDocument(selectedGlyph);
+        if (newSelectedGlyph == nullptr) {
+            // if there is no character in document, set cursor into the first
+            // row
+            newSelectedGlyph =
+                this->GetFirstPage()->GetFirstGlyph()->GetFirstGlyph();
+        }
+    }
+
     auto it = std::find(pages.begin(), pages.end(), glyph);
     if (it != pages.end()) {
         if (it != pages.begin()) pages.erase(it);
@@ -45,15 +143,21 @@ void Document::Remove(Glyph::GlyphPtr& glyph) {
 
     // what if this glyph is not from current page ???? glyph won't be found and
     // assertion will failed
+<<<<<<< HEAD
     std::cout << "Document::Remove()" << std::endl;
+=======
+>>>>>>> origin/up-30
     assert(glyph != nullptr && "Cannot remove glyph by nullptr");
     currentPage->Remove(glyph);
+
+    if (glyph == selectedGlyph) {
+        selectedGlyph = newSelectedGlyph;
+    }
     compositor->Compose();
+    this->DrawDocument();
 }
 
-void Document::SetCurrentPage(Page::PagePtr page) {
-    currentPage = std::move(page);
-}
+void Document::SetCurrentPage(Page::PagePtr page) { currentPage = page; }
 
 Page::PagePtr Document::GetCurrentPage() { return currentPage; }
 
@@ -128,5 +232,97 @@ void Document::CutGlyphs(const Point& start, const Point& end) {
     SelectGlyphs(start, end);
     for (auto& glyph : selectedGlyphs) {
         this->Remove(glyph);
+    }
+}
+
+GlyphContainer::GlyphList Document::GetCharactersList() {
+    Glyph::GlyphList charactersList;
+
+    for (Page::PagePtr page = this->GetFirstPage(); page != nullptr;
+         page = this->GetNextPage(page)) {
+        for (Glyph::GlyphPtr column = page->GetFirstGlyph(); column != nullptr;
+             column = page->GetNextGlyph(column)) {
+            for (Glyph::GlyphPtr row = column->GetFirstGlyph(); row != nullptr;
+                 row = column->GetNextGlyph(row)) {
+                for (Glyph::GlyphPtr character = row->GetFirstGlyph();
+                     character != nullptr;
+                     character = row->GetNextGlyph(character)) {
+                    charactersList.push_back(character);
+                }
+            }
+        }
+    }
+
+    return charactersList;
+}
+
+Glyph::GlyphPtr Document::GetNextCharInDocument(Glyph::GlyphPtr& glyph) {
+    Glyph::GlyphList charactersList = GetCharactersList();
+    auto it = std::find(charactersList.begin(), charactersList.end(), glyph);
+
+    it++;
+    if (it == charactersList.end()) {
+        return nullptr;
+    } else {
+        return *it;
+    }
+}
+
+Glyph::GlyphPtr Document::GetPreviousCharInDocument(Glyph::GlyphPtr& glyph) {
+    Glyph::GlyphList charactersList = GetCharactersList();
+    auto it = std::find(charactersList.begin(), charactersList.end(), glyph);
+
+    if (it == charactersList.begin()) {
+        return nullptr;
+    } else {
+        it--;
+        return *it;
+    }
+}
+
+void Document::DrawDocument() {
+    std::cout << "-----DrawDocument()" << std::endl;
+    // window->Clear();
+    for (Page::PagePtr page = this->GetFirstPage(); page != nullptr;
+         page = this->GetNextPage(page)) {
+        std::cout << "DrawPage(): " << pageWidth << " " << pageHeight
+                  << std::endl;
+        // window->DrawPage(pageWidth, pageHeight);
+        for (Glyph::GlyphPtr column = page->GetFirstGlyph(); column != nullptr;
+             column = page->GetNextGlyph(column)) {
+            for (Glyph::GlyphPtr row = column->GetFirstGlyph(); row != nullptr;
+                 row = column->GetNextGlyph(row)) {
+                // draw cursor in the brginning of selected row
+                if (row == selectedGlyph) {
+                    std::cout << "DrawCursor(): " << row->GetPosition().x << " "
+                              << row->GetPosition().y << " " << row->GetHeight()
+                              << std::endl;
+                    // window->DrawCursor(row->GetPosition().x,
+                    // row->GetPosition().y, row->GetHeight());
+                }
+                for (Glyph::GlyphPtr character = row->GetFirstGlyph();
+                     character != nullptr;
+                     character = row->GetNextGlyph(character)) {
+                    Character::CharPtr charPtr =
+                        std::dynamic_pointer_cast<Character>(character);
+                    std::cout << "DrawChar(): " << *charPtr;
+                    // window->DrawChar(charPtr->GetChar(),
+                    // charPtr->GetPosition().x, charPtr->GetPosition().y,
+                    // charPtr->GetHeight())
+
+                    // draw cursor after selected character
+                    if (character == selectedGlyph) {
+                        std::cout << "DrawCursor(): "
+                                  << character->GetPosition().x +
+                                         character->GetWidth()
+                                  << " " << character->GetPosition().y << " "
+                                  << character->GetHeight() << std::endl;
+                        // window->DrawCursor(character->GetPosition().x +
+                        // character->GetWidth(), row->GetPosition().y,
+                        // row->GetHeight());
+                    }
+                }
+            }
+        }
     }
 }

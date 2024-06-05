@@ -11,11 +11,6 @@ Glyph::GlyphList MonoGlyph::Select(const Glyph::GlyphPtr& area) {
     return component->Select(area);
 }
 
-void MonoGlyph::Draw() {
-    std::cout << "Monoglyph::Draw()" << std::endl;
-    component->Draw();
-}
-
 void MonoGlyph::Add(GlyphPtr glyph) {
     std::cout << "Monoglyph::Add()" << std::endl;
     component->Add(glyph);
@@ -32,8 +27,10 @@ void MonoGlyph::Remove(const GlyphPtr& glyph) {
 }
 
 Glyph::GlyphPtr MonoGlyph::GetFirstGlyph() { return component; }
+Glyph::GlyphPtr MonoGlyph::GetLastGlyph() { return component; }
 
 Glyph::GlyphPtr MonoGlyph::GetNextGlyph(GlyphPtr& glyph) { return nullptr; }
+Glyph::GlyphPtr MonoGlyph::GetPreviousGlyph(GlyphPtr& glyph) { return nullptr; }
 
 std::shared_ptr<Glyph> MonoGlyph::Clone() const {
     // MonoGlyph* copy =

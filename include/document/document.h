@@ -1,6 +1,10 @@
 #ifndef TEXT_EDITOR_DOCUMENT_H_
 #define TEXT_EDITOR_DOCUMENT_H_
 
+#include <boost/serialization/access.hpp>
+#include <boost/serialization/assume_abstract.hpp>
+#include <boost/serialization/base_object.hpp>
+#include <boost/serialization/export.hpp>
 #include <functional>
 #include <boost/serialization/export.hpp>
 #include <boost/serialization/access.hpp>
@@ -24,11 +28,20 @@ class IDocument {
     virtual void SelectGlyphs(const Point& start, const Point& end) = 0;
     virtual Glyph::GlyphList PasteGlyphs(const Point& to_point) = 0;
     virtual void CutGlyphs(const Point& start, const Point& end) = 0;
+
+    virtual void InsertChar(char symbol) = 0;
+    virtual char RemoveChar() = 0;
+    virtual void DrawDocument() = 0;
     virtual ~IDocument() = default;
-private:
+    virtual void MoveCursorLeft() = 0;
+    virtual void MoveCursorRight() = 0;
+
+   private:
     friend class boost::serialization::access;
-    template<class Archive>
-    void serialize(Archive &ar, const unsigned int version){ std::cout << "IDocument\n";}
+    template <class Archive>
+    void serialize(Archive& ar, const unsigned int version) {
+        std::cout << "IDocument\n";
+    }
 };
 BOOST_SERIALIZATION_ASSUME_ABSTRACT(IDocument)
 
@@ -44,10 +57,31 @@ class Document : public IDocument {
     std::shared_ptr<Compositor> GetCompositor();
 
     /**
+     * @brief           Moves the cursor one character to the right.
+     */
+    void MoveCursorLeft();
+    /**
+     * @brief           Moves the cursor one character to the left.
+     */
+    void MoveCursorRight();
+
+    /**
+     * @brief           Creates and inserts character into the document next to
+     * the cursor.
+     * @param symbol    Symbol.
+     */
+    void InsertChar(char symbol);
+
+    /**
      * @brief           Inserts glyph into the document due to its position.
      * @param glyph     Pointer to the glyph.
      */
     void Insert(Glyph::GlyphPtr& glyph);
+
+    /**
+     * @brief           Remove glyph next to the cursor.
+     */
+    char RemoveChar();
 
     /**
      * @brief           Remove glyph from the document by pointer.
@@ -82,6 +116,8 @@ class Document : public IDocument {
     void SetCurrentPage(Page::PagePtr page);
     Page::PagePtr GetCurrentPage();
 
+    Glyph::GlyphPtr GetSelectedGlyph();  // will be deleted
+
     size_t GetPagesCount() const;
     size_t GetPageWidth() const;
     size_t GetPageHeight() const;
@@ -92,12 +128,15 @@ class Document : public IDocument {
     Page::PagePtr GetNextPage(const Page::PagePtr& pagePtr);
 
    private:
+    int currentCharSize = 1;
     std::shared_ptr<Compositor> compositor;
     Page::PagePtr currentPage;
     PageList pages;
+    Glyph::GlyphPtr selectedGlyph;
 
     GlyphContainer::GlyphList selectedGlyphs;
 
+<<<<<<< HEAD
     explicit Document(){}
     friend class boost::serialization::access;
     template<class Archive>
@@ -106,10 +145,29 @@ class Document : public IDocument {
         std::cout << "0 Document\n";
         ar & boost::serialization::base_object<IDocument>(*this);
         ar & pages & currentPage & compositor;
+=======
+    explicit Document() {}
+    Point GetCursorPosition();
+
+    void DrawDocument();
+    GlyphContainer::GlyphList GetCharactersList();
+    Glyph::GlyphPtr GetNextCharInDocument(Glyph::GlyphPtr& glyph);
+    Glyph::GlyphPtr GetPreviousCharInDocument(Glyph::GlyphPtr& glyph);
+
+    friend class boost::serialization::access;
+    template <class Archive>
+    void serialize(Archive& ar, const unsigned int version) {
+        std::cout << "0 Document\n";
+        ar& boost::serialization::base_object<IDocument>(*this);
+        ar & pages & currentPage & compositor & selectedGlyph;
+>>>>>>> origin/up-30
         std::cout << "1 Document\n";
     }
 };
 BOOST_CLASS_EXPORT_KEY(Document)
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/up-30
 
 #endif  // TEXT_EDITOR_DOCUMENT_H_

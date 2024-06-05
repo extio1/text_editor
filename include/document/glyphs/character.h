@@ -8,6 +8,7 @@
  */
 class Character : public Glyph {
    public:
+    using CharPtr = std::shared_ptr<Character>;
     /**
      * @brief           Creates a character with the specified parameters and
      * symbol.
@@ -20,9 +21,8 @@ class Character : public Glyph {
     Character(const int x, const int y, const int width, const int height,
               char c);
     ~Character() {}
-    void Draw() override;
 
-    Glyph::GlyphList Select(const Glyph::GlyphPtr& area) override {}
+    Glyph::GlyphList Select(const Glyph::GlyphPtr& area) override { return Glyph::GlyphList(); }
 
     void Insert(GlyphPtr& glyph) override {}
     void Remove(const GlyphPtr& glyph) override {}
@@ -32,13 +32,19 @@ class Character : public Glyph {
     char GetChar() const;
 
     GlyphPtr GetFirstGlyph() override;
+    GlyphPtr GetLastGlyph() override;
     GlyphPtr GetNextGlyph(GlyphPtr& glyph) override;
+    GlyphPtr GetPreviousGlyph(GlyphPtr& glyph) override;
 
     std::shared_ptr<Glyph> Clone() const override;
+
+    friend std::ostream& operator<<(std::ostream& os,
+                                    const Character& character);
 
    private:
     char symbol;
     friend class boost::serialization::access;
+<<<<<<< HEAD
     template<class Archive>
     void serialize(Archive &ar, const unsigned int version)
     {
@@ -48,6 +54,16 @@ class Character : public Glyph {
         std::cout << "1 Character\n";
     }
     explicit Character(){}
+=======
+    template <class Archive>
+    void serialize(Archive& ar, const unsigned int version) {
+        std::cout << "0 Character\n";
+        ar& boost::serialization::base_object<Glyph>(*this);
+        ar & symbol;
+        std::cout << "1 Character\n";
+    }
+    explicit Character() {}
+>>>>>>> origin/up-30
 };
 BOOST_CLASS_EXPORT_KEY(Character)
 

@@ -8,14 +8,11 @@ Button::Button(const int x, const int y, const int width, const int height,
 
 bool Button::IsPressed() const { return isPressed; }
 
-void Button::Draw() {
-    std::cout << "Button::Draw()" << std::endl;
-    // TO DO
-}
-
 Glyph::GlyphPtr Button::GetFirstGlyph() { return nullptr; }
+Glyph::GlyphPtr Button::GetLastGlyph() { return nullptr; }
 
 Glyph::GlyphPtr Button::GetNextGlyph(GlyphPtr& glyph) { return nullptr; }
+Glyph::GlyphPtr Button::GetPreviousGlyph(GlyphPtr& glyph) { return nullptr; }
 
 std::shared_ptr<Glyph> Button::Clone() const {
     Button* copy =

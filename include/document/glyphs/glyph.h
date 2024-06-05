@@ -1,10 +1,16 @@
 #ifndef TEXT_EDITOR_GLYPH_H_
 #define TEXT_EDITOR_GLYPH_H_
 
+#include <boost/serialization/assume_abstract.hpp>
+#include <boost/serialization/export.hpp>
+#include <boost/serialization/shared_ptr.hpp>
 #include <iostream>
+<<<<<<< HEAD
 #include <boost/serialization/export.hpp>
 #include <boost/serialization/assume_abstract.hpp>
 #include <boost/serialization/shared_ptr.hpp>
+=======
+>>>>>>> origin/up-30
 
 #include "utils/point.h"
 
@@ -25,25 +31,6 @@ class Glyph {
      */
     explicit Glyph(const int x, const int y, const int width, const int height);
     virtual ~Glyph() = default;
-
-    /**
-     * @brief           Calls a method from the GUI to render itself.
-     * @param window    Window param will be added.
-     */
-    virtual void Draw() = 0;
-
-    /**
-     * @brief           Redraws itself.
-     * @param window    Window param will be added.
-     */
-    virtual void ReDraw();
-
-    /**
-     * @brief           Calls a method from the GUI to clear the area occupied
-     * by the glyph.
-     * @param window    Window param will be added.
-     */
-    void ClearGlyph();
 
     /**
      * @brief           Checks whether the point falls into the rectangle
@@ -89,7 +76,9 @@ class Glyph {
     virtual void MoveGlyph(int x, int y);
 
     virtual GlyphPtr GetFirstGlyph() = 0;
+    virtual Glyph::GlyphPtr GetLastGlyph() = 0;
     virtual GlyphPtr GetNextGlyph(GlyphPtr& glyph) = 0;
+    virtual GlyphPtr GetPreviousGlyph(GlyphPtr& glyph) = 0;
 
     /**
      * @brief           Creates a copy of the glyph and wraps it in a smart
@@ -135,11 +124,18 @@ class Glyph {
 
     explicit Glyph() {}
 
+<<<<<<< HEAD
 private:
     friend class boost::serialization::access;
     template<class Archive>
     void serialize(Archive &ar, const unsigned int version)
     {
+=======
+   private:
+    friend class boost::serialization::access;
+    template <class Archive>
+    void serialize(Archive& ar, const unsigned int version) {
+>>>>>>> origin/up-30
         std::cout << "0 Glyph\n";
         ar & x & y & width & height;
         std::cout << "1 Glyph\n";

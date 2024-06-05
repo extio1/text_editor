@@ -1,10 +1,17 @@
 #ifndef TEXT_EDITOR_GLYPH_CONTAINER_H_
 #define TEXT_EDITOR_GLYPH_CONTAINER_H_
 
+<<<<<<< HEAD
 #include <boost/serialization/list.hpp>
 #include <boost/serialization/export.hpp>
 #include <boost/serialization/assume_abstract.hpp>
 #include <boost/serialization/base_object.hpp>
+=======
+#include <boost/serialization/assume_abstract.hpp>
+#include <boost/serialization/base_object.hpp>
+#include <boost/serialization/export.hpp>
+#include <boost/serialization/list.hpp>
+>>>>>>> origin/up-30
 
 #include "glyph.h"
 
@@ -18,8 +25,6 @@ class GlyphContainer : public Glyph {
                             const int height);
     ~GlyphContainer() override = default;
 
-    void Draw() override;
-
     virtual void Insert(GlyphPtr& glyph) = 0;
     virtual void Remove(const GlyphPtr& glyph) = 0;
     void Add(GlyphPtr glyph) override;
@@ -30,11 +35,14 @@ class GlyphContainer : public Glyph {
     Glyph::GlyphPtr GetGlyphByIndex(int index);
 
     GlyphPtr GetFirstGlyph() override;
+    Glyph::GlyphPtr GetLastGlyph() override;
     GlyphPtr GetNextGlyph(GlyphPtr& glyph) override;
+    GlyphPtr GetPreviousGlyph(GlyphPtr& glyph) override;
 
    protected:
     Glyph::GlyphList components;
     explicit GlyphContainer() {}
+<<<<<<< HEAD
 private:
     friend class boost::serialization::access;
     template<class Archive>
@@ -46,6 +54,18 @@ private:
         std::cout << "1 GlyphContainer\n";
     }
 
+=======
+
+   private:
+    friend class boost::serialization::access;
+    template <class Archive>
+    void serialize(Archive& ar, const unsigned int version) {
+        std::cout << "0 GlyphContainer\n";
+        ar& boost::serialization::base_object<Glyph>(*this);
+        ar & components;
+        std::cout << "1 GlyphContainer\n";
+    }
+>>>>>>> origin/up-30
 };
 
 BOOST_SERIALIZATION_ASSUME_ABSTRACT(GlyphContainer)
