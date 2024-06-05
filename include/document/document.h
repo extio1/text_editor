@@ -6,10 +6,6 @@
 #include <boost/serialization/base_object.hpp>
 #include <boost/serialization/export.hpp>
 #include <functional>
-#include <boost/serialization/export.hpp>
-#include <boost/serialization/access.hpp>
-#include <boost/serialization/base_object.hpp>
-#include <boost/serialization/assume_abstract.hpp>
 
 #include "glyphs/glyph.h"
 #include "glyphs/page.h"
@@ -28,7 +24,6 @@ class IDocument {
     virtual void SelectGlyphs(const Point& start, const Point& end) = 0;
     virtual Glyph::GlyphList PasteGlyphs(const Point& to_point) = 0;
     virtual void CutGlyphs(const Point& start, const Point& end) = 0;
-
     virtual void InsertChar(char symbol) = 0;
     virtual char RemoveChar() = 0;
     virtual void DrawDocument() = 0;
@@ -136,16 +131,6 @@ class Document : public IDocument {
 
     GlyphContainer::GlyphList selectedGlyphs;
 
-<<<<<<< HEAD
-    explicit Document(){}
-    friend class boost::serialization::access;
-    template<class Archive>
-    void serialize(Archive &ar, const unsigned int version)
-    {
-        std::cout << "0 Document\n";
-        ar & boost::serialization::base_object<IDocument>(*this);
-        ar & pages & currentPage & compositor;
-=======
     explicit Document() {}
     Point GetCursorPosition();
 
@@ -160,14 +145,9 @@ class Document : public IDocument {
         std::cout << "0 Document\n";
         ar& boost::serialization::base_object<IDocument>(*this);
         ar & pages & currentPage & compositor & selectedGlyph;
->>>>>>> origin/up-30
         std::cout << "1 Document\n";
     }
 };
 BOOST_CLASS_EXPORT_KEY(Document)
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/up-30
 
 #endif  // TEXT_EDITOR_DOCUMENT_H_

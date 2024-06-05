@@ -3,10 +3,6 @@
 #include "document/glyphs/page.h"
 BOOST_CLASS_EXPORT_IMPLEMENT(Page)
 
-#include <boost/archive/text_iarchive.hpp>
-#include <boost/archive/text_oarchive.hpp>
-BOOST_CLASS_EXPORT_IMPLEMENT(Page)
-
 #include <algorithm>
 #include <cassert>
 

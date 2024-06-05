@@ -2,25 +2,14 @@
 #include <boost/archive/text_oarchive.hpp>
 #include "document/document.h"
 BOOST_CLASS_EXPORT_IMPLEMENT(Document)
-
-#include <boost/archive/text_iarchive.hpp>
-#include <boost/archive/text_oarchive.hpp>
-BOOST_CLASS_EXPORT_IMPLEMENT(Document)
-
 #include <cassert>
 
 #include "compositor/compositor.h"
-<<<<<<< HEAD
-#include "document/glyphs/glyph.h"
-#include "document/glyphs/page.h"
-#include "document/glyphs/column.h"
-=======
 #include "document/glyphs/character.h"
 #include "document/glyphs/column.h"
 #include "document/glyphs/glyph.h"
 #include "document/glyphs/page.h"
 #include "document/glyphs/row.h"
->>>>>>> origin/up-30
 
 Document::Document(std::shared_ptr<Compositor> compositor) {
     currentPage = std::make_shared<Page>(0, 0, pageWidth, pageHeight);
@@ -143,10 +132,6 @@ void Document::Remove(Glyph::GlyphPtr& glyph) {
 
     // what if this glyph is not from current page ???? glyph won't be found and
     // assertion will failed
-<<<<<<< HEAD
-    std::cout << "Document::Remove()" << std::endl;
-=======
->>>>>>> origin/up-30
     assert(glyph != nullptr && "Cannot remove glyph by nullptr");
     currentPage->Remove(glyph);
 

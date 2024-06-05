@@ -78,4 +78,3 @@ jobs:
 
       - name: Run tests
         run: GTEST_COLOR=1 ctest -V --test-dir build/
-

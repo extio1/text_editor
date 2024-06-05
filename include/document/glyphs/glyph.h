@@ -5,12 +5,6 @@
 #include <boost/serialization/export.hpp>
 #include <boost/serialization/shared_ptr.hpp>
 #include <iostream>
-<<<<<<< HEAD
-#include <boost/serialization/export.hpp>
-#include <boost/serialization/assume_abstract.hpp>
-#include <boost/serialization/shared_ptr.hpp>
-=======
->>>>>>> origin/up-30
 
 #include "utils/point.h"
 
@@ -124,18 +118,10 @@ class Glyph {
 
     explicit Glyph() {}
 
-<<<<<<< HEAD
-private:
-    friend class boost::serialization::access;
-    template<class Archive>
-    void serialize(Archive &ar, const unsigned int version)
-    {
-=======
    private:
     friend class boost::serialization::access;
     template <class Archive>
     void serialize(Archive& ar, const unsigned int version) {
->>>>>>> origin/up-30
         std::cout << "0 Glyph\n";
         ar & x & y & width & height;
         std::cout << "1 Glyph\n";

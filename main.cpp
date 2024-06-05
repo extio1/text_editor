@@ -15,8 +15,6 @@
 #include "executor/command/load_document.h"
 #include "executor/command/copy.h"
 #include "executor/command/paste.h"
-<<<<<<< HEAD
-=======
 
 #include "executor/executor.h"
 #include "executor/command/insert_character.h"
@@ -25,7 +23,6 @@
 #include "executor/command/move_cursor_right.h"
 
 #include "compositor/simple_compositor/simple_compositor.h"
->>>>>>> origin/up-30
 
 int main() {
     auto d = std::make_shared<Document>(std::make_shared<SimpleCompositor>());
@@ -33,18 +30,11 @@ int main() {
     auto document = std::dynamic_pointer_cast<IDocument>(d);
     auto controller = std::make_unique<Executor>(2);
 
-<<<<<<< HEAD
-    controller->Do(std::make_shared<InsertCharacter>(document, 0, 0, 10, 10, 'A'));
-    controller->Do(std::make_shared<InsertCharacter>(document, 10, 0, 10, 10, 'B'));
-    controller->Do(std::make_shared<InsertCharacter>(document, 20, 0, 10, 10, 'C'));
-    controller->Do(std::make_shared<InsertCharacter>(document, 30, 0, 10, 10, 'D'));
-=======
     controller->Do(std::make_shared<InsertCharacter>(document, 'H'));
     controller->Do(std::make_shared<InsertCharacter>(document, 'E'));
     controller->Do(std::make_shared<InsertCharacter>(document, 'L'));
     controller->Do(std::make_shared<InsertCharacter>(document, 'L'));
     controller->Do(std::make_shared<InsertCharacter>(document, '0'));
->>>>>>> origin/up-30
 
     controller->Undo();
     controller->Redo();
@@ -53,18 +43,6 @@ int main() {
     controller->Do(std::make_shared<SaveDocument>(document, "doc_save.file"));
     std::cout << "Saved: " << document << "\n";
 
-<<<<<<< HEAD
-    controller->Do(std::make_shared<RemoveCharacter>(document, 3, 5));
-    controller->Do(std::make_shared<RemoveCharacter>(document, 3, 5));
-    controller->Do(std::make_shared<RemoveCharacter>(document, 3, 5));
-    controller->Do(std::make_shared<RemoveCharacter>(document, 3, 5));
-
-    controller->Do(std::make_shared<LoadDocument>(&document, "doc_save.file"));
-    std::cout << "Loaded: " << document << "\n";
-
-    controller->Do(std::make_shared<Copy>(document, Point(3, 5), Point(43, 5)));
-    controller->Do(std::make_shared<Paste>(document, Point(43, 5)));
-=======
     controller->Do(std::make_shared<RemoveCharacter>(document));
     controller->Do(std::make_shared<RemoveCharacter>(document));
     controller->Do(std::make_shared<RemoveCharacter>(document));
@@ -99,7 +77,6 @@ int main() {
     controller->Do(std::make_shared<MoveCursorRight>(document));
     std::cout << "MOVE CURSOR RIGHT\n";
     document->DrawDocument();
->>>>>>> origin/up-30
 
     return 0;
 }

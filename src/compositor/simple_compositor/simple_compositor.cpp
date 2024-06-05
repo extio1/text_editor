@@ -3,11 +3,6 @@
 #include "compositor/simple_compositor/simple_compositor.h"
 BOOST_CLASS_EXPORT_IMPLEMENT(SimpleCompositor)
 
-
-#include <boost/archive/text_iarchive.hpp>
-#include <boost/archive/text_oarchive.hpp>
-BOOST_CLASS_EXPORT_IMPLEMENT(SimpleCompositor)
-
 #include <cmath>
 
 #include "document/glyphs/row.h"

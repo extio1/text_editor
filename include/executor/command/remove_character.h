@@ -7,11 +7,7 @@
 
 class RemoveCharacter : public ReversibleCommand {
    public:
-<<<<<<< HEAD
-    explicit RemoveCharacter(std::shared_ptr<IDocument> doc, int x, int y);
-=======
     explicit RemoveCharacter(std::shared_ptr<IDocument> doc);
->>>>>>> origin/up-30
 
     RemoveCharacter(RemoveCharacter&&) = default;
     RemoveCharacter& operator=(RemoveCharacter&&) = default;
@@ -25,11 +21,7 @@ class RemoveCharacter : public ReversibleCommand {
 
    private:
     std::shared_ptr<IDocument> doc;
-<<<<<<< HEAD
-    Glyph::GlyphPtr character;
-=======
     char character;
->>>>>>> origin/up-30
 };
 
 #endif  // TEXTEDITOR_INCLUDEEXECUTOR_COMMAND_REMOVECHARACTER_H_
