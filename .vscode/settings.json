@@ -67,6 +67,7 @@
         "cinttypes": "cpp",
         "typeinfo": "cpp",
         "variant": "cpp",
-        "qscrollarea": "cpp"
+        "qscrollarea": "cpp",
+        "future": "cpp"
     }
 }

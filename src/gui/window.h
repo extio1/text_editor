@@ -15,6 +15,12 @@
 #include <QString>
 #include <QGraphicsTextItem>
 #include <QColor>
+#include <QEvent>
+#include <QKeyEvent>
+#include <QObject>
+#include <QDebug>
+#include <QMessageBox>
+
 
 #include "document/document.h"
 
@@ -27,6 +33,8 @@
 #include "executor/command/load_document.h"
 #include "executor/command/copy.h"
 #include "executor/command/paste.h"
+#include "executor/command/move_cursor_left.h"
+#include "executor/command/move_cursor_right.h"
 
 
 QT_BEGIN_NAMESPACE
@@ -45,9 +53,16 @@ public:
     void DrawCursor(int x, int y); // x, y - координаты верхней точки курсора
     void Clear(); // очистить все
     void DrawPage(int width, int height);
-    
 
+protected:
+    void keyPressEvent(QKeyEvent *event) override;
+
+private:
     void addScrollArea();
+
+
+    bool shiftPressed;
+    std::list<QGraphicsTextItem*> memorized;
 
     Ui::Window *ui;
     QScrollArea *scrollArea;

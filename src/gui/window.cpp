@@ -1,5 +1,6 @@
 #include "window.h"
 #include "menu.h"
+#include "dialog.h"
 
 #include "./ui_window.h"
 
@@ -15,11 +16,89 @@ Window::Window(QWidget *parent, std::unique_ptr<Executor> controller, std::share
     ui->setupUi(this);
     
     addScrollArea();
+    this->installEventFilter(this);
 }
 
 Window::~Window()
 {
     delete ui;
+}
+
+void Window::keyPressEvent(QKeyEvent *event)
+{
+    if (event->key() == Qt::Key_A && event->modifiers() == Qt::ShiftModifier) {
+        shiftPressed = true;
+        controller->Do(std::make_shared<MoveCursorLeft>(document));
+        qDebug() << "left";
+    } else if (event->key() == Qt::Key_D && event->modifiers() == Qt::ShiftModifier){
+        shiftPressed = true;
+        controller->Do(std::make_shared<MoveCursorRight>(document));
+        qDebug() << "right";
+    } else if (event->key() == Qt::Key_C && event->modifiers() == Qt::ControlModifier)
+    {
+        if (!memorized.empty())
+        {
+            auto start = Point(memorized.front()->pos().toPoint().x(), memorized.front()->pos().toPoint().y());
+            auto end = Point(memorized.back()->pos().toPoint().x(), memorized.back()->pos().toPoint().y());
+            controller->Do(std::make_shared<Copy>(document, start,end));
+        }
+    }
+    else if (event->key() == Qt::Key_V && event->modifiers() == Qt::ControlModifier)
+    {
+        if (cursor)
+        {
+            controller->Do(std::make_shared<Paste>(document,Point(cursor->pos().toPoint().x(), cursor->pos().toPoint().y())));
+        }
+    }
+    else if (event->key() == Qt::Key_Backspace)
+    {
+        controller->Do(std::make_shared<RemoveCharacter>(document));
+        qDebug() << "delete";   
+    }
+    else if (event->key() == Qt::Key_Z && event->modifiers() == Qt::ControlModifier)
+    {
+        controller->Undo();
+        qDebug() << "undo";  
+    }
+    else if (event->key() == Qt::Key_Y && event->modifiers() == Qt::ControlModifier)
+    {
+        controller->Redo();
+        qDebug() << "redo";  
+    }
+    else if (event->key() == Qt::Key_E && event->modifiers() == Qt::ShiftModifier)
+    {
+        qDebug() << "ENTER";
+    }
+    else if (event->key() == Qt::Key_L && event->modifiers() == Qt::ControlModifier)
+    {
+        InputDialog* dialog = new InputDialog(this);
+        QString path;
+        dialog->show();
+        if (dialog->exec() == QDialog::Accepted) {
+            path = dialog->getText();
+            QMessageBox::information(this, "Input", "You entered: " + path);
+        }
+        controller->Do(std::make_shared<LoadDocument>(&document, path.toStdString()));
+        qDebug() << "load file";  
+    }
+    else if (event->key() == Qt::Key_S && event->modifiers() == Qt::ControlModifier)
+    {
+        InputDialog* dialog = new InputDialog(this);
+        QString path;
+        dialog->show();
+        if (dialog->exec() == QDialog::Accepted) {
+            path = dialog->getText();
+            QMessageBox::information(this, "Input", "You entered: " + path);
+        }
+        controller->Do(std::make_shared<SaveDocument>(document, path.toStdString()));
+        qDebug() << "load file";  
+    }
+    else if (!event->text().isEmpty() && event->text().at(0).isPrint())
+    {
+        controller->Do(std::make_shared<InsertCharacter>(document,event->text().toStdString().at(0)));
+    }
+
+    QMainWindow::keyPressEvent(event); // Call base class implementation
 }
 
 void Window::addScrollArea() {
@@ -84,7 +163,6 @@ void Window::DrawCursor(int x, int y)
         text->setDefaultTextColor(QColor(255,0,0));
         std::cout << text->toPlainText().toStdString();
     }
-
 } 
 
 // очистить все
@@ -155,4 +233,3 @@ void Menu::onActEditRepeatTriggered()
 {
     std::cout << "File open action triggered!";
 }
-

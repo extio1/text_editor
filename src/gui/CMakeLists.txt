@@ -8,6 +8,8 @@ set(GUI_SOURCES
         window.h
         menu.h
         window.ui
+        dialog.h
+        dialog.cpp
 )
 
 set(CMAKE_AUTOUIC ON)
