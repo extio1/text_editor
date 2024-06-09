@@ -1,0 +1,80 @@
+name: build
+
+on:
+  pull_request:
+    branches:
+      - 'release'
+      - 'dev'
+
+jobs:
+  download-dependencies:
+    runs-on: ubuntu-latest
+    steps:
+      - run: mkdir install-artifacts
+      - name: Download dependencies
+        run: | 
+          wget https://boostorg.jfrog.io/artifactory/main/release/1.80.0/source/boost_1_80_0.tar.gz
+          
+      - name: Save artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: dependencies-artifact
+          path: boost_1_80_0.tar.gz
+  
+  build:
+    needs: [download-dependencies]
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/download-artifact@v4
+      with:
+        name: dependencies-artifact
+
+    - name: Install Boost
+      run: |
+        tar -xzf boost_1_80_0.tar.gz
+        cd boost_1_80_0
+        ./bootstrap.sh --with-libraries=serialization
+        sudo ./b2 install
+    
+    - name: Build project
+      run: |
+        mkdir build
+        cmake -Bbuild
+        cmake --build build
+
+    - name: Save artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: build-artifacts
+        path: build
+        
+  test:
+    needs: [build, download-dependencies]
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: build-artifacts
+          path: build
+      - uses: actions/download-artifact@v4
+        with:
+          name: dependencies-artifact
+
+      - name: Install Boost
+        run: |
+          tar -xzf boost_1_80_0.tar.gz
+          cd boost_1_80_0
+          ./bootstrap.sh --with-libraries=serialization
+          sudo ./b2 install
+          
+      - name: Add lanch permissions for text executables
+        run: |
+          chmod +x build/test/model/*
+          chmod +x build/test/controller/*
+
+      - name: Run tests
+        run: GTEST_COLOR=1 ctest -V --test-dir build/
